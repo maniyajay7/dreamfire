@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="flame" x1="50" y1="5" x2="50" y2="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF3B0"/>
+      <stop offset="40%" stop-color="#FF9F1C"/>
+      <stop offset="100%" stop-color="#E71D36"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50" cy="30" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFB703" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FB8500" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="clay" x1="20" y1="45" x2="80" y2="85" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D4A373"/>
+      <stop offset="50%" stop-color="#9C6644"/>
+      <stop offset="100%" stop-color="#7F4F24"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="30" r="28" fill="url(#glow)"/>
+  <path d="M50 8 C42 22 36 32 38 42 C40 50 60 50 62 42 C64 32 58 22 50 8 Z" fill="url(#flame)"/>
+  <ellipse cx="50" cy="50" rx="36" ry="12" fill="url(#clay)"/>
+  <path d="M14 50 C14 74 30 84 50 84 C70 84 86 74 86 50 C76 56 62 58 50 58 C38 58 24 56 14 50 Z" fill="url(#clay)"/>
+  <ellipse cx="50" cy="50" rx="30" ry="7" fill="#603813"/>
+  <ellipse cx="50" cy="49" rx="28" ry="5" fill="#F77F00" opacity="0.7"/>
+</svg>
