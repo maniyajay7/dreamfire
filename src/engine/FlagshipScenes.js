@@ -2183,6 +2183,17 @@ export function attachFlagshipScene(ThreeInstance, scene, realmData, realmObject
     return { type: 'f1_circuit', circuit };
   }
 
+  // Feature F13: Amazon Primordial Rainforest Canopy & River
+  if (
+    id === 'amazon-canopy-riverboat' ||
+    id === 'amazon-primordial-canopy' ||
+    (tags.includes('rainforest') && tags.includes('amazon')) ||
+    (tags.includes('jungle') && id.includes('canopy'))
+  ) {
+    const rainforest = buildPrimordialRainforestScene(T, scene, realmData, realmObjects, animators);
+    return { type: 'rainforest', rainforest };
+  }
+
   // Defensive Invariant: Giza, Kedarnath, Orion, Neo Tokyo spawn ZERO flagship geometry
   return null;
 }
@@ -2466,6 +2477,231 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
   return { root, f1Animator };
 }
 
+export function buildPrimordialRainforestScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+  const Three = ThreeInstance || THREE_GLOBAL;
+  const helpers = getThreeHelpers(Three);
+  const root = new Three.Group();
+  root.name = 'flagship_amazon_rainforest_scene';
+
+  // 1. AMAZON MEANDERING RIVER SURFACE
+  const riverGeo = new Three.PlaneGeometry(280, 56, 48, 16);
+  if (riverGeo.rotateX) riverGeo.rotateX(-Math.PI / 2);
+  const riverMat = new Three.MeshStandardMaterial({
+    color: 0x064e3b,
+    roughness: 0.12,
+    metalness: 0.88,
+    transparent: true,
+    opacity: 0.92
+  });
+  const riverMesh = new Three.Mesh(riverGeo, riverMat);
+  riverMesh.position.set(0, -0.4, 0);
+  riverMesh.receiveShadow = true;
+  riverMesh.name = 'amazon_river_water_plane';
+  root.add(riverMesh);
+
+  // 2. EMERGENT CANOPY KAPOK & BRAZIL NUT GIANTS (InstancedMesh)
+  const treeCount = 120;
+  const trunkGeo = new Three.CylinderGeometry(1.2, 2.6, 28, 10);
+  const trunkMat = new Three.MeshStandardMaterial({ color: 0x3d2817, roughness: 0.92, metalness: 0.05 });
+  const InstMeshClass = helpers.InstancedMesh || Three.InstancedMesh;
+  const trunkInstMesh = new InstMeshClass(trunkGeo, trunkMat, treeCount);
+  trunkInstMesh.name = 'emergent_tree_trunks_instanced';
+  trunkInstMesh.castShadow = true;
+  trunkInstMesh.receiveShadow = true;
+
+  const DodecGeoClass = helpers.DodecahedronGeometry || Three.DodecahedronGeometry;
+  const canopyGeo = DodecGeoClass ? new DodecGeoClass(10, 1) : new Three.SphereGeometry(10, 12, 8);
+  const canopyMat = new Three.MeshStandardMaterial({ color: 0x166534, roughness: 0.82, metalness: 0.1 });
+  const canopyInstMesh = new InstMeshClass(canopyGeo, canopyMat, treeCount);
+  canopyInstMesh.name = 'emergent_tree_canopies_instanced';
+  canopyInstMesh.castShadow = true;
+
+  const dummy = new Three.Object3D();
+  const ColorClass = Three.Color || class { constructor(c) { this.val = c; } };
+  const canopyColors = [
+    new ColorClass(0x14532d),
+    new ColorClass(0x166534),
+    new ColorClass(0x15803d),
+    new ColorClass(0x1e3a24)
+  ];
+
+  for (let i = 0; i < treeCount; i++) {
+    const isNorth = i % 2 === 0;
+    const x = ((i / treeCount) - 0.5) * 260 + (Math.sin(i * 7.1) * 8);
+    const z = isNorth ? -(34 + Math.abs(Math.sin(i * 3.3)) * 48) : (34 + Math.abs(Math.sin(i * 3.3)) * 48);
+    const scale = 0.75 + Math.abs(Math.cos(i * 2.1)) * 0.5;
+
+    // Trunk Matrix
+    dummy.position.set(x, 14 * scale - 0.5, z);
+    dummy.scale.set(scale, scale, scale);
+    if (dummy.rotation && dummy.rotation.set) {
+      dummy.rotation.set((Math.sin(i * 1.5) - 0.5) * 0.05, Math.random() * Math.PI, (Math.cos(i * 1.5) - 0.5) * 0.05);
+    } else if (dummy.rotation) {
+      dummy.rotation.x = (Math.sin(i * 1.5) - 0.5) * 0.05;
+      dummy.rotation.y = Math.random() * Math.PI;
+      dummy.rotation.z = (Math.cos(i * 1.5) - 0.5) * 0.05;
+    }
+    dummy.updateMatrix();
+    trunkInstMesh.setMatrixAt(i, dummy.matrix);
+
+    // Canopy Matrix (Elevated at top of trunk)
+    dummy.position.set(x, 26 * scale - 0.5, z);
+    dummy.scale.set(scale * 1.4, scale * 0.8, scale * 1.4);
+    if (dummy.rotation && dummy.rotation.set) {
+      dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
+    } else if (dummy.rotation) {
+      dummy.rotation.x = 0;
+      dummy.rotation.y = Math.random() * Math.PI * 2;
+      dummy.rotation.z = 0;
+    }
+    dummy.updateMatrix();
+    canopyInstMesh.setMatrixAt(i, dummy.matrix);
+    if (canopyInstMesh.setColorAt) {
+      canopyInstMesh.setColorAt(i, canopyColors[i % canopyColors.length]);
+    }
+  }
+  if (trunkInstMesh.instanceMatrix) trunkInstMesh.instanceMatrix.needsUpdate = true;
+  if (canopyInstMesh.instanceMatrix) canopyInstMesh.instanceMatrix.needsUpdate = true;
+  if (canopyInstMesh.instanceColor) canopyInstMesh.instanceColor.needsUpdate = true;
+  root.add(trunkInstMesh);
+  root.add(canopyInstMesh);
+
+  // 3. UNDERSTORY TROPICAL PALMS (InstancedMesh)
+  const palmCount = 180;
+  const PalmGeoClass = Three.ConeGeometry || Three.CylinderGeometry;
+  const palmGeo = new PalmGeoClass(3.5, 5, 8);
+  const palmMat = new Three.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.75, metalness: 0.05 });
+  const palmInstMesh = new InstMeshClass(palmGeo, palmMat, palmCount);
+  palmInstMesh.name = 'understory_palms_instanced';
+
+  for (let p = 0; p < palmCount; p++) {
+    const isNorth = p % 2 === 0;
+    const x = ((p / palmCount) - 0.5) * 250 + (Math.sin(p * 5.2) * 6);
+    const z = isNorth ? -(29 + Math.abs(Math.sin(p * 2.7)) * 12) : (29 + Math.abs(Math.sin(p * 2.7)) * 12);
+    const scale = 0.6 + Math.abs(Math.sin(p * 4.1)) * 0.6;
+    dummy.position.set(x, 2.5 * scale - 0.5, z);
+    dummy.scale.set(scale, scale, scale);
+    if (dummy.rotation && dummy.rotation.set) {
+      dummy.rotation.set((Math.sin(p) - 0.5) * 0.2, Math.random() * Math.PI * 2, (Math.cos(p) - 0.5) * 0.2);
+    } else if (dummy.rotation) {
+      dummy.rotation.x = (Math.sin(p) - 0.5) * 0.2;
+      dummy.rotation.y = Math.random() * Math.PI * 2;
+      dummy.rotation.z = (Math.cos(p) - 0.5) * 0.2;
+    }
+    dummy.updateMatrix();
+    palmInstMesh.setMatrixAt(p, dummy.matrix);
+  }
+  if (palmInstMesh.instanceMatrix) palmInstMesh.instanceMatrix.needsUpdate = true;
+  root.add(palmInstMesh);
+
+  // 4. VOLUMETRIC GOLDEN GOD-RAYS (Light Shafts through dense canopy)
+  const godRayGroup = new Three.Group();
+  godRayGroup.name = 'rainforest_god_rays';
+  const rayMat = new Three.MeshBasicMaterial({
+    color: 0xfef08a,
+    transparent: true,
+    opacity: 0.09,
+    blending: Three.AdditiveBlending,
+    side: Three.DoubleSide,
+    depthWrite: false
+  });
+
+  const rayPositions = [-80, -45, -15, 20, 55, 90];
+  const rayMeshes = [];
+  rayPositions.forEach((rx, idx) => {
+    const rGeo = new Three.CylinderGeometry(2.0, 7.5, 65, 16, 1, true);
+    const rMesh = new Three.Mesh(rGeo, rayMat);
+    rMesh.position.set(rx, 22, (idx % 2 === 0 ? -12 : 12));
+    rMesh.rotation.z = Math.PI * 0.12;
+    rMesh.rotation.x = (idx % 2 === 0 ? 1 : -1) * 0.08;
+    godRayGroup.add(rMesh);
+    rayMeshes.push(rMesh);
+  });
+  root.add(godRayGroup);
+
+  // 5. TROPICAL FIREFLIES & BIO-SPORES
+  const fireflyCount = 450;
+  const fPositions = new Float32Array(fireflyCount * 3);
+  const fColors = new Float32Array(fireflyCount * 3);
+  const fPhases = new Float32Array(fireflyCount);
+
+  for (let f = 0; f < fireflyCount; f++) {
+    fPositions[f * 3] = (Math.random() - 0.5) * 240;
+    fPositions[f * 3 + 1] = 0.5 + Math.random() * 8.5;
+    fPositions[f * 3 + 2] = (Math.random() - 0.5) * 60;
+
+    fColors[f * 3] = 0.7 + Math.random() * 0.3;     // R
+    fColors[f * 3 + 1] = 0.9 + Math.random() * 0.1; // G
+    fColors[f * 3 + 2] = 0.2;                       // B
+    fPhases[f] = Math.random() * Math.PI * 2;
+  }
+
+  const fireflyGeo = new Three.BufferGeometry();
+  fireflyGeo.setAttribute('position', new Three.BufferAttribute(fPositions, 3));
+  fireflyGeo.setAttribute('color', new Three.BufferAttribute(fColors, 3));
+
+  const fireflyMat = new Three.PointsMaterial({
+    size: 2.2,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: Three.AdditiveBlending,
+    depthWrite: false
+  });
+  const fireflyPoints = new Three.Points(fireflyGeo, fireflyMat);
+  fireflyPoints.name = 'tropical_fireflies_swarm';
+  root.add(fireflyPoints);
+
+  // 6. RIVERBANK MOSSY GRANITE BOULDERS
+  const boulderMat = new Three.MeshStandardMaterial({ color: 0x475569, roughness: 0.9, metalness: 0.1 });
+  const boulderGroup = new Three.Group();
+  boulderGroup.name = 'riverbank_granite_boulders';
+  for (let b = 0; b < 24; b++) {
+    const bGeo = DodecGeoClass ? new DodecGeoClass(1.8 + (b % 3) * 0.8, 1) : new Three.BoxGeometry(3, 2.5, 3);
+    const bMesh = new Three.Mesh(bGeo, boulderMat);
+    const bSide = b % 2 === 0 ? -27 : 27;
+    bMesh.position.set((b - 12) * 11 + Math.sin(b * 3.7) * 4, 0.4, bSide + Math.cos(b * 2.3) * 3);
+    if (bMesh.rotation && bMesh.rotation.set) {
+      bMesh.rotation.set(Math.random(), Math.random(), Math.random());
+    } else if (bMesh.rotation) {
+      bMesh.rotation.x = Math.random();
+      bMesh.rotation.y = Math.random();
+      bMesh.rotation.z = Math.random();
+    }
+    bMesh.receiveShadow = true;
+    boulderGroup.add(bMesh);
+  }
+  root.add(boulderGroup);
+
+  // Dynamic Rainforest Animator Loop
+  const rfAnimator = (time, delta) => {
+    // 1. God-ray breathing
+    const rayBreath = Math.sin(time * 0.85) * 0.04 + 0.10;
+    rayMat.opacity = rayBreath;
+
+    // 2. Firefly organic drift & pulse
+    const posAttr = fireflyGeo.attributes.position;
+    const posArr = posAttr.array;
+    for (let f = 0; f < fireflyCount; f++) {
+      const ph = fPhases[f];
+      posArr[f * 3] += Math.sin(time * 0.7 + ph) * 0.04;
+      posArr[f * 3 + 1] += Math.cos(time * 1.1 + ph) * 0.02;
+      posArr[f * 3 + 2] += Math.sin(time * 0.9 + ph * 1.5) * 0.03;
+
+      // Keep within bounds
+      if (posArr[f * 3 + 1] < 0.2) posArr[f * 3 + 1] = 0.4;
+      if (posArr[f * 3 + 1] > 10.0) posArr[f * 3 + 1] = 9.0;
+    }
+    posAttr.needsUpdate = true;
+  };
+
+  animators.push(rfAnimator);
+  scene.add(root);
+  realmObjects.push(root);
+
+  return { root, rfAnimator };
+}
+
 export const buildFlagshipScene = attachFlagshipScene;
 
 // Browser global window export
@@ -2484,6 +2720,9 @@ if (typeof window !== 'undefined') {
     buildDevoteeCrowdSimulation,
     buildAyodhyaRamMandirScene,
     buildWaterfallSanctuaryScene,
+    buildSchwarzschildBlackHoleScene,
+    buildF1CircuitScene,
+    buildPrimordialRainforestScene,
     attachFlagshipScene,
     buildFlagshipScene
   };
@@ -2503,6 +2742,9 @@ export default {
   buildDevoteeCrowdSimulation,
   buildAyodhyaRamMandirScene,
   buildWaterfallSanctuaryScene,
+  buildSchwarzschildBlackHoleScene,
+  buildF1CircuitScene,
+  buildPrimordialRainforestScene,
   attachFlagshipScene,
   buildFlagshipScene
 };

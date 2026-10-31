@@ -29,6 +29,7 @@ import {
   buildWaterfallSanctuaryScene,
   buildSchwarzschildBlackHoleScene,
   buildF1CircuitScene,
+  buildPrimordialRainforestScene,
   attachFlagshipScene
 } from '../src/engine/FlagshipScenes.js';
 
@@ -387,6 +388,55 @@ suite('Milestone M3: Flagship Showcase 3D Geometry & Crowd Simulation', 'Tier 2'
 
     // Step animator
     assert.doesNotThrow(() => f1Animator(1.0, 0.016), 'F1 animator must step cleanly');
+  });
+
+  test('F13.1: Amazon Primordial Rainforest creates river water plane, instanced canopy giants, palms, god-rays, and bio-spores', () => {
+    const scene = new THREE.Scene();
+    const realmObjects = [];
+    const animators = [];
+    const realmData = { id: 'amazon-canopy-riverboat', tags: ['amazon', 'rainforest', 'jungle'] };
+
+    const { root, rfAnimator } = buildPrimordialRainforestScene(THREE, scene, realmData, realmObjects, animators);
+    assert.ok(root instanceof THREE.Group, 'Rainforest root must be a THREE.Group');
+    assert.strictEqual(root.name, 'flagship_amazon_rainforest_scene');
+    assert.ok(scene.children.includes(root), 'Rainforest root must be added to scene');
+    assert.ok(realmObjects.includes(root), 'Rainforest root must be registered in realmObjects');
+    assert.ok(animators.includes(rfAnimator), 'Rainforest animator must be registered');
+
+    // 1. River
+    const river = root.children.find((c) => c.name === 'amazon_river_water_plane');
+    assert.ok(river, 'Must contain Amazon river water plane');
+
+    // 2. Emergent canopy giants (InstancedMesh)
+    const trunks = root.children.find((c) => c.name === 'emergent_tree_trunks_instanced');
+    assert.ok(trunks, 'Must contain instanced emergent tree trunks');
+    assert.strictEqual(trunks.count, 120, 'Must instantiate exactly 120 giant tree trunks');
+
+    const canopies = root.children.find((c) => c.name === 'emergent_tree_canopies_instanced');
+    assert.ok(canopies, 'Must contain instanced emergent tree canopies');
+    assert.strictEqual(canopies.count, 120, 'Must instantiate exactly 120 giant tree canopies');
+
+    // 3. Understory palms (InstancedMesh)
+    const palms = root.children.find((c) => c.name === 'understory_palms_instanced');
+    assert.ok(palms, 'Must contain instanced understory palms');
+    assert.strictEqual(palms.count, 180, 'Must instantiate exactly 180 understory palms');
+
+    // 4. Volumetric god-rays
+    const godRays = root.children.find((c) => c.name === 'rainforest_god_rays');
+    assert.ok(godRays, 'Must contain volumetric god-rays group');
+    assert.strictEqual(godRays.children.length, 6, 'Must contain 6 atmospheric light shafts');
+
+    // 5. Fireflies & bio-spores
+    const fireflies = root.children.find((c) => c.name === 'tropical_fireflies_swarm');
+    assert.ok(fireflies, 'Must contain tropical firefly particle swarm');
+
+    // 6. Riverbank boulders
+    const boulders = root.children.find((c) => c.name === 'riverbank_granite_boulders');
+    assert.ok(boulders, 'Must contain riverbank granite boulders');
+    assert.strictEqual(boulders.children.length, 24, 'Must contain exactly 24 riverbank boulders');
+
+    // Step animator
+    assert.doesNotThrow(() => rfAnimator(1.0, 0.016), 'Rainforest animator must step cleanly');
   });
 
   test('System.3: Memory Management: clearRealm cleanly disposes child geometries and materials', () => {
