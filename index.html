@@ -393,14 +393,35 @@
         </div>
       </div>
 
+      <!-- Navigation Mode Bar (Tri-Modal: First Person, Free Fly, Orbit) -->
+      <div id="nav-mode-bar" class="glass-card p-1 rounded-2xl flex items-center gap-1.5 shadow-2xl border-white/10">
+        <button id="btn-mode-first-person" onclick="if(window.navigationEngine) window.navigationEngine.setMode('first_person')" class="px-3 py-1.5 rounded-xl text-xs font-bold text-amber-300 bg-amber-500/20 border border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.3)] transition cursor-pointer flex items-center gap-1.5">
+          <span>🚶</span>
+          <span>First Person</span>
+        </button>
+        <button id="btn-mode-free-fly" onclick="if(window.navigationEngine) window.navigationEngine.setMode('free_fly')" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 bg-white/5 border border-white/10 hover:text-white transition cursor-pointer flex items-center gap-1.5">
+          <span>🛸</span>
+          <span>Free Fly</span>
+        </button>
+        <button id="btn-mode-orbit" onclick="if(window.navigationEngine) window.navigationEngine.setMode('orbit')" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 bg-white/5 border border-white/10 hover:text-white transition cursor-pointer flex items-center gap-1.5">
+          <span>🔄</span>
+          <span>Orbit View</span>
+        </button>
+      </div>
+
       <!-- Camera Preset Bar -->
       <div id="camera-presets-bar" class="glass-card p-1.5 rounded-2xl flex flex-wrap items-center justify-center gap-1.5 shadow-2xl border-white/10">
         <!-- Buttons populated dynamically per realm -->
       </div>
 
-      <div class="text-[10px] text-slate-300 tracking-wider flex items-center gap-2 bg-black/85 px-4 py-1.5 rounded-full border border-white/10 shadow-lg">
-        <span>Click &amp; Drag 360&deg; Orbit</span> &bull; 
-        <span>Scroll to Zoom In/Out</span> &bull; 
+      <!-- Navigation Instructions Badge -->
+      <div id="nav-instructions-badge" class="text-[10px] text-slate-300 tracking-wider flex flex-wrap items-center justify-center gap-2 bg-black/85 px-4 py-1.5 rounded-full border border-white/10 shadow-lg">
+        <span class="text-amber-400 font-bold">WASD / Arrows</span>: Move &bull; 
+        <span class="text-amber-400 font-bold">Shift</span>: Sprint &bull; 
+        <span class="text-amber-400 font-bold">Space</span>: Jump/Ascend &bull; 
+        <span class="text-amber-400 font-bold">C/Q</span>: Descend &bull; 
+        <span class="text-amber-400 font-bold">V</span>: Toggle Mode &bull; 
+        <span id="nav-lock-indicator" class="text-slate-300">🖱️ Click Canvas: Mouse Look (Esc to Unlock)</span> &bull; 
         <span>Click water to release diya</span>
       </div>
     </div>
@@ -445,7 +466,7 @@
     let prevMouseY = 0;
 
     // Three.js State
-    let scene, camera, renderer, controls;
+    let scene, camera, renderer, controls, navigationEngine;
     let currentRealm = 'cosmic';
     let currentRealmData = null;
     let realmObjects = [];
@@ -502,6 +523,10 @@
       camera.lookAt(0, 5, 0);
       controls.target.set(0, 5, 0);
       controls.update();
+      if (typeof navigationEngine !== 'undefined' && navigationEngine) {
+        navigationEngine.yaw = radYaw;
+        navigationEngine.pitch = radPitch;
+      }
     }
 
     // --- DREAMFIRE SYNCHRONIZED MULTI-CHANNEL AMBIENT AUDIO ENGINE (FEATURE F13) ---
@@ -1599,6 +1624,585 @@
       else document.exitFullscreen().catch(() => {});
     }
 
+    // ==================== MILESTONE M7: FREE-ROAM NAVIGATION ENGINE ====================
+    class TerrainHeightRegistry {
+      static getHeight(x, z, biome = 'sanctuary', preset = '') {
+        switch (biome) {
+          case 'cosmic':
+            return 0.0;
+          case 'cyber':
+            return -0.92;
+          case 'temple': {
+            const ax = x < 0 ? -x : x;
+            const az = z < 0 ? -z : z;
+            const dist = ax > az ? ax : az;
+            if (dist < 40) return 0.4;
+            if (dist < 75) return 0.0;
+            return -0.6;
+          }
+          case 'desert': {
+            if (preset && preset.includes('salt')) {
+              return Math.sin(x * 0.05) * Math.cos(z * 0.05) * 0.4 - 0.5;
+            }
+            const d1 = Math.sin(x * 0.035 + z * 0.015) * 4.5;
+            const d2 = Math.cos(x * 0.018 - z * 0.032) * 3.8;
+            const d3 = Math.sin((x + z) * 0.075) * 0.9;
+            return d1 + d2 + d3 - 1.8;
+          }
+          case 'sacred_river': {
+            if (z > -15 && z < 45) return -2.2;
+            const distFromBank = z <= -15 ? (-15 - z) : (z - 45);
+            const bank = distFromBank * 0.15;
+            return (bank < 6.5 ? bank : 6.5) + Math.sin(x * 0.04) * 0.6;
+          }
+          case 'jungle': {
+            const r1 = Math.sin(x * 0.038) * Math.cos(z * 0.038) * 8.0;
+            const r2 = Math.sin(x * 0.072 + 0.5) * 3.4;
+            const r3 = Math.cos(z * 0.065 - 0.3) * 2.6;
+            return r1 + r2 + r3 - 2.8;
+          }
+          case 'glacial': {
+            const distFromCenter = Math.sqrt(x * x + z * z);
+            const valleyTaper = distFromCenter < 75 ? Math.pow(distFromCenter / 75, 1.8) : 1.0;
+            const s1 = Math.sin(x * 0.026) * Math.cos(z * 0.026);
+            const p1 = (s1 < 0 ? -s1 : s1) * 24;
+            const p2 = Math.sin(x * 0.062 + 1.2) * Math.cos(z * 0.062 - 0.8) * 7.5;
+            const s3 = Math.sin((x - z) * 0.045);
+            const p3 = (s3 < 0 ? -s3 : s3) * 9;
+            return (p1 + p2 + p3) * valleyTaper - 3.2;
+          }
+          default: {
+            const h1 = Math.sin(x * 0.026) * 4.2;
+            const h2 = Math.cos(z * 0.024) * 3.6;
+            const h3 = Math.sin((x + z) * 0.055) * 1.5;
+            return h1 + h2 + h3 - 2.0;
+          }
+        }
+      }
+
+      static isWalkable(x, z, currentY, targetY, maxStepHeight = 1.2) {
+        return (targetY - currentY) <= maxStepHeight;
+      }
+
+      static clampBoundary(position, maxRadius = 260) {
+        if (!position) return;
+        const distSq = position.x * position.x + position.z * position.z;
+        if (distSq > maxRadius * maxRadius) {
+          const dist = Math.sqrt(distSq);
+          position.x = (position.x / dist) * maxRadius;
+          position.z = (position.z / dist) * maxRadius;
+        }
+      }
+    }
+
+    class FreeRoamNavigationEngine {
+      constructor(camera, domElement, options = {}) {
+        this.camera = camera;
+        this.domElement = domElement;
+        this.T = options.THREE || THREE;
+
+        this.mode = options.initialMode || 'first_person';
+        this.orbitControls = options.orbitControls || null;
+
+        this.walkSpeed = typeof options.walkSpeed === 'number' ? options.walkSpeed : 8.0;
+        this.sprintSpeed = typeof options.sprintSpeed === 'number' ? options.sprintSpeed : 24.0;
+        this.flySpeed = typeof options.flySpeed === 'number' ? options.flySpeed : 45.0;
+        this.jumpForce = typeof options.jumpForce === 'number' ? options.jumpForce : 9.5;
+        this.gravity = typeof options.gravity === 'number' ? options.gravity : -26.0;
+        this.eyeHeight = typeof options.eyeHeight === 'number' ? options.eyeHeight : 1.75;
+        this.maxStepHeight = typeof options.maxStepHeight === 'number' ? options.maxStepHeight : 1.2;
+        this.boundaryRadius = typeof options.boundaryRadius === 'number' ? options.boundaryRadius : 260.0;
+        this.mouseSensitivity = typeof options.mouseSensitivity === 'number' ? options.mouseSensitivity : 0.0022;
+
+        this.maxPitch = (85 * Math.PI) / 180;
+
+        this.velocity = { x: 0, y: 0, z: 0 };
+        this.yaw = typeof options.yaw === 'number' ? options.yaw : 0;
+        this.pitch = typeof options.pitch === 'number' ? options.pitch : 0;
+        this.isGrounded = true;
+        this.isPointerLocked = false;
+        this.currentRealm = options.currentRealm || null;
+
+        this.keys = new Set();
+        this.touchAxes = { moveX: 0, moveZ: 0, sprint: false, jump: false };
+        this.pendingLook = { dx: 0, dy: 0 };
+        this.isMouseDown = false;
+        this.prevClientX = 0;
+        this.prevClientY = 0;
+
+        if (this.camera && this.mode === 'first_person') {
+          const groundY = this.getGroundHeight(this.camera.position.x, this.camera.position.z);
+          this.camera.position.y = groundY + this.eyeHeight;
+          this.isGrounded = true;
+        }
+
+        this.initEventListeners();
+      }
+
+      initEventListeners() {
+        if (typeof window === 'undefined') return;
+
+        this._onKeyDown = (e) => {
+          if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+            return;
+          }
+          this.keys.add(e.code);
+          if (e.key) this.keys.add(e.key.toLowerCase());
+
+          if (e.code === 'KeyV') {
+            this.toggleMode();
+          }
+        };
+
+        this._onKeyUp = (e) => {
+          this.keys.delete(e.code);
+          if (e.key) this.keys.delete(e.key.toLowerCase());
+        };
+
+        this._onMouseDown = (e) => {
+          if (this.domElement && e.target === this.domElement) {
+            this.isMouseDown = true;
+            this.prevClientX = e.clientX;
+            this.prevClientY = e.clientY;
+            if ((this.mode === 'first_person' || this.mode === 'free_fly') && !this.isPointerLocked) {
+              this.requestPointerLock();
+            }
+          }
+        };
+
+        this._onMouseUp = () => {
+          this.isMouseDown = false;
+        };
+
+        this._onMouseMove = (e) => {
+          if (this.mode === 'orbit') return;
+          if (this.isPointerLocked) {
+            this.pendingLook.dx += (e.movementX || 0);
+            this.pendingLook.dy += (e.movementY || 0);
+          } else if (this.isMouseDown) {
+            const dx = e.clientX - this.prevClientX;
+            const dy = e.clientY - this.prevClientY;
+            this.pendingLook.dx += dx;
+            this.pendingLook.dy += dy;
+            this.prevClientX = e.clientX;
+            this.prevClientY = e.clientY;
+          }
+        };
+
+        this._onPointerLockChange = () => {
+          const wasLocked = this.isPointerLocked;
+          this.isPointerLocked = (typeof document !== 'undefined' && document.pointerLockElement === this.domElement);
+          if (wasLocked !== this.isPointerLocked && typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('dreamfire:pointerlock-change', {
+              detail: { isLocked: this.isPointerLocked }
+            }));
+          }
+        };
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        this._onTouchStart = (e) => {
+          if (e.touches && e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          }
+        };
+        this._onTouchMove = (e) => {
+          if ((this.mode === 'first_person' || this.mode === 'free_fly') && e.touches && e.touches.length === 1) {
+            const dx = e.touches[0].clientX - touchStartX;
+            const dy = e.touches[0].clientY - touchStartY;
+            this.pendingLook.dx += dx;
+            this.pendingLook.dy += dy;
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          }
+        };
+
+        window.addEventListener('keydown', this._onKeyDown);
+        window.addEventListener('keyup', this._onKeyUp);
+        window.addEventListener('mouseup', this._onMouseUp);
+        window.addEventListener('mousemove', this._onMouseMove);
+
+        if (typeof document !== 'undefined') {
+          document.addEventListener('pointerlockchange', this._onPointerLockChange);
+        }
+
+        if (this.domElement && typeof this.domElement.addEventListener === 'function') {
+          this.domElement.addEventListener('mousedown', this._onMouseDown);
+          this.domElement.addEventListener('touchstart', this._onTouchStart, { passive: true });
+          this.domElement.addEventListener('touchmove', this._onTouchMove, { passive: true });
+        }
+      }
+
+      requestPointerLock() {
+        if (this.domElement && typeof this.domElement.requestPointerLock === 'function') {
+          try {
+            const p = this.domElement.requestPointerLock();
+            if (p && typeof p.catch === 'function') {
+              p.catch(() => {});
+            }
+          } catch (err) {}
+        }
+      }
+
+      exitPointerLock() {
+        if (typeof document !== 'undefined' && typeof document.exitPointerLock === 'function') {
+          try {
+            document.exitPointerLock();
+          } catch (err) {}
+        }
+        this.isPointerLocked = false;
+      }
+
+      setMode(mode) {
+        if (this.mode === mode) return;
+        this.mode = mode;
+
+        if (this.mode === 'orbit') {
+          if (this.orbitControls) {
+            this.orbitControls.enabled = true;
+            if (this.camera) {
+              const cosPitch = Math.cos(this.pitch);
+              const fwdDist = 20;
+              const targetX = this.camera.position.x - Math.sin(this.yaw) * cosPitch * fwdDist;
+              const targetY = this.camera.position.y + Math.sin(this.pitch) * fwdDist;
+              const targetZ = this.camera.position.z - Math.cos(this.yaw) * cosPitch * fwdDist;
+              if (this.orbitControls.target && typeof this.orbitControls.target.set === 'function') {
+                this.orbitControls.target.set(targetX, targetY, targetZ);
+              }
+              if (typeof this.orbitControls.update === 'function') {
+                this.orbitControls.update();
+              }
+            }
+          }
+          this.exitPointerLock();
+        } else {
+          if (this.orbitControls) {
+            this.orbitControls.enabled = false;
+          }
+          this.velocity.x = 0;
+          this.velocity.y = 0;
+          this.velocity.z = 0;
+
+          if (this.mode === 'first_person' && this.camera) {
+            const groundY = this.getGroundHeight(this.camera.position.x, this.camera.position.z);
+            this.camera.position.y = groundY + this.eyeHeight;
+            this.isGrounded = true;
+          }
+        }
+
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('dreamfire:navigation-mode-changed', {
+            detail: { mode: this.mode }
+          }));
+        }
+      }
+
+      getMode() {
+        return this.mode;
+      }
+
+      toggleMode() {
+        const next = this.mode === 'first_person' ? 'free_fly' : (this.mode === 'free_fly' ? 'orbit' : 'first_person');
+        this.setMode(next);
+      }
+
+      teleport(x, y, z, yaw, pitch) {
+        if (this.camera && this.camera.position) {
+          if (typeof this.camera.position.set === 'function') {
+            this.camera.position.set(x, y, z);
+          } else {
+            this.camera.position.x = x;
+            this.camera.position.y = y;
+            this.camera.position.z = z;
+          }
+        }
+        if (typeof yaw === 'number') this.yaw = yaw;
+        if (typeof pitch === 'number') this.pitch = pitch;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+        this.velocity.z = 0;
+      }
+
+      getGroundHeight(x, z) {
+        const env = (this.currentRealm && this.currentRealm.environment) || {};
+        const biome = env.biome || 'sanctuary';
+        const preset = env.terrainPreset || '';
+        return TerrainHeightRegistry.getHeight(x, z, biome, preset);
+      }
+
+      onRealmChanged(realmData) {
+        this.currentRealm = realmData;
+        const env = (realmData && realmData.environment) || {};
+        const biome = env.biome || 'sanctuary';
+
+        if (biome === 'cosmic') {
+          if (this.mode === 'first_person') {
+            this.setMode('free_fly');
+          }
+          if (this.camera && Math.abs(this.camera.position.y) < 1.0) {
+            if (typeof this.camera.position.set === 'function') {
+              this.camera.position.set(0, 5, 25);
+            } else {
+              this.camera.position.x = 0;
+              this.camera.position.y = 5;
+              this.camera.position.z = 25;
+            }
+          }
+          return;
+        }
+
+        if (this.mode === 'first_person' && this.camera) {
+          const groundY = this.getGroundHeight(this.camera.position.x, this.camera.position.z);
+          this.camera.position.y = groundY + this.eyeHeight;
+          this.velocity.y = 0;
+          this.isGrounded = true;
+        }
+      }
+
+      update(delta) {
+        if (this.mode === 'orbit') {
+          if (this.orbitControls && typeof this.orbitControls.update === 'function') {
+            this.orbitControls.update();
+          }
+          return;
+        }
+
+        const dt = Math.min(Math.max(delta || 0.016, 0.001), 0.1);
+
+        if (this.pendingLook.dx !== 0 || this.pendingLook.dy !== 0) {
+          this.yaw -= this.pendingLook.dx * this.mouseSensitivity;
+          this.pitch -= this.pendingLook.dy * this.mouseSensitivity;
+          this.pendingLook.dx = 0;
+          this.pendingLook.dy = 0;
+        }
+
+        this.pitch = Math.max(-this.maxPitch, Math.min(this.maxPitch, this.pitch));
+
+        const cosPitch = Math.cos(this.pitch);
+        const lookDir = {
+          x: -Math.sin(this.yaw) * cosPitch,
+          y: Math.sin(this.pitch),
+          z: -Math.cos(this.yaw) * cosPitch
+        };
+
+        if (this.camera) {
+          if (typeof this.camera.lookAt === 'function') {
+            this.camera.lookAt(
+              this.camera.position.x + lookDir.x,
+              this.camera.position.y + lookDir.y,
+              this.camera.position.z + lookDir.z
+            );
+          }
+          if (this.camera.rotation) {
+            this.camera.rotation.x = this.pitch;
+            this.camera.rotation.y = this.yaw;
+            this.camera.rotation.z = 0;
+          }
+          if (this.camera.quaternion && typeof this.camera.quaternion.set === 'function') {
+            const halfYaw = this.yaw * 0.5;
+            const halfPitch = this.pitch * 0.5;
+            const cy = Math.cos(halfYaw);
+            const sy = Math.sin(halfYaw);
+            const cp = Math.cos(halfPitch);
+            const sp = Math.sin(halfPitch);
+            this.camera.quaternion.set(sp * cy, cp * sy, -sp * sy, cp * cy);
+          }
+        }
+
+        let inputForward = 0;
+        let inputRight = 0;
+        let inputUp = 0;
+
+        if (this.keys.has('KeyW') || this.keys.has('ArrowUp') || this.keys.has('w')) inputForward += 1;
+        if (this.keys.has('KeyS') || this.keys.has('ArrowDown') || this.keys.has('s')) inputForward -= 1;
+        if (this.keys.has('KeyD') || this.keys.has('ArrowRight') || this.keys.has('d')) inputRight += 1;
+        if (this.keys.has('KeyA') || this.keys.has('ArrowLeft') || this.keys.has('a')) inputRight -= 1;
+        if (this.keys.has('Space') || this.keys.has('KeyE') || this.keys.has('e') || this.keys.has(' ')) inputUp += 1;
+        if (this.keys.has('KeyC') || this.keys.has('KeyQ') || this.keys.has('c') || this.keys.has('q') || this.keys.has('ControlLeft') || this.keys.has('ControlRight')) inputUp -= 1;
+
+        if (this.touchAxes) {
+          inputForward += this.touchAxes.moveZ || 0;
+          inputRight += this.touchAxes.moveX || 0;
+          if (this.touchAxes.jump) inputUp += 1;
+        }
+
+        const isSprinting = this.keys.has('ShiftLeft') || this.keys.has('ShiftRight') || this.keys.has('shift') || (this.touchAxes && this.touchAxes.sprint);
+        const speed = this.mode === 'free_fly'
+          ? (isSprinting ? this.flySpeed * 2.5 : this.flySpeed)
+          : (isSprinting ? this.sprintSpeed : this.walkSpeed);
+
+        const inputLen = Math.hypot(inputForward, inputRight);
+        let moveDirX = 0;
+        let moveDirZ = 0;
+        if (inputLen > 0.001) {
+          const normF = inputForward / inputLen;
+          const normR = inputRight / inputLen;
+
+          const forwardX = -Math.sin(this.yaw);
+          const forwardZ = -Math.cos(this.yaw);
+          const rightX = Math.cos(this.yaw);
+          const rightZ = -Math.sin(this.yaw);
+
+          moveDirX = forwardX * normF + rightX * normR;
+          moveDirZ = forwardZ * normF + rightZ * normR;
+        }
+
+        const targetVx = moveDirX * speed;
+        const targetVz = moveDirZ * speed;
+        const smoothFactor = 1.0 - Math.exp(-15.0 * dt);
+
+        this.velocity.x += (targetVx - this.velocity.x) * smoothFactor;
+        this.velocity.z += (targetVz - this.velocity.z) * smoothFactor;
+
+        const env = (this.currentRealm && this.currentRealm.environment) || {};
+        const biome = env.biome || 'sanctuary';
+        const preset = env.terrainPreset || '';
+
+        if (this.mode === 'first_person') {
+          if (inputUp > 0 && this.isGrounded) {
+            this.velocity.y = this.jumpForce;
+            this.isGrounded = false;
+          }
+
+          this.velocity.y += this.gravity * dt;
+
+          const curX = this.camera ? this.camera.position.x : 0;
+          const curY = this.camera ? this.camera.position.y : 0;
+          const curZ = this.camera ? this.camera.position.z : 0;
+
+          const nextX = curX + this.velocity.x * dt;
+          const nextZ = curZ + this.velocity.z * dt;
+          const nextY = curY + this.velocity.y * dt;
+
+          const currentGroundY = TerrainHeightRegistry.getHeight(curX, curZ, biome, preset);
+          const groundY = TerrainHeightRegistry.getHeight(nextX, nextZ, biome, preset);
+          const targetEyeY = groundY + this.eyeHeight;
+
+          if (groundY - currentGroundY > this.maxStepHeight) {
+            this.velocity.x = 0;
+            this.velocity.z = 0;
+          } else if (this.camera) {
+            this.camera.position.x = nextX;
+            this.camera.position.z = nextZ;
+          }
+
+          if (nextY <= targetEyeY) {
+            if (this.camera) this.camera.position.y = targetEyeY;
+            this.velocity.y = 0;
+            this.isGrounded = true;
+          } else {
+            if (this.camera) this.camera.position.y = nextY;
+            this.isGrounded = false;
+          }
+        } else if (this.mode === 'free_fly') {
+          const targetVy = inputUp * speed;
+          this.velocity.y += (targetVy - this.velocity.y) * smoothFactor;
+
+          if (this.camera) {
+            this.camera.position.x += this.velocity.x * dt;
+            this.camera.position.y += this.velocity.y * dt;
+            this.camera.position.z += this.velocity.z * dt;
+          }
+          this.isGrounded = false;
+        }
+
+        if (this.camera && this.camera.position) {
+          TerrainHeightRegistry.clampBoundary(this.camera.position, this.boundaryRadius);
+        }
+      }
+
+      getState() {
+        return {
+          mode: this.mode,
+          position: {
+            x: this.camera ? this.camera.position.x : 0,
+            y: this.camera ? this.camera.position.y : 0,
+            z: this.camera ? this.camera.position.z : 0
+          },
+          yaw: this.yaw,
+          pitch: this.pitch,
+          isPointerLocked: Boolean(this.isPointerLocked),
+          isGrounded: Boolean(this.isGrounded)
+        };
+      }
+
+      restoreState(state) {
+        if (!state) return;
+        if (state.mode) this.setMode(state.mode);
+        if (state.position && this.camera && this.camera.position) {
+          if (typeof this.camera.position.set === 'function') {
+            this.camera.position.set(state.position.x, state.position.y, state.position.z);
+          } else {
+            this.camera.position.x = state.position.x;
+            this.camera.position.y = state.position.y;
+            this.camera.position.z = state.position.z;
+          }
+        }
+        if (typeof state.yaw === 'number') this.yaw = state.yaw;
+        if (typeof state.pitch === 'number') this.pitch = state.pitch;
+        if (typeof state.isGrounded === 'boolean') this.isGrounded = state.isGrounded;
+        if (typeof state.isPointerLocked === 'boolean') this.isPointerLocked = state.isPointerLocked;
+      }
+
+      dispose() {
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('keydown', this._onKeyDown);
+          window.removeEventListener('keyup', this._onKeyUp);
+          window.removeEventListener('mouseup', this._onMouseUp);
+          window.removeEventListener('mousemove', this._onMouseMove);
+        }
+        if (typeof document !== 'undefined') {
+          document.removeEventListener('pointerlockchange', this._onPointerLockChange);
+        }
+        if (this.domElement && typeof this.domElement.removeEventListener === 'function') {
+          this.domElement.removeEventListener('mousedown', this._onMouseDown);
+          this.domElement.removeEventListener('touchstart', this._onTouchStart);
+          this.domElement.removeEventListener('touchmove', this._onTouchMove);
+        }
+        this.exitPointerLock();
+      }
+    }
+
+    function updateNavModeUI(mode) {
+      const btnFp = document.getElementById('btn-mode-first-person');
+      const btnFly = document.getElementById('btn-mode-free-fly');
+      const btnOrbit = document.getElementById('btn-mode-orbit');
+      if (!btnFp || !btnFly || !btnOrbit) return;
+
+      const baseInactive = 'px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 bg-white/5 border border-white/10 hover:text-white transition cursor-pointer flex items-center gap-1.5';
+      btnFp.className = baseInactive;
+      btnFly.className = baseInactive;
+      btnOrbit.className = baseInactive;
+
+      if (mode === 'first_person') {
+        btnFp.className = 'px-3 py-1.5 rounded-xl text-xs font-bold text-amber-300 bg-amber-500/20 border border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.3)] transition cursor-pointer flex items-center gap-1.5';
+      } else if (mode === 'free_fly') {
+        btnFly.className = 'px-3 py-1.5 rounded-xl text-xs font-bold text-cyan-300 bg-cyan-500/20 border border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition cursor-pointer flex items-center gap-1.5';
+      } else if (mode === 'orbit') {
+        btnOrbit.className = 'px-3 py-1.5 rounded-xl text-xs font-bold text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition cursor-pointer flex items-center gap-1.5';
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      window.TerrainHeightRegistry = TerrainHeightRegistry;
+      window.FreeRoamNavigationEngine = FreeRoamNavigationEngine;
+
+      window.addEventListener('dreamfire:navigation-mode-changed', (e) => {
+        if (e && e.detail && e.detail.mode) {
+          updateNavModeUI(e.detail.mode);
+        }
+      });
+
+      window.addEventListener('dreamfire:pointerlock-change', (e) => {
+        const lockIndicator = document.getElementById('nav-lock-indicator');
+        if (lockIndicator) {
+          const isLocked = e && e.detail && e.detail.isLocked;
+          lockIndicator.innerText = isLocked ? '🔒 Mouse Look Active (Esc to unlock)' : '🖱️ Click Canvas: Mouse Look (Esc to Unlock)';
+          lockIndicator.className = isLocked ? 'text-amber-300 font-bold' : 'text-slate-300';
+        }
+      });
+    }
 
     // --- THREE.JS ENGINE INITIALIZATION ---
     function initThree() {
@@ -1626,6 +2230,14 @@
       controls.enableZoom = true;
       controls.zoomSpeed = 1.0;
       controls.rotateSpeed = 0.8;
+      controls.enabled = false;
+
+      navigationEngine = new FreeRoamNavigationEngine(camera, renderer.domElement, {
+        THREE: THREE,
+        orbitControls: controls,
+        initialMode: 'first_person'
+      });
+      window.navigationEngine = navigationEngine;
 
       textureLoader = new THREE.TextureLoader();
 
@@ -2597,7 +3209,11 @@
         }
       }
 
-      setCameraViewpoint(yaw, pitch, zoomLevel);
+      if (typeof navigationEngine !== 'undefined' && navigationEngine) {
+        navigationEngine.onRealmChanged(realmData);
+      } else {
+        setCameraViewpoint(yaw, pitch, zoomLevel);
+      }
 
       // 2. Procedural 3D Terrain Biome Generation (Feature F6)
       const terrainGroup = createProceduralTerrain(realmData);
@@ -4719,7 +5335,9 @@
         }
       }
 
-      if (controls && typeof controls.update === 'function') {
+      if (navigationEngine && typeof navigationEngine.update === 'function') {
+        navigationEngine.update(delta);
+      } else if (controls && typeof controls.update === 'function') {
         controls.update();
       }
 
@@ -5921,12 +6539,18 @@
       }
 
       document.getElementById('tour-hud').style.opacity = '1';
+      if (typeof updateNavModeUI === 'function' && navigationEngine) {
+        updateNavModeUI(navigationEngine.getMode());
+      }
 
       // Dispatch decoupled event for test assertions & external modules
       window.dispatchEvent(new CustomEvent('dreamfire:realm-switched', { detail: fullRealm }));
     }
 
     function exitWorldTour() {
+      if (navigationEngine) {
+        navigationEngine.exitPointerLock();
+      }
       document.getElementById('tour-hud').style.opacity = '0';
       buildCosmicBackground();
       const p = document.getElementById('portal-ui');

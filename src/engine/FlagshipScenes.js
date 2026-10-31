@@ -2194,6 +2194,18 @@ export function attachFlagshipScene(ThreeInstance, scene, realmData, realmObject
     return { type: 'rainforest', rainforest };
   }
 
+  // Feature F14: Haunted Victorian Manor & Gothic Shadow Realm
+  if (
+    id === 'blackwood-haunted-victorian-manor' ||
+    tags.includes('haunted') ||
+    tags.includes('horror') ||
+    tags.includes('gothic') ||
+    (tags.includes('manor') && !id.includes('temple'))
+  ) {
+    const hauntedManor = buildHauntedManorScene(T, scene, realmData, realmObjects, animators);
+    return { type: 'haunted_manor', hauntedManor };
+  }
+
   // Defensive Invariant: Giza, Kedarnath, Orion, Neo Tokyo spawn ZERO flagship geometry
   return null;
 }
@@ -2702,6 +2714,186 @@ export function buildPrimordialRainforestScene(ThreeInstance, scene, realmData =
   return { root, rfAnimator };
 }
 
+export function buildHauntedManorScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+  const Three = ThreeInstance || THREE_GLOBAL;
+  const helpers = getThreeHelpers(Three);
+  const root = new Three.Group();
+  root.name = 'flagship_haunted_manor_scene';
+
+  // 1. WEATHERED OAK FLOORBOARDS (Hallway & Grand Foyer)
+  const floorGeo = new Three.PlaneGeometry(64, 80, 32, 40);
+  if (floorGeo.rotateX) floorGeo.rotateX(-Math.PI / 2);
+  const floorMat = new Three.MeshStandardMaterial({
+    color: 0x1c1917,
+    roughness: 0.88,
+    metalness: 0.08
+  });
+  const floorMesh = new Three.Mesh(floorGeo, floorMat);
+  floorMesh.position.set(0, -0.05, 0);
+  floorMesh.receiveShadow = true;
+  floorMesh.name = 'manor_decaying_oak_floor';
+  root.add(floorMesh);
+
+  // 2. GOTHIC MASONRY WALLS & POINTED ARCHWAYS
+  const wallMat = new Three.MeshStandardMaterial({ color: 0x27272a, roughness: 0.95, metalness: 0.05 });
+  const rearWall = new Three.Mesh(new Three.BoxGeometry(64, 24, 1.5), wallMat);
+  rearWall.position.set(0, 12, -40);
+  rearWall.receiveShadow = true;
+  rearWall.castShadow = true;
+  rearWall.name = 'gothic_rear_masonry_wall';
+  root.add(rearWall);
+
+  const leftWall = new Three.Mesh(new Three.BoxGeometry(1.5, 24, 80), wallMat);
+  leftWall.position.set(-32, 12, 0);
+  leftWall.receiveShadow = true;
+  leftWall.name = 'gothic_left_masonry_wall';
+  root.add(leftWall);
+
+  const rightWall = new Three.Mesh(new Three.BoxGeometry(1.5, 24, 80), wallMat);
+  rightWall.position.set(32, 12, 0);
+  rightWall.receiveShadow = true;
+  rightWall.name = 'gothic_right_masonry_wall';
+  root.add(rightWall);
+
+  // 3. GRAND SWEEPING DUAL STAIRCASE & MEZZANINE
+  const stairGroup = new Three.Group();
+  stairGroup.name = 'grand_sweeping_staircase';
+  const stairMat = new Three.MeshStandardMaterial({ color: 0x292524, roughness: 0.78, metalness: 0.15 });
+
+  for (let s = 0; s < 18; s++) {
+    const stepMesh = new Three.Mesh(new Three.BoxGeometry(22 - s * 0.4, 0.45, 1.4), stairMat);
+    stepMesh.position.set(0, s * 0.45 + 0.22, -22 - s * 0.9);
+    stepMesh.receiveShadow = true;
+    stepMesh.castShadow = true;
+    stairGroup.add(stepMesh);
+  }
+
+  // Mezzanine landing
+  const landingMesh = new Three.Mesh(new Three.BoxGeometry(40, 0.8, 8), stairMat);
+  landingMesh.position.set(0, 8.2, -38);
+  landingMesh.receiveShadow = true;
+  stairGroup.add(landingMesh);
+  root.add(stairGroup);
+
+  // 4. LOW-ALTITUDE ROLLING GROUND FOG BLANKET
+  const fogGeo = new Three.PlaneGeometry(62, 78, 16, 16);
+  if (fogGeo.rotateX) fogGeo.rotateX(-Math.PI / 2);
+  const fogMat = new Three.MeshBasicMaterial({
+    color: 0x64748b,
+    transparent: true,
+    opacity: 0.24,
+    blending: Three.AdditiveBlending,
+    side: Three.DoubleSide,
+    depthWrite: false
+  });
+  const fogMesh = new Three.Mesh(fogGeo, fogMat);
+  fogMesh.position.set(0, 0.35, 0);
+  fogMesh.name = 'manor_rolling_ground_fog';
+  root.add(fogMesh);
+
+  // 5. SPECTRAL DUST MOTES & HAUNTED PARTICLES
+  const spectralCount = 350;
+  const sPositions = new Float32Array(spectralCount * 3);
+  const sPhases = new Float32Array(spectralCount);
+
+  for (let sp = 0; sp < spectralCount; sp++) {
+    sPositions[sp * 3] = (Math.random() - 0.5) * 58;
+    sPositions[sp * 3 + 1] = 0.2 + Math.random() * 12;
+    sPositions[sp * 3 + 2] = (Math.random() - 0.5) * 72;
+    sPhases[sp] = Math.random() * Math.PI * 2;
+  }
+
+  const spectralGeo = new Three.BufferGeometry();
+  spectralGeo.setAttribute('position', new Three.BufferAttribute(sPositions, 3));
+  const spectralMat = new Three.PointsMaterial({
+    size: 2.0,
+    color: 0x94a3b8,
+    transparent: true,
+    opacity: 0.55,
+    blending: Three.AdditiveBlending,
+    depthWrite: false
+  });
+  const spectralPoints = new Three.Points(spectralGeo, spectralMat);
+  spectralPoints.name = 'spectral_dust_motes';
+  root.add(spectralPoints);
+
+  // 6. DYNAMIC PLAYER FLASHLIGHT SPOTLIGHT
+  const SpotlightClass = Three.SpotLight || class {
+    constructor(c, i, d, a, p, decay) {
+      this.color = c;
+      this.intensity = i;
+      this.distance = d;
+      this.angle = a;
+      this.penumbra = p;
+      this.decay = decay;
+      this.position = { x: 0, y: 0, z: 0, set(x, y, z) { this.x = x; this.y = y; this.z = z; } };
+      this.target = { position: { x: 0, y: 0, z: 0, set(x, y, z) { this.x = x; this.y = y; this.z = z; } } };
+    }
+  };
+  const flashlight = new SpotlightClass(0xfef08a, 4.2, 75, Math.PI / 6, 0.38, 1.2);
+  flashlight.position.set(0, 3.5, 25);
+  flashlight.target.position.set(0, 3.0, -15);
+  flashlight.castShadow = true;
+  flashlight.name = 'manor_player_flashlight';
+  root.add(flashlight);
+  root.add(flashlight.target);
+
+  // 7. WROUGHT-IRON CHANDELIER WITH FLICKERING CANDLES
+  const chandelierGroup = new Three.Group();
+  chandelierGroup.name = 'wrought_iron_chandelier';
+  chandelierGroup.position.set(0, 15, -10);
+
+  const ironMat = new Three.MeshStandardMaterial({ color: 0x18181b, metalness: 0.9, roughness: 0.3 });
+  const TorusGeoClass = helpers.TorusGeometry || Three.TorusGeometry;
+  const ringMesh = new Three.Mesh(TorusGeoClass ? new TorusGeoClass(4.5, 0.15, 8, 24) : new Three.BoxGeometry(9, 0.3, 9), ironMat);
+  if (ringMesh.rotation && ringMesh.rotation.set) {
+    ringMesh.rotation.set(Math.PI / 2, 0, 0);
+  } else if (ringMesh.rotation) {
+    ringMesh.rotation.x = Math.PI / 2;
+  }
+  chandelierGroup.add(ringMesh);
+
+  // 6 Sconce PointLights
+  const candleLights = [];
+  for (let c = 0; c < 6; c++) {
+    const ang = (c / 6) * Math.PI * 2;
+    const cl = new Three.PointLight(0xf59e0b, 1.4, 18);
+    cl.position.set(Math.cos(ang) * 4.5, 0.5, Math.sin(ang) * 4.5);
+    chandelierGroup.add(cl);
+    candleLights.push(cl);
+  }
+  root.add(chandelierGroup);
+
+  // Manor Animator Loop (Candle flicker, fog drift, dust swirl)
+  const manorAnimator = (time, delta) => {
+    // 1. Candle flicker
+    candleLights.forEach((cl, idx) => {
+      cl.intensity = 1.2 + Math.sin(time * 16.0 + idx * 2.1) * 0.35 + Math.cos(time * 23.0 + idx) * 0.15;
+    });
+
+    // 2. Rolling fog drift
+    fogMesh.position.y = 0.35 + Math.sin(time * 0.5) * 0.08;
+    fogMat.opacity = 0.22 + Math.sin(time * 0.7) * 0.04;
+
+    // 3. Spectral dust motes
+    const posAttr = spectralGeo.attributes.position;
+    const posArr = posAttr.array;
+    for (let sp = 0; sp < spectralCount; sp++) {
+      const ph = sPhases[sp];
+      posArr[sp * 3] += Math.sin(time * 0.4 + ph) * 0.02;
+      posArr[sp * 3 + 1] += Math.cos(time * 0.6 + ph) * 0.015;
+      posArr[sp * 3 + 2] += Math.sin(time * 0.5 + ph * 1.3) * 0.02;
+    }
+    posAttr.needsUpdate = true;
+  };
+
+  animators.push(manorAnimator);
+  scene.add(root);
+  realmObjects.push(root);
+
+  return { root, manorAnimator };
+}
+
 export const buildFlagshipScene = attachFlagshipScene;
 
 // Browser global window export
@@ -2723,6 +2915,7 @@ if (typeof window !== 'undefined') {
     buildSchwarzschildBlackHoleScene,
     buildF1CircuitScene,
     buildPrimordialRainforestScene,
+    buildHauntedManorScene,
     attachFlagshipScene,
     buildFlagshipScene
   };
@@ -2745,6 +2938,7 @@ export default {
   buildSchwarzschildBlackHoleScene,
   buildF1CircuitScene,
   buildPrimordialRainforestScene,
+  buildHauntedManorScene,
   attachFlagshipScene,
   buildFlagshipScene
 };

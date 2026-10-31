@@ -30,6 +30,7 @@ import {
   buildSchwarzschildBlackHoleScene,
   buildF1CircuitScene,
   buildPrimordialRainforestScene,
+  buildHauntedManorScene,
   attachFlagshipScene
 } from '../src/engine/FlagshipScenes.js';
 
@@ -437,6 +438,53 @@ suite('Milestone M3: Flagship Showcase 3D Geometry & Crowd Simulation', 'Tier 2'
 
     // Step animator
     assert.doesNotThrow(() => rfAnimator(1.0, 0.016), 'Rainforest animator must step cleanly');
+  });
+
+  test('F14.1: Blackwood Haunted Victorian Manor creates oak floor, gothic walls, grand staircase, rolling ground fog, flashlight, and candelabras', () => {
+    const scene = new THREE.Scene();
+    const realmObjects = [];
+    const animators = [];
+    const realmData = { id: 'blackwood-haunted-victorian-manor', tags: ['haunted', 'horror', 'gothic', 'manor'] };
+
+    const { root, manorAnimator } = buildHauntedManorScene(THREE, scene, realmData, realmObjects, animators);
+    assert.ok(root instanceof THREE.Group, 'Manor root must be a THREE.Group');
+    assert.strictEqual(root.name, 'flagship_haunted_manor_scene');
+    assert.ok(scene.children.includes(root), 'Manor root must be added to scene');
+    assert.ok(realmObjects.includes(root), 'Manor root must be registered in realmObjects');
+    assert.ok(animators.includes(manorAnimator), 'Manor animator must be registered');
+
+    // 1. Decaying oak floor
+    const floor = root.children.find((c) => c.name === 'manor_decaying_oak_floor');
+    assert.ok(floor, 'Must contain decaying oak floorboards');
+
+    // 2. Gothic masonry walls
+    const rearWall = root.children.find((c) => c.name === 'gothic_rear_masonry_wall');
+    assert.ok(rearWall, 'Must contain gothic rear masonry wall');
+
+    // 3. Grand sweeping dual staircase
+    const staircase = root.children.find((c) => c.name === 'grand_sweeping_staircase');
+    assert.ok(staircase, 'Must contain grand sweeping staircase');
+    assert.ok(staircase.children.length >= 18, 'Staircase must contain at least 18 steps and landing');
+
+    // 4. Rolling ground fog blanket
+    const groundFog = root.children.find((c) => c.name === 'manor_rolling_ground_fog');
+    assert.ok(groundFog, 'Must contain rolling ground fog blanket');
+
+    // 5. Spectral dust motes
+    const dustMotes = root.children.find((c) => c.name === 'spectral_dust_motes');
+    assert.ok(dustMotes, 'Must contain spectral dust motes');
+
+    // 6. Player flashlight spotlight
+    const flashlight = root.children.find((c) => c.name === 'manor_player_flashlight');
+    assert.ok(flashlight, 'Must contain player flashlight spotlight');
+
+    // 7. Wrought-iron chandelier with candles
+    const chandelier = root.children.find((c) => c.name === 'wrought_iron_chandelier');
+    assert.ok(chandelier, 'Must contain wrought-iron chandelier');
+    assert.strictEqual(chandelier.children.filter((c) => c instanceof THREE.PointLight).length, 6, 'Must contain 6 flickering candle PointLights');
+
+    // Step animator
+    assert.doesNotThrow(() => manorAnimator(1.0, 0.016), 'Manor animator must step cleanly');
   });
 
   test('System.3: Memory Management: clearRealm cleanly disposes child geometries and materials', () => {
