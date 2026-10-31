@@ -1714,6 +1714,190 @@
     }
 
 
+    // --- SCHWARZSCHILD BLACK HOLE & RELATIVISTIC ACCRETION ENGINE ---
+    function createSchwarzschildBlackHole(T, options = {}) {
+      const root = new T.Group();
+      root.name = 'supermassive_black_hole_gargantua';
+
+      const rs = options.schwarzschildRadius || 18;
+      const pos = options.position || [0, 8, -75];
+      root.position.set(pos[0], pos[1], pos[2]);
+
+      // 1. EVENT HORIZON (Total absorption shadow)
+      const horizonGeo = new T.SphereGeometry(rs, 64, 48);
+      const horizonMat = new T.MeshBasicMaterial({ color: 0x000000, depthWrite: true });
+      const horizonMesh = new T.Mesh(horizonGeo, horizonMat);
+      horizonMesh.name = 'event_horizon_shadow';
+      root.add(horizonMesh);
+
+      // 2. PHOTON SPHERE (Thin relativistic glow ring at r = 1.5 * rs)
+      const photonRadius = rs * 1.5;
+      const photonGeo = new T.SphereGeometry(photonRadius, 48, 36);
+      const photonMat = new T.MeshBasicMaterial({
+        color: 0xbae6fd,
+        transparent: true,
+        opacity: 0.18,
+        blending: T.AdditiveBlending,
+        side: T.BackSide,
+        depthWrite: false
+      });
+      const photonMesh = new T.Mesh(photonGeo, photonMat);
+      photonMesh.name = 'photon_sphere_glow';
+      root.add(photonMesh);
+
+      // 3. RELATIVISTIC ACCRETION DISK (High-resolution Ring with Doppler Beaming Texture)
+      function createAccretionPlasmaTexture() {
+        if (typeof document === 'undefined') return null;
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = 512;
+          canvas.height = 512;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return null;
+
+          const grad = ctx.createRadialGradient(256, 256, 60, 256, 256, 250);
+          grad.addColorStop(0.0, 'rgba(255, 255, 255, 0.98)');
+          grad.addColorStop(0.12, 'rgba(56, 189, 248, 0.92)');
+          grad.addColorStop(0.35, 'rgba(245, 158, 11, 0.88)');
+          grad.addColorStop(0.65, 'rgba(239, 68, 68, 0.65)');
+          grad.addColorStop(0.90, 'rgba(124, 45, 18, 0.35)');
+          grad.addColorStop(1.0, 'rgba(0, 0, 0, 0.0)');
+
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 512, 512);
+
+          ctx.lineWidth = 2.5;
+          for (let s = 0; s < 48; s++) {
+            const startAngle = (s / 48) * Math.PI * 2;
+            ctx.beginPath();
+            for (let r = 70; r < 240; r += 6) {
+              const a = startAngle + (r / 45.0);
+              const x = 256 + Math.cos(a) * r;
+              const y = 256 + Math.sin(a) * r;
+              if (r === 70) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = (s % 3 === 0) ? 'rgba(255, 255, 255, 0.45)' : 'rgba(245, 158, 11, 0.28)';
+            ctx.stroke();
+          }
+          return new T.CanvasTexture(canvas);
+        } catch {
+          return null;
+        }
+      }
+
+      const plasmaTex = createAccretionPlasmaTexture();
+      const diskInner = rs * 1.55;
+      const diskOuter = rs * 4.6;
+      const diskGeo = new T.RingGeometry(diskInner, diskOuter, 128, 16);
+      const diskMat = new T.MeshBasicMaterial({
+        map: plasmaTex,
+        color: 0xffffff,
+        side: T.DoubleSide,
+        transparent: true,
+        opacity: 0.94,
+        blending: T.AdditiveBlending,
+        depthWrite: false
+      });
+      const mainDisk = new T.Mesh(diskGeo, diskMat);
+      mainDisk.rotation.x = Math.PI * 0.44;
+      mainDisk.name = 'primary_accretion_disk';
+      root.add(mainDisk);
+
+      // 4. GRAVITATIONAL LENSING HALO (Light from backside bent over and under)
+      const lensUpperGeo = new T.RingGeometry(diskInner * 0.95, diskOuter * 0.70, 96, 8, Math.PI * 0.05, Math.PI * 0.90);
+      const lensMat = new T.MeshBasicMaterial({
+        map: plasmaTex,
+        color: 0x67e8f9,
+        side: T.DoubleSide,
+        transparent: true,
+        opacity: 0.78,
+        blending: T.AdditiveBlending,
+        depthWrite: false
+      });
+      const lensUpperMesh = new T.Mesh(lensUpperGeo, lensMat);
+      lensUpperMesh.rotation.x = -Math.PI * 0.16;
+      lensUpperMesh.position.y = rs * 0.35;
+      lensUpperMesh.name = 'lensing_upper_arc';
+      root.add(lensUpperMesh);
+
+      const lensLowerGeo = new T.RingGeometry(diskInner * 0.95, diskOuter * 0.70, 96, 8, Math.PI * 1.05, Math.PI * 0.90);
+      const lensLowerMesh = new T.Mesh(lensLowerGeo, lensMat);
+      lensLowerMesh.rotation.x = Math.PI * 0.16;
+      lensLowerMesh.position.y = -rs * 0.35;
+      lensLowerMesh.name = 'lensing_lower_arc';
+      root.add(lensLowerMesh);
+
+      // 5. RELATIVISTIC DOPPLER INFLOW PARTICLES (5,000 particles)
+      const partCount = 5000;
+      const pPositions = new Float32Array(partCount * 3);
+      const pColors = new Float32Array(partCount * 3);
+      const pDistances = new Float32Array(partCount);
+      const pAngles = new Float32Array(partCount);
+      const pSpeeds = new Float32Array(partCount);
+
+      for (let i = 0; i < partCount; i++) {
+        const dist = diskInner + Math.random() * (diskOuter - diskInner);
+        const angle = Math.random() * Math.PI * 2;
+        pDistances[i] = dist;
+        pAngles[i] = angle;
+        pSpeeds[i] = 1.8 / Math.sqrt(dist / rs);
+
+        pPositions[i * 3] = Math.cos(angle) * dist;
+        pPositions[i * 3 + 1] = (Math.random() - 0.5) * 1.2 * (dist / diskOuter);
+        pPositions[i * 3 + 2] = Math.sin(angle) * dist;
+
+        const isApproaching = Math.sin(angle) > 0;
+        if (isApproaching) {
+          pColors[i * 3] = 0.5 + Math.random() * 0.5;
+          pColors[i * 3 + 1] = 0.85 + Math.random() * 0.15;
+          pColors[i * 3 + 2] = 1.0;
+        } else {
+          pColors[i * 3] = 1.0;
+          pColors[i * 3 + 1] = 0.35 + Math.random() * 0.35;
+          pColors[i * 3 + 2] = 0.1;
+        }
+      }
+
+      const partGeo = new T.BufferGeometry();
+      partGeo.setAttribute('position', new T.BufferAttribute(pPositions, 3));
+      partGeo.setAttribute('color', new T.BufferAttribute(pColors, 3));
+
+      const partMat = new T.PointsMaterial({
+        size: 1.8,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.85,
+        blending: T.AdditiveBlending,
+        depthWrite: false
+      });
+      const plasmaParticles = new T.Points(partGeo, partMat);
+      plasmaParticles.rotation.x = Math.PI * 0.44;
+      plasmaParticles.name = 'accretion_stream_particles';
+      root.add(plasmaParticles);
+
+      const bhAnimator = (time, delta) => {
+        mainDisk.rotation.z += delta * 0.4;
+        lensUpperMesh.rotation.z -= delta * 0.3;
+        lensLowerMesh.rotation.z -= delta * 0.3;
+
+        const posAttr = partGeo.attributes.position;
+        const posArr = posAttr.array;
+        for (let i = 0; i < partCount; i++) {
+          pAngles[i] += delta * pSpeeds[i];
+          pDistances[i] -= delta * 0.65;
+          if (pDistances[i] < diskInner) pDistances[i] = diskOuter;
+          const dist = pDistances[i];
+          const ang = pAngles[i];
+          posArr[i * 3] = Math.cos(ang) * dist;
+          posArr[i * 3 + 2] = Math.sin(ang) * dist;
+        }
+        posAttr.needsUpdate = true;
+      };
+
+      return { root, bhAnimator };
+    }
+
     // --- PROCEDURAL 3D TERRAIN BIOMES ENGINE (Features F4 & F6) ---
     function createProceduralTerrain(realmData) {
       const env = (realmData && realmData.environment) || {};
@@ -1780,8 +1964,19 @@
         nebulaPoints.name = 'volumetric_nebula_stardust';
         group.add(nebulaPoints);
 
-        // High-Subdivision Gas Giant with Real Planetary Rings
-        if (THREE.SphereGeometry && THREE.RingGeometry) {
+        const isBlackHole = Boolean(
+          (realmData && realmData.id && realmData.id.includes('black-hole')) ||
+          (realmData && realmData.title && realmData.title.toLowerCase().includes('black hole')) ||
+          (realmData && realmData.title && realmData.title.toLowerCase().includes('event horizon')) ||
+          (realmData && realmData.tags && realmData.tags.includes('black hole'))
+        );
+
+        if (isBlackHole && THREE.SphereGeometry && THREE.RingGeometry) {
+          const { root: bhGroup, bhAnimator } = createSchwarzschildBlackHole(THREE, { schwarzschildRadius: 18, position: [0, 8, -75] });
+          group.add(bhGroup);
+          if (bhAnimator) animators.push(bhAnimator);
+        } else if (THREE.SphereGeometry && THREE.RingGeometry) {
+          // High-Subdivision Gas Giant with Real Planetary Rings
           const planetGroup = new THREE.Group();
           planetGroup.position.set(-45, 12, -90);
 
@@ -5268,6 +5463,86 @@
           sunPosition: [90, 40, -100],
           fogDensity: 0.002,
           terrainPreset: 'sand_dunes'
+        };
+      } else if (p.includes('black hole') || p.includes('blackhole') || p.includes('gargantua') || p.includes('singularity') || p.includes('event horizon') || p.includes('accretion disk')) {
+        title = "Gargantua Supermassive Event Horizon";
+        desc = "Watching a glowing, relativistic ring of superheated plasma bend around a sphere of total darkness. Gravitational lensing curves the light of distant galaxies into glowing halos.";
+        bg = 'public/assets/images/orion_cosmos.jpg';
+        id = 'gargantua-black-hole-accretion';
+        category = 'Cosmic Odyssey';
+        soundscape = 'Gravitational Waves (LIGO Chirps) & Deep Singularity Hum';
+        environment = {
+          biome: 'cosmic',
+          hasWaterBody: false,
+          festiveContext: false,
+          skyColor: 0x010206,
+          sunPosition: [0, 80, -120],
+          fogDensity: 0.0008,
+          terrainPreset: 'cosmic_void'
+        };
+      } else if (p.includes('f1') || p.includes('formula 1') || p.includes('race') || p.includes('racing') || p.includes('circuit') || p.includes('monaco') || p.includes('grand prix') || p.includes('car race')) {
+        title = "Monaco Harbour Midnight Grand Prix Circuit";
+        desc = "High-speed Formula 1 street circuit illuminated by stadium floodlights, glowing apex rumble kerbs, and burning tire rubber along the Mediterranean marina.";
+        bg = 'public/assets/images/tokyo_neon.jpg';
+        id = 'monaco-midnight-grand-prix';
+        category = 'Cyberpunk & Sci-Fi';
+        soundscape = 'High-RPM V10 Racing Engines & Harbor Night Breeze';
+        environment = {
+          biome: 'cyber',
+          hasWaterBody: false,
+          festiveContext: false,
+          skyColor: 0x070c1e,
+          sunPosition: [40, 80, -50],
+          fogDensity: 0.003,
+          terrainPreset: 'cyber_grid'
+        };
+      } else if (p.includes('horror') || p.includes('haunted') || p.includes('mansion') || p.includes('ghost') || p.includes('abandoned') || p.includes('creepy') || p.includes('spooky') || p.includes('victorian')) {
+        title = "Blackwood Victorian Haunted Manor";
+        desc = "An ominous 19th-century gothic manor surrounded by rolling ground mist, flickering candelabras, creaking wooden floorboards, and whispering shadow corridors.";
+        bg = 'public/assets/images/colosseum_ancient.jpg';
+        id = 'blackwood-haunted-victorian-manor';
+        category = 'Ancient Wonders';
+        soundscape = 'Creaking Floorboards, Distant Thunder & Whispers';
+        environment = {
+          biome: 'sanctuary',
+          hasWaterBody: false,
+          festiveContext: false,
+          skyColor: 0x080910,
+          sunPosition: [0, 40, -60],
+          fogDensity: 0.006,
+          terrainPreset: 'stone_pavement'
+        };
+      } else if (p.includes('jungle') || p.includes('rainforest') || p.includes('amazon') || p.includes('canopy') || p.includes('primordial')) {
+        title = "Amazonian Deep Primordial Rainforest Canopy";
+        desc = "Colossal ancient mahogany and kapok trees rising 200 feet above a misty river basin, with thousands of broadleaf palms, bromeliads, and tropical wildlife.";
+        bg = 'public/assets/images/nature_waterfall.jpg';
+        id = 'amazon-primordial-canopy';
+        category = 'Nature & Retreat';
+        soundscape = 'Deep Rainforest Thunderstorm, Cicadas & River Flow';
+        environment = {
+          biome: 'sanctuary',
+          hasWaterBody: true,
+          festiveContext: false,
+          skyColor: 0x04130c,
+          sunPosition: [60, 70, -50],
+          fogDensity: 0.003,
+          terrainPreset: 'riverbank'
+        };
+      } else if (p.includes('skyscraper') || p.includes('skyscrapers') || p.includes('megacity') || p.includes('ecumenopolis') || p.includes('planet covered') || p.includes('city levels')) {
+        title = "Ecumenopolis Planetary Sky-Spire Megacity";
+        desc = "An entire planet covered in thousands of skyscraper levels extending into the clouds, illuminated by millions of glowing window grids and high-altitude sky-lanes.";
+        bg = 'public/assets/images/cyberpunk_citadel.jpg';
+        id = 'ecumenopolis-sky-spire-planet';
+        category = 'Cyberpunk & Sci-Fi';
+        soundscape = 'Stratosphere Sky-Lane Traffic & Deep City Bass';
+        environment = {
+          biome: 'cyber',
+          hasWaterBody: false,
+          festiveContext: false,
+          skyColor: 0x050816,
+          sunPosition: [30, 90, -40],
+          fogDensity: 0.0035,
+          terrainPreset: 'cyber_grid'
         };
       } else if (p.includes('orion') || p.includes('cosmos') || p.includes('space') || p.includes('nebula') || p.includes('galaxy') || p.includes('stellar')) {
         title = "Orion Stellar Nursery & Gas Giant";
