@@ -59,10 +59,15 @@ export class TerrainHeightRegistry {
       }
 
       case 'sacred_river': {
-        if (z > -15 && z < 45) return -2.2;
-        const distFromBank = z <= -15 ? (-15 - z) : (z - 45);
-        const bank = distFromBank * 0.15;
-        return (bank < 6.5 ? bank : 6.5) + Math.sin(x * 0.04) * 0.6;
+        if (z <= 16) {
+          if (z < 0 && (x < 0 ? -x : x) < 22) return 1.0;
+          return 0.5;
+        }
+        if (z > 16 && z <= 28) {
+          const stepRatio = (z - 16) / 12;
+          return 0.5 - stepRatio * 0.45;
+        }
+        return 0.05 + Math.sin(x * 0.04) * 0.1;
       }
 
       case 'jungle': {
@@ -399,30 +404,32 @@ export class FreeRoamNavigationEngine {
     const env = (realmData && realmData.environment) || {};
     const biome = env.biome || 'sanctuary';
 
-    // Cosmic void has no ground plane: automatically switch to 6-DOF free_fly
+    if (realmData && (realmData.id === 'ayodhya-ram-mandir' || (realmData.tags && realmData.tags.includes('ram')))) {
+      this.teleport(0, 2.3, 16, 0, 0.05);
+      this.velocity.x = 0;
+      this.velocity.y = 0;
+      this.velocity.z = 0;
+      this.isGrounded = true;
+      return;
+    }
+
     if (biome === 'cosmic') {
       if (this.mode === 'first_person') {
         this.setMode('free_fly');
       }
-      if (this.camera && Math.abs(this.camera.position.y) < 1.0) {
-        if (typeof this.camera.position.set === 'function') {
-          this.camera.position.set(0, 5, 25);
-        } else {
-          this.camera.position.x = 0;
-          this.camera.position.y = 5;
-          this.camera.position.z = 25;
-        }
-      }
+      this.teleport(0, 5, 25, 0, 0);
       return;
     }
 
-    // Ground player camera smoothly on new realm terrain while maintaining position, yaw & pitch
-    if (this.mode === 'first_person' && this.camera) {
-      const groundY = this.getGroundHeight(this.camera.position.x, this.camera.position.z);
-      this.camera.position.y = groundY + this.eyeHeight;
-      this.velocity.y = 0;
-      this.isGrounded = true;
+    const groundY = this.getGroundHeight(this.camera ? this.camera.position.x : 0, this.camera ? this.camera.position.z : 16);
+    const startY = Math.max(1.8, groundY + this.eyeHeight);
+    if (this.camera && this.camera.position) {
+      if (this.camera.position.y < startY) {
+        this.camera.position.y = startY;
+      }
     }
+    this.velocity.y = 0;
+    this.isGrounded = true;
   }
 
   /**

@@ -1767,11 +1767,16 @@
             return d1 + d2 + d3 - 1.8;
           }
           case 'sacred_river': {
-            if (z > -15 && z < 45) return -2.2;
-            const distFromBank = z <= -15 ? (-15 - z) : (z - 45);
-            const bank = distFromBank * 0.15;
-            return (bank < 6.5 ? bank : 6.5) + Math.sin(x * 0.04) * 0.6;
-          }
+        if (z <= 16) {
+          if (z < 0 && (x < 0 ? -x : x) < 22) return 1.0;
+          return 0.5;
+        }
+        if (z > 16 && z <= 28) {
+          const stepRatio = (z - 16) / 12;
+          return 0.5 - stepRatio * 0.45;
+        }
+        return 0.05 + Math.sin(x * 0.04) * 0.1;
+      }
           case 'jungle': {
             const r1 = Math.sin(x * 0.038) * Math.cos(z * 0.038) * 8.0;
             const r2 = Math.sin(x * 0.072 + 0.5) * 3.4;
@@ -2049,33 +2054,37 @@
       }
 
       onRealmChanged(realmData) {
-        this.currentRealm = realmData;
-        const env = (realmData && realmData.environment) || {};
-        const biome = env.biome || 'sanctuary';
+    this.currentRealm = realmData;
+    const env = (realmData && realmData.environment) || {};
+    const biome = env.biome || 'sanctuary';
 
-        if (biome === 'cosmic') {
-          if (this.mode === 'first_person') {
-            this.setMode('free_fly');
-          }
-          if (this.camera && Math.abs(this.camera.position.y) < 1.0) {
-            if (typeof this.camera.position.set === 'function') {
-              this.camera.position.set(0, 5, 25);
-            } else {
-              this.camera.position.x = 0;
-              this.camera.position.y = 5;
-              this.camera.position.z = 25;
-            }
-          }
-          return;
-        }
+    if (realmData && (realmData.id === 'ayodhya-ram-mandir' || (realmData.tags && realmData.tags.includes('ram')))) {
+      this.teleport(0, 2.3, 16, 0, 0.05);
+      this.velocity.x = 0;
+      this.velocity.y = 0;
+      this.velocity.z = 0;
+      this.isGrounded = true;
+      return;
+    }
 
-        if (this.mode === 'first_person' && this.camera) {
-          const groundY = this.getGroundHeight(this.camera.position.x, this.camera.position.z);
-          this.camera.position.y = groundY + this.eyeHeight;
-          this.velocity.y = 0;
-          this.isGrounded = true;
-        }
+    if (biome === 'cosmic') {
+      if (this.mode === 'first_person') {
+        this.setMode('free_fly');
       }
+      this.teleport(0, 5, 25, 0, 0);
+      return;
+    }
+
+    const groundY = this.getGroundHeight(this.camera ? this.camera.position.x : 0, this.camera ? this.camera.position.z : 16);
+    const startY = Math.max(1.8, groundY + this.eyeHeight);
+    if (this.camera && this.camera.position) {
+      if (this.camera.position.y < startY) {
+        this.camera.position.y = startY;
+      }
+    }
+    this.velocity.y = 0;
+    this.isGrounded = true;
+  }
 
       update(delta) {
         if (this.mode === 'orbit') {
@@ -3359,7 +3368,7 @@
           riverGeo,
           new THREE.MeshStandardMaterial({ color: 0x050812, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.6 })
         );
-        sarayuRiverMesh.position.y = -0.5;
+        sarayuRiverMesh.position.set(0, -0.4, 45);
         scene.add(sarayuRiverMesh);
         realmObjects.push(sarayuRiverMesh);
 
@@ -3368,7 +3377,7 @@
         for (let i = 0; i < 80; i++) {
           const diya = createDiyaMesh(
             (Math.random() - 0.5) * 85,
-            -10 + (Math.random() - 0.5) * 60
+            32 + Math.random() * 30
           );
           floatingDiyas.push({ mesh: diya, seed: Math.random() * 20 });
         }
@@ -7139,9 +7148,9 @@
           biome: 'sacred_river',
           hasWaterBody: true,
           festiveContext: true,
-          skyColor: 0x1a0f05,
-          sunPosition: [100, 45, 80],
-          fogDensity: 0.002,
+          skyColor: 0x2e1808,
+          sunPosition: [100, 55, 80],
+          fogDensity: 0.0008,
           terrainPreset: 'riverbank'
         };
       } else if (p.includes('waterfall') || p.includes('bed') || p.includes('river') || p.includes('slip') || p.includes('sleep') || p.includes('natural') || p.includes('netural') || p.includes('grace')) {
