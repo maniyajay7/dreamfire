@@ -4061,25 +4061,21 @@
     }
 
     function createDevoteeFigureGeometry(T) {
-      const LatheGeoClass = T.LatheGeometry || class extends T.BufferGeometry {
-        constructor() {
-          super();
-          this.setAttribute('position', new T.BufferAttribute(new Float32Array(88 * 3), 3));
-        }
-      };
-      const Vector2Class = T.Vector2 || class { constructor(x, y) { this.x = x; this.y = y; } };
-
+      const { Vector2, LatheGeometry } = (typeof getThreeHelpers === 'function' ? getThreeHelpers(T) : T);
       const points = [];
-      points.push(new Vector2Class(0.01, 0.00));
-      points.push(new Vector2Class(0.38, 0.04));
-      points.push(new Vector2Class(0.34, 0.45));
-      points.push(new Vector2Class(0.23, 0.95));
-      points.push(new Vector2Class(0.32, 1.38));
-      points.push(new Vector2Class(0.13, 1.58));
-      points.push(new Vector2Class(0.19, 1.74));
-      points.push(new Vector2Class(0.01, 1.90));
+      points.push(new (Vector2 || T.Vector2)(0.02, 0.00));
+      points.push(new (Vector2 || T.Vector2)(0.36, 0.05));
+      points.push(new (Vector2 || T.Vector2)(0.32, 0.40));
+      points.push(new (Vector2 || T.Vector2)(0.24, 0.85));
+      points.push(new (Vector2 || T.Vector2)(0.35, 1.25));
+      points.push(new (Vector2 || T.Vector2)(0.38, 1.42));
+      points.push(new (Vector2 || T.Vector2)(0.14, 1.58));
+      points.push(new (Vector2 || T.Vector2)(0.20, 1.72));
+      points.push(new (Vector2 || T.Vector2)(0.18, 1.84));
+      points.push(new (Vector2 || T.Vector2)(0.04, 1.92));
+      points.push(new (Vector2 || T.Vector2)(0.01, 1.95));
 
-      const geo = new LatheGeoClass(points, 10);
+      const geo = new (LatheGeometry || T.LatheGeometry)(points, 16);
       if (geo.computeVertexNormals) geo.computeVertexNormals();
       return geo;
     }
@@ -4240,7 +4236,7 @@
 
       for (let r = 0; r < 8; r++) {
         const z = -8.5 + r * 1.45;
-        [-2.2, 2.2].forEach((x, colIdx) => {
+        [-3.8, 3.8].forEach((x, colIdx) => {
           const angle = Math.atan2(SANCTUM_X - x, SANCTUM_Z - z);
           devoteeSpecs.push({
             x: x, y: 0.58, z: z,
@@ -4320,7 +4316,24 @@
       const totalAartiLamps = aartiDevoteeIndices.length;
 
       const devoteeGeo = createDevoteeFigureGeometry(T);
-      const devoteeMat = new T.MeshStandardMaterial({ roughness: 0.75, metalness: 0.12 });
+      let devoteeTex = null;
+      if (typeof document !== 'undefined') {
+        try {
+          const loader = new T.TextureLoader();
+          devoteeTex = loader.load('public/assets/images/aarti_devotees_real.jpg');
+          if (devoteeTex) {
+            devoteeTex.wrapS = T.RepeatWrapping || 1000;
+            devoteeTex.wrapT = T.RepeatWrapping || 1000;
+            devoteeTex.repeat.set(1, 1);
+          }
+        } catch {}
+      }
+      const devoteeMat = new T.MeshStandardMaterial({
+        color: 0xffffff,
+        map: devoteeTex,
+        roughness: 0.72,
+        metalness: 0.05
+      });
       const devoteesMesh = new InstancedMeshClass(devoteeGeo, devoteeMat, totalDevotees);
       devoteesMesh.name = 'devotees_instanced_mesh';
       devoteesMesh.castShadow = true;
@@ -4336,7 +4349,7 @@
         saffron: [new T.Color(0xea580c), new T.Color(0xf97316), new T.Color(0xfb923c), new T.Color(0xc2410c)],
         amberGold: [new T.Color(0xf59e0b), new T.Color(0xd97706), new T.Color(0xeab308)],
         maroonKumkum: [new T.Color(0x991b1b), new T.Color(0x881337), new T.Color(0x7f1d1d)],
-        silks: [new T.Color(0x0284c7), new T.Color(0x059669), new T.Color(0xbe123c)]
+        silks: [new T.Color(0xfef3c7), new T.Color(0xd97706), new T.Color(0x991b1b)]
       };
 
       const dummyDevotee = (T.Object3D ? new T.Object3D() : {});

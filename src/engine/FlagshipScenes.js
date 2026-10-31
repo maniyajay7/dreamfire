@@ -871,16 +871,19 @@ export function createAartiDeepastambhas(T, options = {}) {
 export function createDevoteeFigureGeometry(T) {
   const { Vector2, LatheGeometry } = getThreeHelpers(T);
   const points = [];
-  points.push(new Vector2(0.01, 0.00));  // Base ground anchor
-  points.push(new Vector2(0.38, 0.04));  // Hem of robe
-  points.push(new Vector2(0.34, 0.45));  // Lower robe flare
-  points.push(new Vector2(0.23, 0.95));  // Tapered waist / sash
-  points.push(new Vector2(0.32, 1.38));  // Shoulders and draped shawl
-  points.push(new Vector2(0.13, 1.58));  // Neck
-  points.push(new Vector2(0.19, 1.74));  // Head center
-  points.push(new Vector2(0.01, 1.90));  // Crown of head
+  points.push(new Vector2(0.02, 0.00));
+  points.push(new Vector2(0.36, 0.05));
+  points.push(new Vector2(0.32, 0.40));
+  points.push(new Vector2(0.24, 0.85));
+  points.push(new Vector2(0.35, 1.25));
+  points.push(new Vector2(0.38, 1.42));
+  points.push(new Vector2(0.14, 1.58));
+  points.push(new Vector2(0.20, 1.72));
+  points.push(new Vector2(0.18, 1.84));
+  points.push(new Vector2(0.04, 1.92));
+  points.push(new Vector2(0.01, 1.95));
 
-  const geo = new LatheGeometry(points, 10);
+  const geo = new LatheGeometry(points, 16);
   if (geo.computeVertexNormals) geo.computeVertexNormals();
   return geo;
 }
@@ -1047,7 +1050,7 @@ export function createDevoteeCrowdSimulation(ThreeInstance, arg2, arg3, arg4) {
   // Central Priest Aisle (2 rows x 8 = 16 priests in pure white robes)
   for (let r = 0; r < 8; r++) {
     const z = -8.5 + r * 1.45;
-    [-2.2, 2.2].forEach((x, colIdx) => {
+    [-3.8, 3.8].forEach((x, colIdx) => {
       const angle = Math.atan2(SANCTUM_X - x, SANCTUM_Z - z);
       devoteeSpecs.push({
         x: x, y: 0.58, z: z,
@@ -1130,9 +1133,23 @@ export function createDevoteeCrowdSimulation(ThreeInstance, arg2, arg3, arg4) {
 
   // 2. Instanced Mesh Construction
   const devoteeGeo = createDevoteeFigureGeometry(T);
+  let devoteeTex = null;
+  if (typeof document !== 'undefined') {
+    try {
+      const loader = new T.TextureLoader();
+      devoteeTex = loader.load('public/assets/images/aarti_devotees_real.jpg');
+      if (devoteeTex) {
+        devoteeTex.wrapS = T.RepeatWrapping || 1000;
+        devoteeTex.wrapT = T.RepeatWrapping || 1000;
+        devoteeTex.repeat.set(1, 1);
+      }
+    } catch {}
+  }
   const devoteeMat = new T.MeshStandardMaterial({
-    roughness: 0.75,
-    metalness: 0.12
+    color: 0xffffff,
+    map: devoteeTex,
+    roughness: 0.72,
+    metalness: 0.05
   });
   const devoteesMesh = new InstancedMesh(devoteeGeo, devoteeMat, totalDevotees);
   devoteesMesh.name = 'devotees_instanced_mesh';
@@ -1154,7 +1171,7 @@ export function createDevoteeCrowdSimulation(ThreeInstance, arg2, arg3, arg4) {
     saffron: [new T.Color(0xea580c), new T.Color(0xf97316), new T.Color(0xfb923c), new T.Color(0xc2410c)],
     amberGold: [new T.Color(0xf59e0b), new T.Color(0xd97706), new T.Color(0xeab308)],
     maroonKumkum: [new T.Color(0x991b1b), new T.Color(0x881337), new T.Color(0x7f1d1d)],
-    silks: [new T.Color(0x0284c7), new T.Color(0x059669), new T.Color(0xbe123c)]
+    silks: [new T.Color(0xfef3c7), new T.Color(0xd97706), new T.Color(0x991b1b)]
   };
 
   const dummyDevotee = (T.Object3D ? new T.Object3D() : {});
