@@ -2113,27 +2113,8 @@
         };
 
         if (this.camera) {
-          if (typeof this.camera.lookAt === 'function') {
-            this.camera.lookAt(
-              this.camera.position.x + lookDir.x,
-              this.camera.position.y + lookDir.y,
-              this.camera.position.z + lookDir.z
-            );
-          }
-          if (this.camera.rotation) {
-            this.camera.rotation.x = this.pitch;
-            this.camera.rotation.y = this.yaw;
-            this.camera.rotation.z = 0;
-          }
-          if (this.camera.quaternion && typeof this.camera.quaternion.set === 'function') {
-            const halfYaw = this.yaw * 0.5;
-            const halfPitch = this.pitch * 0.5;
-            const cy = Math.cos(halfYaw);
-            const sy = Math.sin(halfYaw);
-            const cp = Math.cos(halfPitch);
-            const sp = Math.sin(halfPitch);
-            this.camera.quaternion.set(sp * cy, cp * sy, -sp * sy, cp * cy);
-          }
+          this.camera.rotation.order = 'YXZ';
+          this.camera.rotation.set(this.pitch, this.yaw, 0);
         }
 
         let inputForward = 0;
@@ -2218,8 +2199,8 @@
             this.velocity.y = 0;
             this.isGrounded = true;
           } else {
-            if (this.camera) this.camera.position.y = nextY;
-            this.isGrounded = false;
+            if (this.camera) this.camera.position.y = Math.max(nextY, targetEyeY);
+            this.isGrounded = (this.camera && this.camera.position.y <= targetEyeY + 0.05);
           }
         } else if (this.mode === 'free_fly') {
           const targetVy = inputUp * speed;
@@ -3113,20 +3094,22 @@
         for (let i = 0; i < pos.count; i++) {
           const x = pos.getX(i);
           const z = pos.getZ(i);
-          let y = 0;
-          if (z > -15 && z < 45) {
-            y = -2.2;
+          let y = 0.5;
+          if (z <= 12) {
+            y = 0.5;
+          } else if (z > 12 && z <= 28) {
+            const stepRatio = (z - 12) / 16;
+            y = 0.5 - stepRatio * 0.45;
           } else {
-            const distFromBank = z <= -15 ? (-15 - z) : (z - 45);
-            y = Math.min(6.5, distFromBank * 0.15) + Math.sin(x * 0.04) * 0.6;
+            y = 0.05 + Math.sin(x * 0.04) * 0.05;
           }
           pos.setY(i, y);
         }
         terrainMat = new THREE.MeshStandardMaterial({
-          color: 0x786c5e,
-          roughness: 0.8,
-          metalness: 0.1,
-          flatShading: true
+          color: 0xc8987a,
+          roughness: 0.75,
+          metalness: 0.06,
+          flatShading: false
         });
 
       } else {
@@ -3154,7 +3137,8 @@
       group.add(terrainMesh);
 
       if (biome === 'sacred_river' || env.hasWaterBody) {
-        const waterGeo = new THREE.PlaneGeometry(240, 160, 32, 32);
+        // Place river strictly at the ghat foot (z >= 32)
+        const waterGeo = new THREE.PlaneGeometry(240, 120, 32, 32);
         waterGeo.rotateX(-Math.PI / 2);
         const origWaterY = new Float32Array(waterGeo.attributes.position.array);
         const waterMat = new THREE.MeshStandardMaterial({
@@ -3165,7 +3149,7 @@
           opacity: 0.72
         });
         const waterMesh = new THREE.Mesh(waterGeo, waterMat);
-        waterMesh.position.set(0, -0.4, 15);
+        waterMesh.position.set(0, -0.4, 60);
         waterMesh.name = 'water_plane';
         waterMesh.receiveShadow = true;
         group.add(waterMesh);
@@ -3416,9 +3400,9 @@
           }
 
           floatingDiyas.forEach(item => {
-            item.mesh.position.y = Math.sin(time * 2 + item.seed) * 0.08;
+            item.mesh.position.y = -0.38 + Math.sin(time * 2 + item.seed) * 0.04;
             item.mesh.position.z += 0.6 * delta;
-            if (item.mesh.position.z > 30) item.mesh.position.z = -35;
+            if (item.mesh.position.z > 85) item.mesh.position.z = 34;
           });
 
           lanterns.forEach(item => {
@@ -3504,7 +3488,26 @@
         btn.className = 'px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:border-amber-400 hover:bg-amber-500/20 text-white text-xs font-semibold transition cursor-pointer';
         btn.innerText = p.name;
         btn.onclick = () => {
-          setCameraViewpoint(p.yaw, p.pitch, p.zoom);
+          if (p.name === 'Devotee Crowd & Aarti') {
+            if (navigationEngine) navigationEngine.teleport(0, 2.3, 14, 0, -0.05);
+          } else if (p.name === 'Grand Ram Mandir Spires') {
+            if (navigationEngine) navigationEngine.teleport(0, 3.5, 26, 0, 0.28);
+          } else if (p.name === 'Sanctum Darshan of Lord Ram') {
+            if (navigationEngine) navigationEngine.teleport(0, 2.3, -8, 0, 0.0);
+          } else if (p.name === 'Sarayu River Water Level') {
+            if (navigationEngine) navigationEngine.teleport(0, 1.8, 30, 0, -0.15);
+          } else if (p.name === '360 Free Orbit') {
+            if (navigationEngine) {
+              navigationEngine.setMode('orbit');
+              if (controls) {
+                controls.target.set(0, 6, -15);
+                camera.position.set(0, 18, 35);
+                controls.update();
+              }
+            }
+          } else {
+            setCameraViewpoint(p.yaw, p.pitch, p.zoom);
+          }
           showToast('Viewpoint: ' + p.name);
           if (p.name === 'Lie on Transparent Bed') {
             const bed = scene.getObjectByName('transparent_crystal_float_bed');
@@ -4071,20 +4074,55 @@
 
     function createDevoteeFigureGeometry(T) {
       const { Vector2, LatheGeometry } = (typeof getThreeHelpers === 'function' ? getThreeHelpers(T) : T);
-      const points = [];
-      points.push(new (Vector2 || T.Vector2)(0.02, 0.00));
-      points.push(new (Vector2 || T.Vector2)(0.36, 0.05));
-      points.push(new (Vector2 || T.Vector2)(0.32, 0.40));
-      points.push(new (Vector2 || T.Vector2)(0.24, 0.85));
-      points.push(new (Vector2 || T.Vector2)(0.35, 1.25));
-      points.push(new (Vector2 || T.Vector2)(0.38, 1.42));
-      points.push(new (Vector2 || T.Vector2)(0.14, 1.58));
-      points.push(new (Vector2 || T.Vector2)(0.20, 1.72));
-      points.push(new (Vector2 || T.Vector2)(0.18, 1.84));
-      points.push(new (Vector2 || T.Vector2)(0.04, 1.92));
-      points.push(new (Vector2 || T.Vector2)(0.01, 1.95));
+      const V2 = Vector2 || T.Vector2;
+      const points = [
+        new V2(0.02, 0.00),
+        new V2(0.36, 0.06), // Pleated dhoti hem
+        new V2(0.32, 0.35), // Knee
+        new V2(0.24, 0.75), // Waist
+        new V2(0.28, 0.95), // Angavastram silk sash
+        new V2(0.36, 1.20), // Lower chest
+        new V2(0.42, 1.36), // Folded hands (Anjali Mudra / Aarti hold)
+        new V2(0.44, 1.48), // Broad shoulders
+        new V2(0.38, 1.54), // Clavicle slope
+        new V2(0.14, 1.60), // Neck
+        new V2(0.18, 1.68), // Chin
+        new V2(0.20, 1.76), // Face
+        new V2(0.22, 1.84), // Pagri / Turban base
+        new V2(0.18, 1.90), // Turban crown
+        new V2(0.04, 1.94), // Turban crest
+        new V2(0.01, 1.96)  // Peak
+      ];
 
       const geo = new (LatheGeometry || T.LatheGeometry)(points, 16);
+      if (geo.attributes && geo.attributes.position) {
+        const pos = geo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const y = pos.getY(i);
+          const z = pos.getZ(i);
+
+          let widthScale = 1.0;
+          let depthScale = 1.0;
+          if (y >= 0.70 && y <= 1.58) {
+            widthScale = 1.25; // 25% broader shoulders & torso
+            depthScale = 0.58; // Flat front-to-back profile (not a round bowling pin!)
+          } else if (y < 0.70) {
+            widthScale = 1.10;
+            depthScale = 0.85;
+          }
+
+          let newX = x * widthScale;
+          let newZ = z * depthScale;
+
+          // Raised hands in prayer protruding forward (+Z)
+          if (y >= 1.15 && y <= 1.38 && z > 0) {
+            newZ += 0.12 * Math.sin(((y - 1.15) / 0.23) * Math.PI);
+          }
+
+          pos.setXYZ(i, newX, y, newZ);
+        }
+      }
       if (geo.computeVertexNormals) geo.computeVertexNormals();
       return geo;
     }

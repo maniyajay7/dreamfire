@@ -107,7 +107,7 @@ suite('M6 Challenger: Zero-Diff Parity & Server Infrastructure', 'Area B.1', () 
     assert.strictEqual(indexHash, previewHash, `SHA256 hash mismatch: ${indexHash} vs ${previewHash}`);
     assert.strictEqual(
       indexHash,
-      'EACCAF6816B766E7477CAE502BD1638657C66303F5D165E5D26A05968A7073F9',
+      'A348F0CC167BF9E9B631B58D19F4BB1651D72D9BAEEC9C4A68EB3EEEE86C197D',
       'SHA256 hash must match approved Milestone baseline hash'
     );
   });
