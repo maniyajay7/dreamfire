@@ -50,3 +50,99 @@ export interface UserProfile {
   cosmicSign: string;
   timestamp: string;
 }
+
+
+/**
+ * DreamFire - Environmental Classification Schema
+ * Contract between Realm Catalog (M1) and 3D Scene / Contextual Managers (M2, M3, M5)
+ */
+
+export type BiomeType = 
+  | 'sacred_river'
+  | 'temple'
+  | 'desert'
+  | 'glacial'
+  | 'cosmic'
+  | 'cyber'
+  | 'jungle'
+  | 'sanctuary';
+
+export type RealmCategory = 
+  | 'Sacred & Spiritual'
+  | 'Nature & Retreat'
+  | 'Cosmic Odyssey'
+  | 'Cyberpunk & Sci-Fi'
+  | 'Ancient Wonders'
+  | 'Zen Meditation';
+
+export type TerrainPreset =
+  | 'riverbank'
+  | 'temple_courtyard'
+  | 'sand_dunes'
+  | 'glacial_peaks'
+  | 'cosmic_void'
+  | 'cyber_grid'
+  | 'waterfall_lagoon'
+  | 'ocean_shore'
+  | 'sanctuary_valley'
+  | 'rocky_canyon'
+  | 'meadow_plateau'
+  | 'stone_pavement'
+  | 'salt_flat'
+  | 'zen_gravel';
+
+export interface EnvironmentConfig {
+  biome: BiomeType;
+  hasWaterBody: boolean;
+  festiveContext: boolean;
+  skyColor: number;
+  sunPosition: [number, number, number];
+  fogDensity: number;
+  terrainPreset: TerrainPreset | string;
+}
+
+export interface RealmData {
+  id: string;
+  title: string;
+  category: RealmCategory;
+  tagline: string;
+  description: string;
+  bgImage: string;
+  videoLoop?: string;
+  soundscape: string;
+  tags: string[];
+  soulsVisiting: number;
+  resonance: string;
+  environment: EnvironmentConfig;
+}
+
+export const canSpawnDiyas = (realm: RealmData): boolean => {
+  return realm.environment.festiveContext === true && realm.environment.hasWaterBody === true;
+};
+
+/**
+ * Interface Contract 3: Prompt Mutation Parameters (M5)
+ */
+export interface PromptMutationParams {
+  timeOfDay?: 'dawn' | 'noon' | 'sunset' | 'twilight' | 'midnight';
+  lighting?: {
+    sunColor?: number;
+    ambientIntensity?: number;
+    sunAngle?: number;
+  };
+  atmosphere?: {
+    fogColor?: number;
+    fogDensity?: number;
+    weather?: 'clear' | 'mist' | 'rain' | 'aurora' | 'cyber_dust';
+  };
+  terrain?: {
+    biome?: string;
+    elevationScale?: number;
+    wireframe?: boolean;
+  };
+  entities?: {
+    spawnType?: 'diyas' | 'lanterns' | 'devotees' | 'neon_spires' | 'crystals';
+    countDelta?: number;
+  };
+}
+

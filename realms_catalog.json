@@ -1,0 +1,3723 @@
+[
+  {
+    "id": "ayodhya-ram-mandir",
+    "title": "Ayodhya Shri Ram Janmabhoomi Mandir",
+    "category": "Sacred & Spiritual",
+    "tagline": "Where a million golden flames illuminate the eternal return of Lord Ram",
+    "description": "The sacred epicentre of Diwali. Towering pink sandstone Nagara spires, sanctum darshan of Lord Ram with Kodanda bow, and hundreds of priests performing synchronized Maha Aarti on the Sarayu ghats.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ayodhya_sacred.mp4",
+    "soundscape": "Temple Bells & 432Hz Vedic Om",
+    "tags": [
+      "ram",
+      "lord ram",
+      "ayodhya",
+      "mandir",
+      "temple",
+      "aarti",
+      "prayer",
+      "devotee",
+      "crowd",
+      "sarayu",
+      "diwali",
+      "god",
+      "puja"
+    ],
+    "soulsVisiting": 1248900,
+    "resonance": "99.9%",
+    "environment": {
+      "biome": "sacred_river",
+      "hasWaterBody": true,
+      "festiveContext": true,
+      "skyColor": 1707781,
+      "sunPosition": [
+        100,
+        45,
+        80
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "varanasi-maha-aarti",
+    "title": "Varanasi Dashashwamedh Ghat Maha Aarti",
+    "category": "Sacred & Spiritual",
+    "tagline": "River of eternity dancing with multi-tiered brass fires",
+    "description": "Seven white-robed priests moving in hypnotic unison, holding blazing multi-tiered brass Aarti lamps against the midnight waters of Mother Ganga as thousands chant from wooden boats.",
+    "bgImage": "public/assets/images/aarti_devotees_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Shankhnaad, Resonant Chimes & Holy River Flow",
+    "tags": [
+      "ganga",
+      "aarti",
+      "varanasi",
+      "priest",
+      "fire",
+      "flame",
+      "ghat",
+      "prayer",
+      "river",
+      "devotion",
+      "kashi"
+    ],
+    "soulsVisiting": 985200,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "sacred_river",
+      "hasWaterBody": true,
+      "festiveContext": true,
+      "skyColor": 854804,
+      "sunPosition": [
+        50,
+        30,
+        -100
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "kedarnath-himalayan-peak",
+    "title": "Kedarnath Snowy Temple of Shiva",
+    "category": "Sacred & Spiritual",
+    "tagline": "Ancient stone sanctum beneath towering glacial pinnacles",
+    "description": "Carved stone sanctum standing resolute at 11,755 feet against the sheer icy face of Kedarnath Peak. Sacred bells echo across frozen mountain passes under the star-studded Milky Way.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Glacial Wind, Tibetan Singing Bowls & Damru Resonance",
+    "tags": [
+      "kedarnath",
+      "shiva",
+      "snow",
+      "mountain",
+      "himalaya",
+      "glacier",
+      "pilgrimage",
+      "cold",
+      "stone temple"
+    ],
+    "soulsVisiting": 742100,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "glacial",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 330264,
+      "sunPosition": [
+        -60,
+        80,
+        -90
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "golden-temple-amritsar",
+    "title": "Harmandir Sahib (The Golden Temple)",
+    "category": "Sacred & Spiritual",
+    "tagline": "Gilded sanctuary floating upon the nectar of immortality",
+    "description": "Shimmering 24-karat gold sanctum reflecting across the still, sacred Amrit Sarovar lake. Continuous Gurbani Kirtan melodies dissolve all earthly anxieties into peace.",
+    "bgImage": "public/assets/images/golden_temple_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Sacred Gurbani Harmonium & Water Reflections",
+    "tags": [
+      "golden temple",
+      "amritsar",
+      "sikh",
+      "gold",
+      "sarovar",
+      "peace",
+      "lake",
+      "kirtan"
+    ],
+    "soulsVisiting": 889300,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": true,
+      "festiveContext": true,
+      "skyColor": 1314846,
+      "sunPosition": [
+        80,
+        60,
+        50
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "mount-kailash-sanctum",
+    "title": "Mount Kailash & Lake Manasarovar",
+    "category": "Sacred & Spiritual",
+    "tagline": "The diamond pillar axis mundi of planet Earth",
+    "description": "The unclimbed four-sided pyramidal diamond peak crowned with eternal snows. Sacred turquoise waters of Manasarovar reflect celestial alignments of planetary gods.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "High Altitude Wind & Deep Om Drone (108Hz)",
+    "tags": [
+      "kailash",
+      "shiva",
+      "mountain",
+      "snow",
+      "sacred peak",
+      "tibet",
+      "manasarovar",
+      "cosmos"
+    ],
+    "soulsVisiting": 612400,
+    "resonance": "99.8%",
+    "environment": {
+      "biome": "glacial",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 198162,
+      "sunPosition": [
+        0,
+        90,
+        -120
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "angkor-wat-sunrise",
+    "title": "Angkor Wat Lotus Tower Dawn",
+    "category": "Sacred & Spiritual",
+    "tagline": "Ancient Khmer stone lotus towers crowned in golden dawn light",
+    "description": "Reflective pools mirroring five carved stone towers rising above lush jungle mists. Monks in saffron robes walking ancient stone corridors bathed in morning sunlight.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Morning Jungle Chants & Distant Gongs",
+    "tags": [
+      "angkor wat",
+      "cambodia",
+      "temple",
+      "sunrise",
+      "lotus",
+      "monk",
+      "ancient",
+      "jungle"
+    ],
+    "soulsVisiting": 541200,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 3020816,
+      "sunPosition": [
+        120,
+        25,
+        40
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "tirupati-balaji-sanctum",
+    "title": "Tirupati Venkateswara Seven Hills",
+    "category": "Sacred & Spiritual",
+    "tagline": "The wish-fulfilling Lord of the Kali Yuga atop Seshachalam",
+    "description": "Golden Ananda Nilayam vimana radiating divine vibrations across sacred forested hills. The smell of camphor, crushed rose garlands, and pure ghee deepams.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Vedic Suprabhatam & Gold Bell Chimes",
+    "tags": [
+      "tirupati",
+      "balaji",
+      "venkateswara",
+      "vishnu",
+      "hills",
+      "gold",
+      "prasadam",
+      "prayer"
+    ],
+    "soulsVisiting": 812900,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": true,
+      "skyColor": 1839880,
+      "sunPosition": [
+        90,
+        50,
+        70
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "somnath-ocean-temple",
+    "title": "Somnath Shore Temple of the Eternal Sea",
+    "category": "Sacred & Spiritual",
+    "tagline": "Where sacred Jyotirlinga meets roaring Arabian sea waves",
+    "description": "Massive sandstone pillars standing against the crashing ocean surf. A pillar marks an unobstructed sea route stretching all the way to Antarctica.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Crashing Ocean Waves & Evening Conch Horns",
+    "tags": [
+      "somnath",
+      "shiva",
+      "ocean",
+      "sea temple",
+      "jyotirlinga",
+      "waves",
+      "gujarat"
+    ],
+    "soulsVisiting": 678400,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 660516,
+      "sunPosition": [
+        -100,
+        35,
+        60
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "madurai-meenakshi-amman",
+    "title": "Madurai Meenakshi Amman Thousand Pillar Hall",
+    "category": "Sacred & Spiritual",
+    "tagline": "Towering gopurams of painted deities and cosmic architecture",
+    "description": "Twelve towering rainbow gopurams reaching toward the sky, holding thousands of carved deities. Inside, the golden lotus pond reflects flickering lamps.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Nadaswaram Melodies & Temple Drums",
+    "tags": [
+      "meenakshi",
+      "madurai",
+      "temple",
+      "gopuram",
+      "goddess",
+      "pillars",
+      "ancient south"
+    ],
+    "soulsVisiting": 729100,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": true,
+      "festiveContext": true,
+      "skyColor": 1707288,
+      "sunPosition": [
+        60,
+        70,
+        40
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "badrinath-alaknanda-sanctum",
+    "title": "Badrinath Along the Rushing Alaknanda",
+    "category": "Sacred & Spiritual",
+    "tagline": "Colorful Himalayan refuge between Nar and Narayana peaks",
+    "description": "Brightly painted wooden temple facade contrasting with jagged granite peaks. Hot sulfur spring steam rises into crisp alpine air beside the rushing glacier river.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Rushing Alaknanda River & Evening Aarti Bells",
+    "tags": [
+      "badrinath",
+      "vishnu",
+      "himalayas",
+      "river",
+      "hot springs",
+      "mountain shrine"
+    ],
+    "soulsVisiting": 598000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "sacred_river",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 791584,
+      "sunPosition": [
+        -80,
+        60,
+        -50
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "vrindavan-banke-bihari",
+    "title": "Vrindavan Yamuna Riverbank of Love",
+    "category": "Sacred & Spiritual",
+    "tagline": "Where peacock feathers and flute melodies heal every heart",
+    "description": "Ancient kadamba groves along the Yamuna river at twilight. Golden boat lanterns drifting under full autumn moonlight as sweet flute melodies float through the air.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Bansuri Bamboo Flute & River Ripple Chimes",
+    "tags": [
+      "krishna",
+      "vrindavan",
+      "flute",
+      "yamuna",
+      "peacock",
+      "love",
+      "bhakti",
+      "sweet"
+    ],
+    "soulsVisiting": 914000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "sacred_river",
+      "hasWaterBody": true,
+      "festiveContext": true,
+      "skyColor": 1445922,
+      "sunPosition": [
+        40,
+        40,
+        -80
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "mount-athos-monastery",
+    "title": "Mount Athos Cliffside Monastery",
+    "category": "Sacred & Spiritual",
+    "tagline": "Byzantine monasteries clinging to sheer Aegean cliffs",
+    "description": "Thousand-year-old stone fortresses perched hundreds of feet above crashing turquoise Aegean waters. Orthodox incense and candlelight illuminate ancient golden icons.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Byzantine Chanting & Aegean Sea Breeze",
+    "tags": [
+      "athos",
+      "monastery",
+      "orthodox",
+      "cliff",
+      "sea",
+      "ancient",
+      "greece",
+      "incense"
+    ],
+    "soulsVisiting": 421000,
+    "resonance": "98.6%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1186600,
+      "sunPosition": [
+        -90,
+        40,
+        70
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "fushimi-inari-thousand-gates",
+    "title": "Fushimi Inari Vermilion Forest",
+    "category": "Sacred & Spiritual",
+    "tagline": "Endless red torii gates winding up sacred Mount Inari",
+    "description": "Over ten thousand vibrant vermilion torii gates creating magical crimson tunnels through dense green cedar forests. Stone fox spirits watch over mossy mountain shrines.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Rustling Cedar Leaves & Japanese Wind Chimes",
+    "tags": [
+      "inari",
+      "shinto",
+      "japan",
+      "torii gates",
+      "kyoto",
+      "forest shrine",
+      "red gates"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1774360,
+      "sunPosition": [
+        30,
+        45,
+        60
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "sanctuary_valley"
+    }
+  },
+  {
+    "id": "shwedagon-pagoda-gold",
+    "title": "Shwedagon Golden Spire of Yangon",
+    "category": "Sacred & Spiritual",
+    "tagline": "A 325-foot stupa plated in genuine gold and thousands of diamonds",
+    "description": "A blazing beacon of gold towering into the night sky, topped with a 76-carat diamond. Thousands of oil lamps flicker around marble terraces as pilgrims walk barefoot.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Bronze Prayer Bells & Soft Pali Chanting",
+    "tags": [
+      "pagoda",
+      "gold",
+      "shwedagon",
+      "buddha",
+      "myanmar",
+      "diamonds",
+      "oil lamps"
+    ],
+    "soulsVisiting": 512000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": true,
+      "skyColor": 1708552,
+      "sunPosition": [
+        70,
+        65,
+        50
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "st-peters-vatican-dawn",
+    "title": "St. Peter's Basilica Golden Nave",
+    "category": "Sacred & Spiritual",
+    "tagline": "Michelangelo's monumental dome bathed in celestial morning light",
+    "description": "Gigantic shafts of morning sunlight piercing high baroque clerestory windows down to the bronze Baldacchino altar. Renaissance sacred polyphony fills the cathedral.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Cathedral Pipe Organ & Renaissance Choral Harmonies",
+    "tags": [
+      "vatican",
+      "basilica",
+      "rome",
+      "dome",
+      "cathedral",
+      "renaissance",
+      "monumental"
+    ],
+    "soulsVisiting": 631000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2234900,
+      "sunPosition": [
+        100,
+        50,
+        30
+      ],
+      "fogDensity": 0.0018,
+      "terrainPreset": "stone_pavement"
+    }
+  },
+  {
+    "id": "buddha-dordenma-thimphu",
+    "title": "Great Buddha Dordenma of Bhutan",
+    "category": "Sacred & Spiritual",
+    "tagline": "Giant 169-foot bronze Buddha overlooking the Himalayan Kingdom",
+    "description": "Colossal seated bronze and gold Buddha statue sitting atop a ridge in Bhutan, containing 125,000 smaller gilded Buddhas within. Mountain pine air carries fluttering prayer flags.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Himalayan Horns & Mountain Breeze",
+    "tags": [
+      "bhutan",
+      "buddha",
+      "bronze",
+      "gold",
+      "himalaya",
+      "peace",
+      "thimphu"
+    ],
+    "soulsVisiting": 489000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 989221,
+      "sunPosition": [
+        -50,
+        75,
+        -60
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "borobudur-lotus-sunrise",
+    "title": "Borobudur Stupas Above Morning Mist",
+    "category": "Sacred & Spiritual",
+    "tagline": "World's largest Buddhist temple rising above volcanic jungle valleys",
+    "description": "Three tiers of perforated stone stupas holding seated Buddhas, looking out across lush volcanic valleys shrouded in morning mist as the sunrise turns the sky into gold.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Gamelan Bronze Chimes & Jungle Birds",
+    "tags": [
+      "borobudur",
+      "java",
+      "buddha",
+      "stupa",
+      "sunrise",
+      "volcano",
+      "mist"
+    ],
+    "soulsVisiting": 567000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2496784,
+      "sunPosition": [
+        110,
+        30,
+        40
+      ],
+      "fogDensity": 0.0045,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "rann-of-kutch-moonlight",
+    "title": "White Desert of Kutch Full Moon Temple",
+    "category": "Sacred & Spiritual",
+    "tagline": "Infinite expanse of pure white salt glistening under lunar light",
+    "description": "A vast blinding white salt desert stretching to the horizon, glowing silvery blue under the full moon. Sufi devotional melodies and Kutchi folk instruments echo under the stars.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Desert Wind & Mystic Sufi Flute",
+    "tags": [
+      "kutch",
+      "white desert",
+      "salt",
+      "moonlight",
+      "full moon",
+      "gujarat",
+      "infinite"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 791070,
+      "sunPosition": [
+        0,
+        85,
+        -110
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "salt_flat"
+    }
+  },
+  {
+    "id": "uluru-aboriginal-dreamtime",
+    "title": "Uluru Sacred Monolith of the Red Earth",
+    "category": "Sacred & Spiritual",
+    "tagline": "Ancient heart of Australia glowing fiery crimson at dusk",
+    "description": "Colossal red sandstone monolith rising out of the flat desert. As the sun sets, it shifts colors from bright ochre to deep burning violet beneath southern cross stars.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Didgeridoo Earth Resonance & Desert Cicadas",
+    "tags": [
+      "uluru",
+      "australia",
+      "red rock",
+      "sacred earth",
+      "desert",
+      "sunset",
+      "ancient rock"
+    ],
+    "soulsVisiting": 398000,
+    "resonance": "98.5%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2821908,
+      "sunPosition": [
+        -120,
+        20,
+        50
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "sand_dunes"
+    }
+  },
+  {
+    "id": "mont-saint-michel-tide",
+    "title": "Mont Saint-Michel Abbey of the Seas",
+    "category": "Sacred & Spiritual",
+    "tagline": "Gothic medieval abbey island cut off by surging Atlantic tides",
+    "description": "Fairytale abbey rising dramatically from the sea on a tidal island. Golden Archangel Michael at the spire glints in the sunset as the ocean waters rush in to encircle it.",
+    "bgImage": "public/assets/images/ram_mandir_real.jpg",
+    "videoLoop": "public/assets/videos/portal_sacred_flame.mp4",
+    "soundscape": "Tidal Swell & Medieval Gregorian Chants",
+    "tags": [
+      "mont saint michel",
+      "abbey",
+      "tides",
+      "island",
+      "france",
+      "gothic",
+      "castle"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.7%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1317670,
+      "sunPosition": [
+        -90,
+        35,
+        70
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "jays-enchanted-waterfall-retreat",
+    "title": "Jay's Transparent Bed Riverbank Retreat",
+    "category": "Nature & Retreat",
+    "tagline": "Cascading mountain waterfall, lush soft grass, and a sinkable crystal floating bed",
+    "description": "Designed specially for Jay: an alpine river valley where a roaring 4K mountain waterfall rushes into clear blue waters. Alongside the bank rests a floating, sinkable transparent crystal bed with soft cushions, warm bedside lantern, and hundreds of dancing fireflies.",
+    "bgImage": "public/assets/images/transparent_bed_sanctuary.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_sanctuary.mp4",
+    "soundscape": "4K Rushing Waterfall Spray, River Stream & Fireflies",
+    "tags": [
+      "waterfall",
+      "river",
+      "nature",
+      "netural",
+      "grace",
+      "grass",
+      "bed",
+      "transparent bed",
+      "sinkable",
+      "slip",
+      "sleep",
+      "relax",
+      "sanctuary",
+      "jay"
+    ],
+    "soulsVisiting": 1842000,
+    "resonance": "100%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 660512,
+      "sunPosition": [
+        60,
+        50,
+        -40
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "bioluminescent-vaadhoo-beach",
+    "title": "Maldives Bioluminescent Sea of Stars",
+    "category": "Nature & Retreat",
+    "tagline": "Glowing electric cyan waves breaking on silky white midnight sands",
+    "description": "Millions of glowing blue phytoplanktons turn the breaking waves into liquid starlight. Walking along the shore leaves glowing neon footprints under a canopy of tropical stars.",
+    "bgImage": "public/assets/images/maldives_bioluminescent.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Gentle Glowing Ocean Swell & Tropical Breeze",
+    "tags": [
+      "bioluminescent",
+      "beach",
+      "ocean",
+      "maldives",
+      "glowing waves",
+      "stars",
+      "sand",
+      "night beach"
+    ],
+    "soulsVisiting": 894000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 264468,
+      "sunPosition": [
+        0,
+        60,
+        -100
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "norwegian-fjord-aurora",
+    "title": "Norwegian Fjords Northern Lights Glade",
+    "category": "Nature & Retreat",
+    "tagline": "Emerald and magenta auroras dancing across glass-mirror fjords",
+    "description": "Towering snowy cliffs plunging into mirror-calm fjord waters that reflect the swirling northern lights. A cozy cedar glass cabin with a roaring stone fireplace.",
+    "bgImage": "public/assets/images/aurora_borealis_real.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Crackling Fireplace & Ethereal Arctic Aurora Drone",
+    "tags": [
+      "aurora",
+      "northern lights",
+      "norway",
+      "fjord",
+      "snow",
+      "cabin",
+      "glass house",
+      "fireplace"
+    ],
+    "soulsVisiting": 912000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "glacial",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 199956,
+      "sunPosition": [
+        -40,
+        70,
+        -80
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "swiss-alps-wildflower-meadow",
+    "title": "Lauterbrunnen Valley of 72 Waterfalls",
+    "category": "Nature & Retreat",
+    "tagline": "Lush green Swiss valley with glacial waterfalls plunging from cliffs",
+    "description": "Emerald alpine valley dotted with wildflowers and wooden chalets, where Staubbach waterfall cascades down an 800-foot vertical limestone cliff into the river.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Alpine Cowbells, Glacial Cascades & Meadow Wind",
+    "tags": [
+      "swiss alps",
+      "waterfall",
+      "meadow",
+      "mountains",
+      "lauterbrunnen",
+      "green hills",
+      "nature"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1845302,
+      "sunPosition": [
+        80,
+        80,
+        50
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "meadow_plateau"
+    }
+  },
+  {
+    "id": "kyoto-arashiyama-bamboo",
+    "title": "Arashiyama Emerald Bamboo Grove",
+    "category": "Nature & Retreat",
+    "tagline": "Soaring green bamboo stalks rustling in the misty mountain breeze",
+    "description": "Towering green bamboo stalks creating a cathedral of living wood that filters sunlight into emerald rays. The soothing creak of swaying bamboo calms the mind.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Bamboo Stalk Creaking & Japanese Forest Birds",
+    "tags": [
+      "bamboo",
+      "kyoto",
+      "japan",
+      "green",
+      "forest",
+      "calm",
+      "zen",
+      "walk"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 793106,
+      "sunPosition": [
+        30,
+        60,
+        40
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "sanctuary_valley"
+    }
+  },
+  {
+    "id": "iguazu-devils-throat-falls",
+    "title": "Iguazu Devil's Throat Thunder Falls",
+    "category": "Nature & Retreat",
+    "tagline": "275 cascading waterfalls thundering through subtropical jungle",
+    "description": "The world's most powerful waterfall curtain plunging into a permanent cloud of mist and double rainbows. Wooden walkways let you stand directly over the roaring abyss.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Thundering Water Roar & Jungle Bird Calls",
+    "tags": [
+      "iguazu",
+      "waterfall",
+      "massive falls",
+      "jungle",
+      "rainbows",
+      "power",
+      "water"
+    ],
+    "soulsVisiting": 721000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1582108,
+      "sunPosition": [
+        70,
+        75,
+        30
+      ],
+      "fogDensity": 0.005,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "plitvice-lakes-crystal-pools",
+    "title": "Plitvice Cascading Turquoise Terraces",
+    "category": "Nature & Retreat",
+    "tagline": "Sixteen terraced crystal lakes connected by travertine waterfalls",
+    "description": "Wooden footpaths winding across crystal-clear turquoise waters teeming with trout, linking emerald lake terraces separated by natural moss-covered waterfalls.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Gentle Terraced Waterfalls & Forest Songbirds",
+    "tags": [
+      "plitvice",
+      "lakes",
+      "turquoise water",
+      "croatia",
+      "waterfall",
+      "crystal",
+      "nature"
+    ],
+    "soulsVisiting": 654000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1056808,
+      "sunPosition": [
+        50,
+        70,
+        50
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "redwood-cathedral-fog",
+    "title": "California Giant Redwood Sanctuary",
+    "category": "Nature & Retreat",
+    "tagline": "300-foot ancient giants shrouded in coastal Pacific fog",
+    "description": "Standing among the tallest living beings on Earth, with sunlight streaming through oceanic fog banks onto rich carpets of clover and sword ferns.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Deep Coastal Redwood Silence & Droplets",
+    "tags": [
+      "redwood",
+      "california",
+      "giant trees",
+      "fog",
+      "ancient forest",
+      "tall trees"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1120538,
+      "sunPosition": [
+        40,
+        55,
+        60
+      ],
+      "fogDensity": 0.006,
+      "terrainPreset": "sanctuary_valley"
+    }
+  },
+  {
+    "id": "banff-moraine-lake-turquoise",
+    "title": "Moraine Lake & Ten Peaks Valley",
+    "category": "Nature & Retreat",
+    "tagline": "Electric turquoise glacial waters nestled beneath jagged snow peaks",
+    "description": "Vivid turquoise glacial lake in the Canadian Rockies reflecting ten soaring snow-capped mountains. A solitary red cedar canoe floats upon the glassy surface.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Lakeside Paddle Ripples & Pine Forest Wind",
+    "tags": [
+      "banff",
+      "moraine lake",
+      "canada",
+      "rockies",
+      "turquoise lake",
+      "canoe",
+      "mountains"
+    ],
+    "soulsVisiting": 842000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "glacial",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 793646,
+      "sunPosition": [
+        60,
+        75,
+        -50
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "ha-long-bay-emerald-islands",
+    "title": "Ha Long Bay Misty Limestone Peaks",
+    "category": "Nature & Retreat",
+    "tagline": "Thousands of emerald limestone karsts rising out of calm sea waters",
+    "description": "Traditional wooden junk boat sailing between soaring vertical limestone pillars covered in rainforest foliage, with hidden sea caves and emerald lagoons.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Calm Sea Lapping & Tropical Cave Droplets",
+    "tags": [
+      "ha long bay",
+      "vietnam",
+      "karsts",
+      "limestone",
+      "emerald water",
+      "islands",
+      "mist"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1318946,
+      "sunPosition": [
+        80,
+        45,
+        60
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "iceland-skogafoss-rainbow",
+    "title": "Skógafoss Black Sand Rainbow Falls",
+    "category": "Nature & Retreat",
+    "tagline": "A thunderous 200-foot wall of water crashing onto volcanic black pebbles",
+    "description": "Massive vertical curtain of glacier water producing permanent double rainbows against lush green mossy cliffs, dropping down onto sleek black volcanic stones.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Deep Volcanic Waterfall Roar & Icelandic Wind",
+    "tags": [
+      "iceland",
+      "skogafoss",
+      "waterfall",
+      "black sand",
+      "rainbow",
+      "volcanic",
+      "green cliff"
+    ],
+    "soulsVisiting": 731000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "glacial",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1185824,
+      "sunPosition": [
+        50,
+        60,
+        40
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "amazon-canopy-riverboat",
+    "title": "Amazon River Sunset Canopy",
+    "category": "Nature & Retreat",
+    "tagline": "The breathing green lung of planet Earth under pink twilight",
+    "description": "Floating down the wide, glassy Amazon River as the sun sets in dramatic shades of violet and rose, while toucans and river dolphins glide through the mirrored water.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Amazon Rainforest Night Symphony & River Swell",
+    "tags": [
+      "amazon",
+      "rainforest",
+      "river",
+      "jungle",
+      "dolphins",
+      "tropical",
+      "sunset river"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 3019808,
+      "sunPosition": [
+        -110,
+        25,
+        40
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "antelope-canyon-lightbeams",
+    "title": "Antelope Canyon Swirling Sandstone Beams",
+    "category": "Nature & Retreat",
+    "tagline": "Flowing red-orange sandstone curves sculpted by flash floods",
+    "description": "Narrow slot canyon with smooth, swirling sandstone walls in rich shades of orange, magenta, and gold, illuminated by shafts of sunlight piercing down from the top.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Silent Desert Wind & Falling Sand Whistles",
+    "tags": [
+      "antelope canyon",
+      "arizona",
+      "sandstone",
+      "light beams",
+      "slot canyon",
+      "orange curves"
+    ],
+    "soulsVisiting": 672000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2757642,
+      "sunPosition": [
+        10,
+        85,
+        20
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "seychelles-granite-boulder-cove",
+    "title": "Anse Source d'Argent Granite Cove",
+    "category": "Nature & Retreat",
+    "tagline": "Pink sand coves surrounded by giant sculpted prehistoric granite boulders",
+    "description": "Towering sculpted black and pink granite rocks standing guard over shallow crystal-clear turquoise waters and powdery pink coral sand beaches.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Gentle Coral Wave Wash & Palm Frond Rustle",
+    "tags": [
+      "seychelles",
+      "granite rocks",
+      "pink sand",
+      "tropical beach",
+      "turquoise",
+      "cove"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 991792,
+      "sunPosition": [
+        30,
+        85,
+        40
+      ],
+      "fogDensity": 0.0018,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "salardeuyuni-mirror-flats",
+    "title": "Salar de Uyuni Infinite Sky Mirror",
+    "category": "Nature & Retreat",
+    "tagline": "A razor-thin layer of water turning 4,000 square miles into a giant mirror",
+    "description": "Walking on what feels like clouds. The flooded salt flats create an unbroken reflection of the sky and stars, completely erasing the horizon between Earth and Heaven.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Infinite Silence & Crystal Salt Wind",
+    "tags": [
+      "salar de uyuni",
+      "bolivia",
+      "salt flats",
+      "mirror",
+      "sky reflection",
+      "walking on clouds"
+    ],
+    "soulsVisiting": 792000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 858668,
+      "sunPosition": [
+        0,
+        80,
+        -90
+      ],
+      "fogDensity": 0.001,
+      "terrainPreset": "salt_flat"
+    }
+  },
+  {
+    "id": "yosemite-valley-el-capitan",
+    "title": "Yosemite Valley & Bridalveil Fall",
+    "category": "Nature & Retreat",
+    "tagline": "Monolithic granite walls standing over wildflower pine meadows",
+    "description": "The sheer 3,000-foot granite monolith of El Capitan bathed in golden hour sun, with Bridalveil Fall blowing in the wind and Merced River winding through the valley floor.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Glacial River Rush & Pine Valley Breeze",
+    "tags": [
+      "yosemite",
+      "el capitan",
+      "waterfall",
+      "granite",
+      "california",
+      "valley",
+      "meadow"
+    ],
+    "soulsVisiting": 812000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 2235432,
+      "sunPosition": [
+        -90,
+        40,
+        50
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "jiuzhaigou-five-flower-lake",
+    "title": "Jiuzhaigou Multi-Color Mineral Pools",
+    "category": "Nature & Retreat",
+    "tagline": "Calm mountain waters revealing ancient submerged trees in multi-color hues",
+    "description": "Pristine mountain pools whose mineral deposits create brilliant turquoise, gold, and jade waters so clear that petrified ancient fallen trees can be seen preserved below.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Crystal Spring Droplets & Autumn Forest Leaves",
+    "tags": [
+      "jiuzhaigou",
+      "china",
+      "turquoise pools",
+      "crystal lake",
+      "autumn colors",
+      "waterfall"
+    ],
+    "soulsVisiting": 631000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1056290,
+      "sunPosition": [
+        50,
+        65,
+        40
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "milford-sound-rainforest-fjord",
+    "title": "Milford Sound Mitre Peak Fjord",
+    "category": "Nature & Retreat",
+    "tagline": "New Zealand's dramatic fjord with waterfalls tumbling directly into the sea",
+    "description": "Mitre Peak soaring straight out of ink-black fjord waters, surrounded by hanging rainforest valleys where hundreds of temporary waterfalls cascade down after rain.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Ocean Fjord Swell & Roaring Cliff Cascades",
+    "tags": [
+      "milford sound",
+      "new zealand",
+      "fjord",
+      "mitre peak",
+      "waterfalls",
+      "rainforest"
+    ],
+    "soulsVisiting": 678000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1121316,
+      "sunPosition": [
+        -70,
+        50,
+        60
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "pamukkale-travertine-terraces",
+    "title": "Pamukkale White Cotton Castle Springs",
+    "category": "Nature & Retreat",
+    "tagline": "Glowing white mineral terraces filled with warm turquoise thermal pools",
+    "description": "Cascading snow-white limestone terraces formed by mineral-rich thermal waters. Stepping barefoot into warm, pale blue pools overlooking the Aegean plains.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Warm Thermal Spring Trickle & Sunset Breeze",
+    "tags": [
+      "pamukkale",
+      "turkey",
+      "thermal pools",
+      "travertine",
+      "white terraces",
+      "mineral baths"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1973288,
+      "sunPosition": [
+        -100,
+        30,
+        40
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "victoria-falls-smoke-thunders",
+    "title": "Victoria Falls (Mosi-oa-Tunya)",
+    "category": "Nature & Retreat",
+    "tagline": "The smoke that thunders: a mile-wide curtain of falling water",
+    "description": "The world's largest sheet of falling water dropping 350 feet into a narrow basalt gorge. The rising spray cloud creates permanent rainforest canopies and lunar rainbows.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_waterfall_cascade.mp4",
+    "soundscape": "Mile-Wide Waterfall Roar & African Rainforest Wind",
+    "tags": [
+      "victoria falls",
+      "zambia",
+      "zimbabwe",
+      "waterfall",
+      "huge falls",
+      "thunder",
+      "smoke"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1580568,
+      "sunPosition": [
+        80,
+        70,
+        30
+      ],
+      "fogDensity": 0.006,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "orion-deep-nebula",
+    "title": "Orion Stellar Nursery & Gas Giant",
+    "category": "Cosmic Odyssey",
+    "tagline": "Interstellar clouds of newborn suns and ringed celestial worlds",
+    "description": "Floating beside a massive purple gas giant with icy rings, looking out at the swirling magenta and ultraviolet dust clouds of the Great Orion Nebula (M42) across light-years.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Deep Space Cosmic Drone (528Hz Love Frequency)",
+    "tags": [
+      "orion",
+      "nebula",
+      "space",
+      "cosmos",
+      "planet",
+      "rings",
+      "stars",
+      "galaxy",
+      "universe",
+      "stellar"
+    ],
+    "soulsVisiting": 1450000,
+    "resonance": "99.8%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1180708,
+      "sunPosition": [
+        0,
+        0,
+        -200
+      ],
+      "fogDensity": 0.0008,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "james-webb-pillars-of-creation",
+    "title": "Pillars of Creation (Eagle Nebula M16)",
+    "category": "Cosmic Odyssey",
+    "tagline": "Cathedrals of interstellar gas where new solar systems are born",
+    "description": "Towering spires of cool molecular hydrogen and dust bathed in intense ultraviolet light from newly formed stars, captured in infrared detail by the James Webb Space Telescope.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Quantum Vacuum Fluctuations & Stellar Winds",
+    "tags": [
+      "pillars of creation",
+      "eagle nebula",
+      "jwst",
+      "infrared",
+      "star birth",
+      "astronomy"
+    ],
+    "soulsVisiting": 981000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1574938,
+      "sunPosition": [
+        50,
+        30,
+        -180
+      ],
+      "fogDensity": 0.0007,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "saturn-ring-crossing",
+    "title": "Saturn Rings Ice Field Crossing",
+    "category": "Cosmic Odyssey",
+    "tagline": "Drifting among billions of glistening water-ice crystals and shepherd moons",
+    "description": "Hovering only meters above the Cassini Division, watching billions of boulders and pebbles of pure reflective water ice glide silently in gravitational harmony around Saturn's cloud bands.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Cassini Radio Wave Emissions & Sub-Harmonic Rumbles",
+    "tags": [
+      "saturn",
+      "rings",
+      "ice",
+      "cassini",
+      "shepherd moon",
+      "space voyage",
+      "orbit"
+    ],
+    "soulsVisiting": 842000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1052184,
+      "sunPosition": [
+        -100,
+        40,
+        -150
+      ],
+      "fogDensity": 0.0005,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "gargantua-black-hole-accretion",
+    "title": "Gargantua Supermassive Event Horizon",
+    "category": "Cosmic Odyssey",
+    "tagline": "Warped spacetime, blazing accretion disk, and gravitational time dilation",
+    "description": "Watching a glowing, relativistic ring of superheated plasma bend around a sphere of total darkness. Gravitational lensing curves the light of distant galaxies into glowing halos.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Gravitational Waves (LIGO Chirps) & Deep Singularity Hum",
+    "tags": [
+      "black hole",
+      "event horizon",
+      "gargantua",
+      "singularity",
+      "spacetime",
+      "relativity",
+      "accretion disk"
+    ],
+    "soulsVisiting": 1120000,
+    "resonance": "99.9%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 328456,
+      "sunPosition": [
+        0,
+        10,
+        -150
+      ],
+      "fogDensity": 0.0004,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "andromeda-galaxy-collision-view",
+    "title": "Andromeda & Milky Way Cosmic Dance",
+    "category": "Cosmic Odyssey",
+    "tagline": "Two trillion stars spiraling together in slow gravitational majesty",
+    "description": "Observing the cosmic waltz of our Milky Way and the Great Andromeda Spiral Galaxy from an intergalactic vantage point, watching spiral arms stretch and intertwine across millions of years.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Intergalactic Void Resonance & Cosmic Microwave Background",
+    "tags": [
+      "andromeda",
+      "milky way",
+      "galaxy",
+      "spiral",
+      "collision",
+      "trillion stars",
+      "intergalactic"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 525844,
+      "sunPosition": [
+        80,
+        50,
+        -200
+      ],
+      "fogDensity": 0.0005,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "trappist-1-exoplanet-ocean",
+    "title": "Trappist-1e Crimson Sunset Ocean",
+    "category": "Cosmic Odyssey",
+    "tagline": "An ocean world orbiting a red dwarf with six sister planets visible in the sky",
+    "description": "Floating on warm alien seas under the gentle glow of a dim red dwarf star. Six sibling planets appear larger than Earth's moon, strung across the sky like glowing jewels.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Alien Ocean Swell & Low-Frequency Pulsar Beating",
+    "tags": [
+      "trappist",
+      "exoplanet",
+      "alien ocean",
+      "red dwarf",
+      "sister planets",
+      "water world"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 2230288,
+      "sunPosition": [
+        -90,
+        20,
+        60
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "europa-subsurface-ice-ocean",
+    "title": "Europa Sub-Glacial Bioluminescent Abyss",
+    "category": "Cosmic Odyssey",
+    "tagline": "Liquid ocean beneath miles of ice, warmed by Jupiter's tidal friction",
+    "description": "Submerging deep beneath the cracked ice crust of Jupiter's moon Europa. Hydrothermal vents support alien ecosystems glowing in electric blue and magenta against the pitch-black water.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Cracking Ice Crust & Hydrothermal Vent Bubbles",
+    "tags": [
+      "europa",
+      "jupiter",
+      "subsurface ocean",
+      "hydrothermal",
+      "alien life",
+      "ice world"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 133140,
+      "sunPosition": [
+        0,
+        -50,
+        -100
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "crab-nebula-pulsar-heart",
+    "title": "Crab Nebula Supernova Remnant (M1)",
+    "category": "Cosmic Odyssey",
+    "tagline": "A rapidly spinning neutron star pulsing 30 times a second inside exploded filaments",
+    "description": "Intricate filaments of gas expanding outward at millions of miles per hour from a historical supernova. In the center, a city-sized ultra-dense pulsar sweeps beams of radiation across space.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Pulsar Rhythmic Sweeps & Supernova Filament Energy",
+    "tags": [
+      "crab nebula",
+      "pulsar",
+      "supernova",
+      "neutron star",
+      "remnant",
+      "astrophysics"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 919064,
+      "sunPosition": [
+        0,
+        0,
+        -180
+      ],
+      "fogDensity": 0.0007,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "carina-nebula-cosmic-cliffs",
+    "title": "Carina Cosmic Cliffs & Mystic Mountain",
+    "category": "Cosmic Odyssey",
+    "tagline": "Seven-light-year-tall pillars of stellar dust eroded by stellar winds",
+    "description": "A breathtaking landscape of rugged mountains and valleys carved out of glowing interstellar gas by extreme radiation from massive O-type stars in the Carina complex.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Infrared Star Winds & Celestial Harmonics",
+    "tags": [
+      "carina",
+      "cosmic cliffs",
+      "mystic mountain",
+      "jwst",
+      "nebula",
+      "stellar wind"
+    ],
+    "soulsVisiting": 632000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1443860,
+      "sunPosition": [
+        60,
+        40,
+        -170
+      ],
+      "fogDensity": 0.0008,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "horsehead-nebula-dark-dust",
+    "title": "Horsehead Dark Molecular Cloud (B33)",
+    "category": "Cosmic Odyssey",
+    "tagline": "A silhouette of dense dust rising like a stallion against crimson starlight",
+    "description": "Dark molecular dust forming the iconic silhouette of a horse's head, standing in high relief against the glowing red hydrogen gas illuminated by the bright star Sigma Orionis.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Deep Void Silence & Distant Stellar Radiance",
+    "tags": [
+      "horsehead nebula",
+      "dark nebula",
+      "orion",
+      "silhouette",
+      "space dust",
+      "astronomy"
+    ],
+    "soulsVisiting": 712000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1311754,
+      "sunPosition": [
+        40,
+        20,
+        -190
+      ],
+      "fogDensity": 0.0006,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "helix-nebula-eye-of-god",
+    "title": "Helix Nebula (The Eye of Eternity)",
+    "category": "Cosmic Odyssey",
+    "tagline": "A dying sun shedding its outer layers into concentric glowing rings",
+    "description": "Looking directly down the axis of a planetary nebula, where rings of turquoise and crimson gas resemble a colossal cosmic eye gazing back across seven hundred light-years.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "White Dwarf Cooling Drone & Spherical Expansion Waves",
+    "tags": [
+      "helix nebula",
+      "eye of god",
+      "planetary nebula",
+      "white dwarf",
+      "dying sun",
+      "cosmic eye"
+    ],
+    "soulsVisiting": 841000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 528922,
+      "sunPosition": [
+        0,
+        0,
+        -160
+      ],
+      "fogDensity": 0.0006,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "mars-valles-marineris-canyon",
+    "title": "Mars Valles Marineris Canyon Sunset",
+    "category": "Cosmic Odyssey",
+    "tagline": "The solar system's grandest canyon under a blue martian twilight",
+    "description": "Standing on the rim of a canyon that stretches 2,500 miles and plunges 23,000 feet down. Fine rust-red dust scatters sunlight into Mars' famous distinctive blue sunset.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Thin Martian Wind & Dust Devil Whistles",
+    "tags": [
+      "mars",
+      "valles marineris",
+      "canyon",
+      "blue sunset",
+      "red planet",
+      "martian"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1445146,
+      "sunPosition": [
+        -100,
+        25,
+        40
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "titan-methane-sea-shoreline",
+    "title": "Titan Kraken Mare Liquid Methane Sea",
+    "category": "Cosmic Odyssey",
+    "tagline": "Golden orange smog sky, water-ice pebbles, and silent hydrocarbon oceans",
+    "description": "On Saturn's moon Titan, standing on a shoreline of polished ice pebbles while sluggish liquid methane waves lap against black dunes under a hazy golden nitrogen atmosphere.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Liquid Methane Surf & Heavy Atmospheric Wind",
+    "tags": [
+      "titan",
+      "saturn moon",
+      "methane sea",
+      "kraken mare",
+      "orange sky",
+      "alien shore"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.7%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1708549,
+      "sunPosition": [
+        50,
+        40,
+        70
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "jupiter-great-red-spot-storm",
+    "title": "Jupiter Great Red Spot Storm Edge",
+    "category": "Cosmic Odyssey",
+    "tagline": "A hurricane larger than Earth raging for centuries with 400mph winds",
+    "description": "Cruising through the swirling ammonia cloud bands at the perimeter of the Great Red Spot. Colossal lightning bolts hundreds of times more powerful than Earth's illuminate the clouds.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Super-Storm Rumbles & Jovian Lightning Discharges",
+    "tags": [
+      "jupiter",
+      "great red spot",
+      "storm",
+      "gas giant",
+      "lightning",
+      "ammonia clouds"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1838856,
+      "sunPosition": [
+        -80,
+        50,
+        -120
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "pleiades-seven-sisters-reflection",
+    "title": "Pleiades Star Cluster & Reflection Veil",
+    "category": "Cosmic Odyssey",
+    "tagline": "Young hot blue stars illuminating gossamer sheets of interstellar dust",
+    "description": "Seven radiant brilliant sapphire stars illuminating delicate web-like filaments of interstellar dust that glow in pure cobalt blue across four hundred light-years.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Crystalline High-Frequency Chimes & Blue Starlight Tone",
+    "tags": [
+      "pleiades",
+      "seven sisters",
+      "blue stars",
+      "reflection nebula",
+      "starlight",
+      "sapphire"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 265252,
+      "sunPosition": [
+        0,
+        60,
+        -180
+      ],
+      "fogDensity": 0.0005,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "oort-cloud-outer-boundary",
+    "title": "Oort Cloud Edge of the Sun's Domain",
+    "category": "Cosmic Odyssey",
+    "tagline": "Trillions of icy comets in the frozen outer halo one light-year from Earth",
+    "description": "The outermost frontier of our solar system, where the Sun appears as just another bright star among millions. Pristine icy comets drift silently in cold deep freeze.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Absolute Zero Silence & Faint Interstellar Whistle",
+    "tags": [
+      "oort cloud",
+      "comets",
+      "frozen",
+      "edge of solar system",
+      "deep space",
+      "void"
+    ],
+    "soulsVisiting": 421000,
+    "resonance": "98.5%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 66054,
+      "sunPosition": [
+        0,
+        0,
+        -300
+      ],
+      "fogDensity": 0.0002,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "tarantula-nebula-30doradus",
+    "title": "Tarantula Nebula 30 Doradus Monster",
+    "category": "Cosmic Odyssey",
+    "tagline": "The most luminous star-forming region in the entire Local Group of galaxies",
+    "description": "An immense web of glowing ionized hydrogen gas in the Large Magellanic Cloud, containing the cluster R136 with stars over two hundred times the mass of our Sun.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Massive Stellar Winds & Ionized Plasma Waves",
+    "tags": [
+      "tarantula nebula",
+      "large magellanic cloud",
+      "supermassive stars",
+      "star cluster"
+    ],
+    "soulsVisiting": 512000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1574944,
+      "sunPosition": [
+        70,
+        30,
+        -190
+      ],
+      "fogDensity": 0.0007,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "sombrero-galaxy-m104-dust",
+    "title": "Sombrero Galaxy Dark Rim (M104)",
+    "category": "Cosmic Odyssey",
+    "tagline": "A brilliant white galactic bulge encircled by a prominent dark dust lane",
+    "description": "A nearly edge-on spiral galaxy featuring a massive central hub of hundreds of billions of old stars, wrapped in an intricate and perfectly symmetrical dark ring of absorption dust.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Galactic Core Gravitational Harmonics",
+    "tags": [
+      "sombrero galaxy",
+      "m104",
+      "dust lane",
+      "galactic bulge",
+      "spiral galaxy"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 657940,
+      "sunPosition": [
+        0,
+        40,
+        -220
+      ],
+      "fogDensity": 0.0005,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "sagittarius-a-milkyway-core",
+    "title": "Sagittarius A* Milky Way Supermassive Core",
+    "category": "Cosmic Odyssey",
+    "tagline": "Four million solar masses anchoring the center of our home galaxy",
+    "description": "The swirling vortex at the exact center of the Milky Way. Stars orbit the invisible supermassive black hole at speeds of thousands of miles per second in relativistic ellipses.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Relativistic Orbit Whirrs & Core X-Ray Flares",
+    "tags": [
+      "sagittarius a",
+      "milky way center",
+      "galactic core",
+      "black hole",
+      "center of galaxy"
+    ],
+    "soulsVisiting": 912000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 919314,
+      "sunPosition": [
+        0,
+        0,
+        -170
+      ],
+      "fogDensity": 0.0006,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "cosmic-web-laniakea-supercluster",
+    "title": "Laniakea Immeasurable Heaven Supercluster",
+    "category": "Cosmic Odyssey",
+    "tagline": "Hundreds of thousands of galaxies flowing along glowing filaments of dark matter",
+    "description": "The ultimate bird's-eye view of existence: the cosmic web spanning five hundred million light-years, where entire galaxies trace out glowing synaptic fibers of cosmic light.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cosmic_vortex.mp4",
+    "soundscape": "Universal 432Hz Sacred Cosmic Breath Drone",
+    "tags": [
+      "laniakea",
+      "cosmic web",
+      "supercluster",
+      "dark matter",
+      "macrocosm",
+      "all galaxies"
+    ],
+    "soulsVisiting": 1340000,
+    "resonance": "99.9%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 329232,
+      "sunPosition": [
+        0,
+        0,
+        -250
+      ],
+      "fogDensity": 0.0003,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "zero-day-matrix-citadel",
+    "title": "Zero-Day Cyber Matrix Citadel",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Quantum security towers, neon grids, and streaming digital code rain",
+    "description": "Impenetrable quantum towers connected by pulsing fiber-optic laser grids under midnight digital rain. High-speed encrypted data streams flow like glowing green water through cybernetic conduits.",
+    "bgImage": "public/assets/images/cyberpunk_citadel.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Cybernetic Synth Drone & Quantum Clock Cycles",
+    "tags": [
+      "matrix",
+      "cyber",
+      "zero-day",
+      "hacker",
+      "code",
+      "neon",
+      "green rain",
+      "security",
+      "tech",
+      "quantum"
+    ],
+    "soulsVisiting": 1150000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 135688,
+      "sunPosition": [
+        0,
+        50,
+        -100
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "neo-tokyo-shinjuku-crossing",
+    "title": "Neo-Tokyo 2099 Midnight Crossing",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Rain-soaked asphalt reflecting towering holographic kanji billboards",
+    "description": "A dense multi-tiered cyberpunk metropolis under continuous midnight rain. Flying spinners dart between neon skyscraper canyons while giant holographic geishas dissolve into fog.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Midnight Rain on Asphalt & Lo-Fi Synthwave Beats",
+    "tags": [
+      "tokyo",
+      "shinjuku",
+      "cyberpunk",
+      "neon",
+      "rain",
+      "hologram",
+      "future city",
+      "japan"
+    ],
+    "soulsVisiting": 982000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 787994,
+      "sunPosition": [
+        40,
+        45,
+        60
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "orbital-space-elevator-anchor",
+    "title": "Galactic Tether Orbital Space Elevator",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "A carbon-nanotube spire climbing 22,000 miles to geostationary orbit",
+    "description": "Standing on the equatorial ocean base station as magnetic climber cars shoot up an unbroken carbon filament into the stars, connecting Earth to a sparkling orbital city.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Magnetic Induction Whirrs & Stratospheric Winds",
+    "tags": [
+      "space elevator",
+      "nanotube",
+      "orbital",
+      "tether",
+      "future earth",
+      "sci-fi structure"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 397084,
+      "sunPosition": [
+        0,
+        90,
+        -120
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "solarpunk-singapore-biocity",
+    "title": "Solarpunk Neo-Gardens of Gaia",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Living bioluminescent supertrees harvesting solar energy and rainwater",
+    "description": "A harmonious future where architecture and nature have fused. Giant living supertrees covered in exotic orchids and solar petals hum with clean energy above clean waterways.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Solar Energy Hum & Tropical Waterfall Mist",
+    "tags": [
+      "solarpunk",
+      "supertrees",
+      "singapore",
+      "green city",
+      "future nature",
+      "biocity",
+      "clean energy"
+    ],
+    "soulsVisiting": 742000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 992282,
+      "sunPosition": [
+        60,
+        75,
+        40
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "sanctuary_valley"
+    }
+  },
+  {
+    "id": "lunar-gateway-colony-shackleton",
+    "title": "Shackleton Crater Lunar Base Alpha",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Pressurized geodesic domes in the perpetual peaks of eternal light",
+    "description": "A permanent human habitat at the Moon's south pole. Giant solar arrays track the Sun on crater ridges while miners harvest ancient water ice from permanently shadowed depths below.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Life Support Oxygen Pumps & Low Gravity Footsteps",
+    "tags": [
+      "moon base",
+      "lunar colony",
+      "shackleton",
+      "crater",
+      "geodesic dome",
+      "moon",
+      "astronaut"
+    ],
+    "soulsVisiting": 612000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 197384,
+      "sunPosition": [
+        -120,
+        15,
+        60
+      ],
+      "fogDensity": 0.0005,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "mars-olympus-mons-dome-city",
+    "title": "Olympus Mons Caldera Sky City",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Terraced bio-domes clinging to the rim of the solar system's highest volcano",
+    "description": "A futuristic terraformed city nestled inside the 50-mile-wide volcanic caldera of Olympus Mons, towering 72,000 feet above the Martian plains into near-vacuum.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Martian Thermal Generators & Pressurized Dome Resonance",
+    "tags": [
+      "mars city",
+      "olympus mons",
+      "terraforming",
+      "bio-dome",
+      "martian colony",
+      "volcano city"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1575696,
+      "sunPosition": [
+        -80,
+        40,
+        50
+      ],
+      "fogDensity": 0.0018,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "dyson-swarm-collector-ring",
+    "title": "Dyson Swarm Solar Power Collector",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Millions of solar sail mirrors orbiting the Sun to harvest total energy",
+    "description": "Cruising through a constellation of ultra-thin gold-foil solar collectors spanning millions of miles around the star, beaming gigawatts of clean microwave power to distant worlds.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Solar Flare Static & High-Energy Microwave Beams",
+    "tags": [
+      "dyson sphere",
+      "dyson swarm",
+      "type ii civilization",
+      "solar energy",
+      "megastructure"
+    ],
+    "soulsVisiting": 842000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1840132,
+      "sunPosition": [
+        0,
+        0,
+        -150
+      ],
+      "fogDensity": 0.0004,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "cyber-underground-akihabara",
+    "title": "Akihabara Cyber Alley Underground",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Sub-level hacker markets, black-market cyberware, and glowing neon ramen bars",
+    "description": "Three levels beneath street level: a labyrinth of exposed steam pipes, neon vendor signs, retro arcade CRT screens, and cybernetic modification clinics hum with life.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Retro 8-Bit Arcade Sounds, Steam Hiss & Rain Drops",
+    "tags": [
+      "akihabara",
+      "hacker market",
+      "cyberware",
+      "neon alley",
+      "tokyo underground",
+      "ramen"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1311760,
+      "sunPosition": [
+        0,
+        30,
+        -50
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "o-neill-cylinder-space-habitat",
+    "title": "Island Three Rotating Space Colony",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "A 20-mile-long spinning cylinder with earthlike valleys on its inner surface",
+    "description": "Looking straight up and seeing lakes, forests, and suburban communities upside down above your head. Giant solar mirrors illuminate the curved inner horizon with artificial sunlight.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Centrifugal Wind Currents & Gentle Suburban Birds",
+    "tags": [
+      "o neill cylinder",
+      "space habitat",
+      "spinning colony",
+      "artificial gravity",
+      "megastructure"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1187368,
+      "sunPosition": [
+        0,
+        80,
+        0
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "sanctuary_valley"
+    }
+  },
+  {
+    "id": "quantum-core-supercomputer-vault",
+    "title": "Yottabyte Quantum Core Cryo-Vault",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Dilution refrigerators cooling superconducting quantum qubits to millikelvin",
+    "description": "Golden chandelier-like quantum processors suspended inside vacuum cryostats, solving universe-scale simulations as liquid helium cools superconducting circuits near absolute zero.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Cryogenic Pulse Pumps & Superconducting Humming Chimes",
+    "tags": [
+      "quantum computer",
+      "qubit",
+      "cryo",
+      "superconductor",
+      "data vault",
+      "ai core"
+    ],
+    "soulsVisiting": 712000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 331548,
+      "sunPosition": [
+        0,
+        60,
+        -60
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "coruscant-planetary-ecumenopolis",
+    "title": "Ecumenopolis Trillion-Citizen Spire City",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "An entire planet covered in thousands of skyscraper levels into the clouds",
+    "description": "A world where nature has been replaced by five thousand levels of infrastructure. Flying speeders fill sky-lanes between towers that stretch miles into the upper stratosphere.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Sky-Lane Traffic Whoosh & Deep City Drone",
+    "tags": [
+      "ecumenopolis",
+      "city planet",
+      "trillion people",
+      "skyscrapers",
+      "flying cars",
+      "coruscant"
+    ],
+    "soulsVisiting": 914000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1445404,
+      "sunPosition": [
+        80,
+        60,
+        50
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "underwater-sub-atlantic-dome",
+    "title": "Poseidon Sub-Oceanic Trench City",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Titanium pressure domes resting on the Atlantic seabed at 15,000 feet",
+    "description": "Gazing through three-foot-thick acrylic domes at deep-sea anglerfish and hydrothermal vents while high-speed maglev tube trains connect underwater habitat sectors.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Hull Pressure Creaks & Deep Water Sonar Pings",
+    "tags": [
+      "underwater city",
+      "deep sea dome",
+      "sub-oceanic",
+      "trench habitat",
+      "submarines"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 133654,
+      "sunPosition": [
+        0,
+        -40,
+        -80
+      ],
+      "fogDensity": 0.0045,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "cyber-yakuza-casino-rooftop",
+    "title": "Neo-Hong Kong Floating Casino Sky-Deck",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Holographic golden dragons circling a luxury infinity pool above the clouds",
+    "description": "An ultra-exclusive penthouse casino suspended between two mega-spires at the 120th floor. Champagne glasses clink under violet laser projections as rain pelts the glass canopy.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Future Jazz Piano & Distant Thunder Synth",
+    "tags": [
+      "hong kong",
+      "casino",
+      "cyberpunk penthouse",
+      "holographic dragon",
+      "neon luxury"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1705496,
+      "sunPosition": [
+        40,
+        50,
+        70
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "interstellar-generation-ship-ark",
+    "title": "Ark of Centauri Generation Starship",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "A hundred-thousand human pioneers crossing the void between stars",
+    "description": "An asteroid hollowed out into a self-sustaining ecosystem carrying forests, agricultural valleys, and human cities across a multi-century voyage to Alpha Centauri.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Ion Fusion Drive Thrust & Internal Biosphere Rain",
+    "tags": [
+      "generation ship",
+      "starship",
+      "colonization",
+      "ark",
+      "interstellar voyage",
+      "centauri"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1055268,
+      "sunPosition": [
+        0,
+        70,
+        -50
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "sanctuary_valley"
+    }
+  },
+  {
+    "id": "matrix-sentinel-hive-core",
+    "title": "Machine City 01 Geothermal Core",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Looming black spires and billions of glowing crimson synthetic eyes",
+    "description": "The geometric architecture of an artificial super-intelligence. Vast bio-mechanical towers pulse with liquid coolant and fiber data packets beneath permanent storm clouds.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Mechanical Hive Pulse & Electrical Arc Zaps",
+    "tags": [
+      "machine city",
+      "matrix",
+      "sentinels",
+      "ai hive",
+      "cybernetic towers",
+      "red eyes"
+    ],
+    "soulsVisiting": 672000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1836546,
+      "sunPosition": [
+        0,
+        20,
+        -100
+      ],
+      "fogDensity": 0.005,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "orbital-laser-foundry-shipyard",
+    "title": "Kuat Planetary Orbital Shipyards",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Enormous ring shipyard encircling an entire world constructing dreadnoughts",
+    "description": "Gigantic automated plasma welding rigs constructing kilometer-long star cruisers inside magnetic dry docks with views of the blue oceans of the planet below.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Plasma Welding Arcs & Orbital Radio Comms",
+    "tags": [
+      "shipyard",
+      "orbital ring",
+      "star destroyer",
+      "dreadnought",
+      "laser manufacturing"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 788504,
+      "sunPosition": [
+        -90,
+        45,
+        -120
+      ],
+      "fogDensity": 0.0006,
+      "terrainPreset": "cosmic_void"
+    }
+  },
+  {
+    "id": "antarctic-sub-ice-cryo-vault",
+    "title": "Vostok Sub-Glacial DNA Heritage Vault",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Earth's genetic archive buried beneath two miles of Antarctic ice sheet",
+    "description": "Cylindrical stainless steel chambers containing cryopreserved DNA seeds and memory cores of all Earth species, guarded by autonomous robotic wardens.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Liquid Nitrogen Chill & Robotic Servo Motors",
+    "tags": [
+      "cryo vault",
+      "antarctica",
+      "dna seed vault",
+      "ice sheet",
+      "future preservation"
+    ],
+    "soulsVisiting": 489000,
+    "resonance": "98.7%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 331288,
+      "sunPosition": [
+        0,
+        40,
+        -80
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "cyber-neural-dive-matrix",
+    "title": "The Deep Neural Dive Construct",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Direct brain-computer interface where thoughts materialize as light",
+    "description": "Entering the pure digital cyberspace plane where physical form dissolves into luminous crystalline avatars navigating three-dimensional fractal structures of pure data.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Binaural Theta Waves (6Hz) & Pure Sine Synthesizers",
+    "tags": [
+      "neural dive",
+      "cyberspace",
+      "bci",
+      "brain interface",
+      "avatar",
+      "fractal data"
+    ],
+    "soulsVisiting": 842000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 136724,
+      "sunPosition": [
+        0,
+        50,
+        -90
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "cyberpunk-floating-airship-market",
+    "title": "Kowloon Stratospheric Zeppelin Bazaar",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Connected fleet of solar zeppelins floating permanently at 10,000 feet",
+    "description": "A bustling airborne village of airships lashed together with steel cables, hosting neon spice markets, street food stalls, and drone docking pads above smog-choked valleys.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Airship Propeller Drone & Wind Flag Flutters",
+    "tags": [
+      "airship",
+      "zeppelin",
+      "sky market",
+      "flying bazaar",
+      "steampunk",
+      "dieselpunk"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1576220,
+      "sunPosition": [
+        50,
+        40,
+        60
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "terraformed-venus-cloud-city",
+    "title": "Venusian Bespin Aerostat Habitat",
+    "category": "Cyberpunk & Sci-Fi",
+    "tagline": "Floating luxury habitats suspended in Venus' temperate upper clouds",
+    "description": "Floating thirty miles above the crushing sulfuric surface of Venus, where atmospheric pressure and temperature match Earth. Giant aerostat cities drift through sunset cloudscapes.",
+    "bgImage": "public/assets/images/tokyo_neon.jpg",
+    "videoLoop": "public/assets/videos/portal_cyber_matrix.mp4",
+    "soundscape": "Super-Rotation Jet Stream & Pressurized Hull Swell",
+    "tags": [
+      "venus",
+      "cloud city",
+      "aerostat",
+      "floating city",
+      "bespin",
+      "sulfur clouds"
+    ],
+    "soulsVisiting": 732000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "cyber",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2233864,
+      "sunPosition": [
+        80,
+        50,
+        40
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "cyber_grid"
+    }
+  },
+  {
+    "id": "giza-pyramids-orion-alignment",
+    "title": "The Great Pyramids of Giza & Sphinx",
+    "category": "Ancient Wonders",
+    "tagline": "White limestone casing and golden electrum capstone aligned to Orion",
+    "description": "Witnessing the Great Pyramid in its original gleaming glory: smooth white Tura limestone casing reflecting the desert sun, topped with a polished electrum capstone pointing to the stars.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Desert Wind Whistles & Ancient Egyptian Sistrum Chimes",
+    "tags": [
+      "pyramid",
+      "giza",
+      "egypt",
+      "sphinx",
+      "pharaoh",
+      "desert",
+      "orion alignment",
+      "gold capstone"
+    ],
+    "soulsVisiting": 941000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1971210,
+      "sunPosition": [
+        80,
+        40,
+        -80
+      ],
+      "fogDensity": 0.0012,
+      "terrainPreset": "sand_dunes"
+    }
+  },
+  {
+    "id": "sunken-atlantis-crystal-city",
+    "title": "Sunken Citadel of Atlantis",
+    "category": "Ancient Wonders",
+    "tagline": "Concentric rings of red orichalcum and glowing orichalcum crystals under the sea",
+    "description": "The mythical sunken island civilization surrounded by three concentric rings of water and land. Glowing crystal energy towers power bioluminescent palaces on the ocean floor.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Submerged Crystal Resonance & Ocean Swell",
+    "tags": [
+      "atlantis",
+      "sunken city",
+      "myth",
+      "crystals",
+      "orichalcum",
+      "underwater kingdom"
+    ],
+    "soulsVisiting": 889000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 268328,
+      "sunPosition": [
+        0,
+        50,
+        -100
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "hanging-gardens-babylon",
+    "title": "Hanging Gardens of Babylon",
+    "category": "Ancient Wonders",
+    "tagline": "Terraced mountain of flowering trees watered by the Euphrates River",
+    "description": "Tiered mud-brick terraces rising four hundred feet, filled with exotic blooming date palms, pomegranate trees, and waterfalls powered by screw pumps from the Euphrates.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Terraced Water Cascades & Persian Lute Melodies",
+    "tags": [
+      "babylon",
+      "hanging gardens",
+      "wonder",
+      "mesopotamia",
+      "terraced trees",
+      "ancient garden"
+    ],
+    "soulsVisiting": 742000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 2234896,
+      "sunPosition": [
+        -90,
+        40,
+        50
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "machu-picchu-cloud-citadel",
+    "title": "Machu Picchu Sacred Cloud Citadel",
+    "category": "Ancient Wonders",
+    "tagline": "Inca dry-stone temple city perched between steep Andean peaks",
+    "description": "Precision-cut mortarless granite stones aligned to the solstices, sitting atop a narrow ridge shrouded in drifting mountain clouds above the rushing Urubamba River.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Andean Panpipes & High Mountain Cloud Wind",
+    "tags": [
+      "machu picchu",
+      "inca",
+      "peru",
+      "andes",
+      "cloud city",
+      "stone ruins",
+      "ancient"
+    ],
+    "soulsVisiting": 812000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1318952,
+      "sunPosition": [
+        60,
+        70,
+        40
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "meadow_plateau"
+    }
+  },
+  {
+    "id": "petra-treasury-rose-city",
+    "title": "Petra Rose City Al-Khazneh Treasury",
+    "category": "Ancient Wonders",
+    "tagline": "A monumental classical facade hand-carved into pink sandstone cliffs",
+    "description": "Emerging from the narrow, shadows of the Siq canyon into blinding desert light to see the 130-foot rose-red Nabataean treasury facade carved straight into the bedrock.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Echoing Canyon Winds & Bedouin Oud Melodies",
+    "tags": [
+      "petra",
+      "jordan",
+      "treasury",
+      "rose city",
+      "carved rock",
+      "sandstone",
+      "siq"
+    ],
+    "soulsVisiting": 765000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2363920,
+      "sunPosition": [
+        20,
+        75,
+        40
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "el-dorado-golden-lagoon",
+    "title": "El Dorado Lake Guatavita Gold Lagoon",
+    "category": "Ancient Wonders",
+    "tagline": "The ceremonial mountain lake where golden kings dusted with gold made offerings",
+    "description": "A circular crater lake high in the misty Andes where the Muisca Zipa chieftain, covered in powdered gold dust, sailed out on a balsa raft to sink golden treasures for the sun god.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Crater Lake Water Ripples & Ancient Gold Flute",
+    "tags": [
+      "el dorado",
+      "gold",
+      "lake guatavita",
+      "golden city",
+      "mythology",
+      "colombia"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1581074,
+      "sunPosition": [
+        40,
+        65,
+        50
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "olympus-throne-of-zeus",
+    "title": "Mount Olympus Throne of the Gods",
+    "category": "Ancient Wonders",
+    "tagline": "The marble cloud palaces where Greek gods watched mortal destinies",
+    "description": "Golden-roofed marble colonnades resting on thunderhead clouds above Mytikas peak. Lightning crackles softly across the bronze throne of Zeus.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Distant Thunder Claps & Classical Lyre Strings",
+    "tags": [
+      "olympus",
+      "zeus",
+      "greek gods",
+      "mythology",
+      "marble palace",
+      "thunder"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1184806,
+      "sunPosition": [
+        0,
+        85,
+        -90
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "colosseum-gladiator-arena",
+    "title": "Flavian Colosseum Moonlight Arena",
+    "category": "Ancient Wonders",
+    "tagline": "The monumental stone amphitheater under Roman midnight stars",
+    "description": "Eighty arched travertine entrances glowing under torches. Looking down at the wooden arena floor and underground hypogeum where gladiators once fought for immortality.",
+    "bgImage": "public/assets/images/colosseum_ancient.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Torches Crackling & Roman Bronze Horn Echoes",
+    "tags": [
+      "colosseum",
+      "rome",
+      "gladiator",
+      "arena",
+      "ancient rome",
+      "monumental"
+    ],
+    "soulsVisiting": 641000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 790556,
+      "sunPosition": [
+        0,
+        60,
+        -100
+      ],
+      "fogDensity": 0.0018,
+      "terrainPreset": "stone_pavement"
+    }
+  },
+  {
+    "id": "colossus-of-rhodes-harbor",
+    "title": "Colossus of Rhodes Harbor Guardian",
+    "category": "Ancient Wonders",
+    "tagline": "A hundred-foot bronze statue of sun god Helios straddling the harbor entrance",
+    "description": "Ships sailing with billowed sails between the bronze legs of the colossal sun god holding a flaming brazier beacon out over the Aegean Sea.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Harbor Bell Buoys & Sea Wind In Canvas Sails",
+    "tags": [
+      "colossus of rhodes",
+      "wonder",
+      "helios",
+      "bronze giant",
+      "ancient harbor",
+      "greece"
+    ],
+    "soulsVisiting": 512000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 2103316,
+      "sunPosition": [
+        -100,
+        30,
+        50
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "alexandria-pharos-lighthouse",
+    "title": "Pharos Lighthouse of Alexandria",
+    "category": "Ancient Wonders",
+    "tagline": "The four-hundred-foot stone beacon guiding ships across the Mediterranean",
+    "description": "Three tiers of white limestone rising from Pharos Island, topped with a colossal mirror that reflects firelight thirty miles out to sea into the dark.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Mediterranean Swells & Wood Fire Hearth Roar",
+    "tags": [
+      "alexandria",
+      "lighthouse",
+      "pharos",
+      "wonder",
+      "ancient beacon",
+      "sea"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "98.9%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 923684,
+      "sunPosition": [
+        -80,
+        40,
+        60
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "chichen-itza-kukulkan-shadow",
+    "title": "Chichen Itza Kukulkan Serpent Descent",
+    "category": "Ancient Wonders",
+    "tagline": "Equinox shadow of the feathered serpent snake sliding down the pyramid steps",
+    "description": "During the equinox, the late afternoon sun casts a series of triangular shadows down the balustrade of the El Castillo pyramid, creating the illusion of a giant serpent descending.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Jungle Cicadas & Mayan Ceramic Flutes",
+    "tags": [
+      "chichen itza",
+      "maya",
+      "pyramid",
+      "kukulkan",
+      "serpent",
+      "equinox",
+      "mexico"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "jungle",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2234898,
+      "sunPosition": [
+        -90,
+        35,
+        30
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "avalon-mist-isle-of-apples",
+    "title": "Isle of Avalon King Arthur's Rest",
+    "category": "Ancient Wonders",
+    "tagline": "The magical Celtic island cloaked in apple blossoms and eternal mist",
+    "description": "Gliding across glassy lake waters shrouded in white mist into the secret sanctuary where the Lady of the Lake forged Excalibur and Arthur heals from his mortal wound.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Celtic Harp Melodies & Soft Lake Mists",
+    "tags": [
+      "avalon",
+      "king arthur",
+      "excalibur",
+      "celtic",
+      "myth",
+      "island",
+      "apple trees"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "98.8%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1316892,
+      "sunPosition": [
+        50,
+        45,
+        60
+      ],
+      "fogDensity": 0.005,
+      "terrainPreset": "riverbank"
+    }
+  },
+  {
+    "id": "stonehenge-summer-solstice",
+    "title": "Stonehenge Summer Solstice Alignment",
+    "category": "Ancient Wonders",
+    "tagline": "Fifty-ton sarsen megaliths aligned to the first rays of the summer dawn",
+    "description": "Standing inside the megalithic stone circle on the Salisbury Plain as the rising sun aligns perfectly with the Heel Stone, casting long sacred shadows across the dew-dropped grass.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Prehistoric Wind Whistles & Distant Chants",
+    "tags": [
+      "stonehenge",
+      "megalith",
+      "solstice",
+      "ancient stones",
+      "england",
+      "astronomical"
+    ],
+    "soulsVisiting": 732000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 2628628,
+      "sunPosition": [
+        110,
+        20,
+        30
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "meadow_plateau"
+    }
+  },
+  {
+    "id": "valhalla-golden-shield-hall",
+    "title": "Valhalla Great Hall of the Slain",
+    "category": "Ancient Wonders",
+    "tagline": "A hall roofed with golden shields and rafters made of spear shafts",
+    "description": "Five hundred and forty doors wide enough for eight hundred warriors to march through abreast. The great tree Laeradr stands in the courtyard as einherjar celebrate under Odin's gaze.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Viking Horn Blasts & Hearth Fire Roars",
+    "tags": [
+      "valhalla",
+      "norse",
+      "odin",
+      "viking",
+      "golden shields",
+      "asgard",
+      "mythology"
+    ],
+    "soulsVisiting": 841000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1840140,
+      "sunPosition": [
+        0,
+        70,
+        -80
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "stone_pavement"
+    }
+  },
+  {
+    "id": "easter-island-moai-stargaze",
+    "title": "Rapa Nui Moai Monolith Stargazers",
+    "category": "Ancient Wonders",
+    "tagline": "Nearly a thousand carved volcanic heads staring out across the Pacific night",
+    "description": "Massive monolithic human statues carved from volcanic tuff, standing on stone ahu platforms. Their coral eyes look up at the crystal-clear Pacific Milky Way.",
+    "bgImage": "public/assets/images/pyramids_giza_real.jpg",
+    "videoLoop": "public/assets/videos/portal_ancient_dunes.mp4",
+    "soundscape": "Pacific Ocean Crashing Surf & Oceanic Winds",
+    "tags": [
+      "easter island",
+      "moai",
+      "rapa nui",
+      "statues",
+      "pacific",
+      "stargaze",
+      "monolith"
+    ],
+    "soulsVisiting": 612000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 527384,
+      "sunPosition": [
+        0,
+        50,
+        -120
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "ocean_shore"
+    }
+  },
+  {
+    "id": "himalayan-cloud-monastery",
+    "title": "Cloud Mountain Zen Monastery",
+    "category": "Zen Meditation",
+    "tagline": "Snow-capped silence, golden meditating Buddha, and Tibetan singing bowls",
+    "description": "High in the Himalayas above the cloud blanket, a cliffside monastery where prayer flags snap gently in the breeze. A golden Buddha radiates quiet compassion while a bronze singing bowl vibrates at 528Hz.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Tibetan Singing Bowl (528Hz Solfeggio) & Mountain Wind",
+    "tags": [
+      "zen",
+      "meditation",
+      "monastery",
+      "buddha",
+      "himalaya",
+      "peace",
+      "silence",
+      "mind",
+      "stillness"
+    ],
+    "soulsVisiting": 984000,
+    "resonance": "99.8%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1317928,
+      "sunPosition": [
+        80,
+        60,
+        40
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "glacial_peaks"
+    }
+  },
+  {
+    "id": "cherry-blossom-mirror-lake",
+    "title": "Mount Fuji Cherry Blossom Lake",
+    "category": "Zen Meditation",
+    "tagline": "Pale pink sakura petals drifting across mirror-still volcanic waters",
+    "description": "Lake Kawaguchi reflecting the symmetrical snow-capped cone of Mount Fuji. Gentle spring breezes send cascades of soft pink cherry blossom petals swirling onto the calm water.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Koto Japanese Harp & Soft Water Ripples",
+    "tags": [
+      "cherry blossom",
+      "sakura",
+      "mount fuji",
+      "japan",
+      "lake",
+      "pink petals",
+      "spring",
+      "peace"
+    ],
+    "soulsVisiting": 891000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1971744,
+      "sunPosition": [
+        70,
+        50,
+        40
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "solfeggio-sound-healing-chamber",
+    "title": "432Hz Harmonic Crystal Resonance Dome",
+    "category": "Zen Meditation",
+    "tagline": "Pure quartz singing crystal bowls tuning mind and body into universal harmony",
+    "description": "A circular white marble dome with acoustic perfection, where pure quartz crystal bowls create layered binaural waves that gently wash away all subconscious tension and anxiety.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Pure Quartz Crystal Singing Bowls (432Hz)",
+    "tags": [
+      "432hz",
+      "sound healing",
+      "crystal bowls",
+      "chakra",
+      "binaural",
+      "meditation dome",
+      "harmony"
+    ],
+    "soulsVisiting": 742000,
+    "resonance": "99.7%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1050654,
+      "sunPosition": [
+        0,
+        60,
+        -80
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "lucid-dream-floating-islands",
+    "title": "Ethereal Floating Islands of Aether",
+    "category": "Zen Meditation",
+    "tagline": "Weightless mossy islands floating among pastel sunset clouds",
+    "description": "Anti-gravity dream realm where grassy islands crowned with weeping willow trees hover weightlessly in a pastel pink and lavender sky. Waterfalls tumble from island edges into thin air.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Gentle Lucid Wind & Ethereal Glass Chimes",
+    "tags": [
+      "floating islands",
+      "lucid dream",
+      "weightless",
+      "avatar",
+      "fantasy",
+      "surreal",
+      "clouds"
+    ],
+    "soulsVisiting": 812000,
+    "resonance": "99.4%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1315368,
+      "sunPosition": [
+        60,
+        60,
+        -40
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "meadow_plateau"
+    }
+  },
+  {
+    "id": "silent-void-starry-mirror",
+    "title": "The Great Void of Pure Awareness",
+    "category": "Zen Meditation",
+    "tagline": "An ocean of dark glass under a billion silent stars with zero distraction",
+    "description": "No walls, no land, no gravity. Just a perfectly flat infinite sheet of black mirror extending in all directions beneath a crystal-clear diamond starfield. The ultimate realm for deep self-realization.",
+    "bgImage": "public/assets/images/orion_cosmos.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Absolute Deep Silence & 111Hz Gamma Wave Tone",
+    "tags": [
+      "void",
+      "silence",
+      "pure awareness",
+      "black mirror",
+      "self realization",
+      "samadhi",
+      "zen"
+    ],
+    "soulsVisiting": 671000,
+    "resonance": "99.9%",
+    "environment": {
+      "biome": "cosmic",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 131848,
+      "sunPosition": [
+        0,
+        80,
+        -120
+      ],
+      "fogDensity": 0.0005,
+      "terrainPreset": "salt_flat"
+    }
+  },
+  {
+    "id": "buddha-bodhi-tree-enlightenment",
+    "title": "Bodh Gaya Sacred Mahabodhi Tree",
+    "category": "Zen Meditation",
+    "tagline": "The exact spot where Siddhartha Gautama attained enlightenment",
+    "description": "Sitting upon the diamond throne beneath the spreading branches of the sacred Bodhi tree. A gentle rain of heart-shaped leaves floats down while butter lamps flicker in the twilight.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Rustling Bodhi Leaves & Monastic Pali Mantras",
+    "tags": [
+      "bodhi tree",
+      "bodh gaya",
+      "buddha",
+      "enlightenment",
+      "meditation",
+      "sacred tree"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1709070,
+      "sunPosition": [
+        50,
+        45,
+        60
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "japanese-zen-dry-rock-garden",
+    "title": "Ryoan-ji Raked Gravel Zen Garden",
+    "category": "Zen Meditation",
+    "tagline": "Fifteen mossy stones in an ocean of meticulously raked white gravel",
+    "description": "Sitting on the wooden veranda of a Kyoto temple observing fifteen enigmatic stones arranged in white gravel. From no angle can all fifteen stones be seen at once, mirroring the mystery of the mind.",
+    "bgImage": "public/assets/images/kyoto_zen_garden.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Water Dropping in Bamboo Shishi-Odoshi & Stone Silence",
+    "tags": [
+      "zen garden",
+      "ryoanji",
+      "raked gravel",
+      "kyoto",
+      "meditation",
+      "mindfulness",
+      "japan"
+    ],
+    "soulsVisiting": 541000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1579548,
+      "sunPosition": [
+        40,
+        70,
+        50
+      ],
+      "fogDensity": 0.0015,
+      "terrainPreset": "zen_gravel"
+    }
+  },
+  {
+    "id": "lotus-pond-morning-mist",
+    "title": "Sacred Pink Lotus Sanctuary",
+    "category": "Zen Meditation",
+    "tagline": "Thousands of sacred lotus blossoms unfurling their petals at dawn",
+    "description": "A glassy pond covered in emerald lily pads and fragrant pink and white lotus blooms. Early morning dew drops shimmer like liquid diamonds on the water-repellent leaves.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Morning Water Droplets & Soft Dragonfly Wings",
+    "tags": [
+      "lotus",
+      "pond",
+      "water lily",
+      "pink flower",
+      "morning dew",
+      "tranquility",
+      "purity"
+    ],
+    "soulsVisiting": 632000,
+    "resonance": "99.3%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1448990,
+      "sunPosition": [
+        90,
+        35,
+        40
+      ],
+      "fogDensity": 0.004,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "celtic-fairy-pools-skye",
+    "title": "Isle of Skye Enchanted Fairy Pools",
+    "category": "Zen Meditation",
+    "tagline": "Crystal-clear aqua pools fed by cascades from the Black Cuillin mountains",
+    "description": "Vibrant turquoise and emerald plunge pools surrounded by purple heather and rugged volcanic crags in Scotland. The water is so transparent it appears like floating air.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Gurgling Mountain Burn & Scottish Highlands Breeze",
+    "tags": [
+      "fairy pools",
+      "scotland",
+      "isle of skye",
+      "crystal pools",
+      "waterfall",
+      "heather"
+    ],
+    "soulsVisiting": 589000,
+    "resonance": "99.2%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 1055264,
+      "sunPosition": [
+        50,
+        55,
+        50
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "waterfall_lagoon"
+    }
+  },
+  {
+    "id": "tibetan-sand-mandala-temple",
+    "title": "The Ephemeral Sand Mandala Chamber",
+    "category": "Zen Meditation",
+    "tagline": "Millions of colorful grains of sand arranged in sacred geometric perfection",
+    "description": "Watching Tibetan lamas gently tap brass chak-purs to place mineral-dyed sand into intricate cosmic mandalas, meditating on the beauty of impermanence and release.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Chak-pur Brass Tapping & Low Throat Chants",
+    "tags": [
+      "sand mandala",
+      "tibetan",
+      "sacred geometry",
+      "impermanence",
+      "sand art",
+      "monks"
+    ],
+    "soulsVisiting": 489000,
+    "resonance": "99.0%",
+    "environment": {
+      "biome": "temple",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1708040,
+      "sunPosition": [
+        0,
+        65,
+        -70
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "temple_courtyard"
+    }
+  },
+  {
+    "id": "warm-candlelight-sanctuary",
+    "title": "Chamber of a Thousand Beeswax Candles",
+    "category": "Zen Meditation",
+    "tagline": "Warm amber flames dancing in soft harmony against dark cedar walls",
+    "description": "A cozy sanctuary filled with hundreds of beeswax candles of varying heights. The warm golden light and subtle scent of honey create an instant feeling of total safety and calm.",
+    "bgImage": "public/assets/images/aarti_devotees_real.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Soft Candle Flame Crackle & Deep Heartbeat Tone",
+    "tags": [
+      "candles",
+      "candlelight",
+      "amber glow",
+      "cozy",
+      "warmth",
+      "safety",
+      "peace",
+      "relax"
+    ],
+    "soulsVisiting": 742000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1839110,
+      "sunPosition": [
+        0,
+        40,
+        -50
+      ],
+      "fogDensity": 0.002,
+      "terrainPreset": "stone_pavement"
+    }
+  },
+  {
+    "id": "rainy-day-cozy-library",
+    "title": "Rain on the Skylight Antique Library",
+    "category": "Zen Meditation",
+    "tagline": "Gentle rain tapping on glass, leather armchairs, and warm mahogany",
+    "description": "A two-story personal library surrounded by thousands of leather-bound books. Gentle continuous rain taps on the glass skylight as tea steams beside an emerald velvet chair.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Rain on Skylight Glass & Crackling Firewood",
+    "tags": [
+      "rain",
+      "library",
+      "books",
+      "cozy",
+      "study",
+      "relax",
+      "warm tea",
+      "peaceful"
+    ],
+    "soulsVisiting": 894000,
+    "resonance": "99.8%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 1184792,
+      "sunPosition": [
+        20,
+        50,
+        40
+      ],
+      "fogDensity": 0.003,
+      "terrainPreset": "stone_pavement"
+    }
+  },
+  {
+    "id": "deep-cave-crystal-glow",
+    "title": "Naica Giant Selenite Crystal Cave",
+    "category": "Zen Meditation",
+    "tagline": "Walking among 36-foot translucent gypsum crystals deep in the earth",
+    "description": "A subterranean cathedral of colossal translucent white selenite crystals crossing each other at geometric angles, glowing from within with pure white earth energy.",
+    "bgImage": "public/assets/images/nature_waterfall.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Subterranean Earth Resonance & Slow Water Drops",
+    "tags": [
+      "crystal cave",
+      "naica",
+      "selenite",
+      "crystals",
+      "earth energy",
+      "cave",
+      "translucent"
+    ],
+    "soulsVisiting": 618000,
+    "resonance": "99.1%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 659480,
+      "sunPosition": [
+        0,
+        30,
+        -60
+      ],
+      "fogDensity": 0.0035,
+      "terrainPreset": "rocky_canyon"
+    }
+  },
+  {
+    "id": "desert-stargazing-camp",
+    "title": "Wadi Rum Desert Stargazing Bedouin Camp",
+    "category": "Zen Meditation",
+    "tagline": "Sleeping under billions of desert stars on colorful woven carpets",
+    "description": "Red sandstone monoliths fading into night silhouettes as the Milky Way blazes overhead with zero light pollution. A small campfire embers beside woven woolen pillows.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Campfire Embers & Desert Night Silence",
+    "tags": [
+      "desert camp",
+      "wadi rum",
+      "stargazing",
+      "milky way",
+      "campfire",
+      "bedouin",
+      "night sky"
+    ],
+    "soulsVisiting": 789000,
+    "resonance": "99.5%",
+    "environment": {
+      "biome": "desert",
+      "hasWaterBody": false,
+      "festiveContext": false,
+      "skyColor": 526868,
+      "sunPosition": [
+        0,
+        70,
+        -110
+      ],
+      "fogDensity": 0.001,
+      "terrainPreset": "sand_dunes"
+    }
+  },
+  {
+    "id": "golden-hour-ocean-cliff",
+    "title": "Big Sur Pacific Golden Hour Horizon",
+    "category": "Zen Meditation",
+    "tagline": "Sitting on an ocean cliff as the sun melts into an infinite sea of gold",
+    "description": "High above the Pacific Coast Highway, sitting on a wild sage bluff as the sun dips below the horizon, painting the ocean in molten liquid gold and the sky in royal purple.",
+    "bgImage": "public/assets/images/himalaya_zen.jpg",
+    "videoLoop": "public/assets/videos/portal_zen_ripple.mp4",
+    "soundscape": "Distant Ocean Surf & Coastal Sage Wind",
+    "tags": [
+      "big sur",
+      "california",
+      "cliff",
+      "sunset",
+      "ocean",
+      "golden hour",
+      "peace",
+      "horizon"
+    ],
+    "soulsVisiting": 842000,
+    "resonance": "99.6%",
+    "environment": {
+      "biome": "sanctuary",
+      "hasWaterBody": true,
+      "festiveContext": false,
+      "skyColor": 3020816,
+      "sunPosition": [
+        -110,
+        25,
+        40
+      ],
+      "fogDensity": 0.0025,
+      "terrainPreset": "ocean_shore"
+    }
+  }
+]
