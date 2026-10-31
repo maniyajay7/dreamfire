@@ -2178,7 +2178,18 @@ export function attachFlagshipScene(ThreeInstance, scene, realmData, realmObject
   }
 
   // Feature F12: Monaco Midnight Formula 1 Grand Prix Circuit
-  if (id === 'monaco-midnight-grand-prix' || tags.includes('f1') || tags.includes('grand prix')) {
+  if (
+    id === 'monaco-midnight-grand-prix' ||
+    id === 'silverstone-night-gp' ||
+    id.includes('monaco') ||
+    id.includes('silverstone') ||
+    id.includes('f1') ||
+    tags.includes('f1') ||
+    tags.includes('racing') ||
+    tags.includes('grand prix') ||
+    title.toLowerCase().includes('grand prix') ||
+    title.toLowerCase().includes('racing')
+  ) {
     const circuit = buildF1CircuitScene(T, scene, realmData, realmObjects, animators);
     return { type: 'f1_circuit', circuit };
   }
@@ -2363,13 +2374,27 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
   const root = new Three.Group();
   root.name = 'flagship_f1_monaco_circuit_scene';
 
-  // 1. ASPHALT TRACK RIBBON (160m length, curved chicane)
+  // 1. HIGH-FIDELITY ASPHALT PBR TRACK RIBBON WITH CAMBER BANKING
   const trackGeo = new Three.PlaneGeometry(160, 16, 64, 8);
   if (trackGeo.rotateX) trackGeo.rotateX(-Math.PI / 2);
+
+  // Apply camber elevation banking along track chicane curves (-2.5 deg to +3.5 deg)
+  const posAttr = trackGeo.attributes && trackGeo.attributes.position;
+  if (posAttr && posAttr.array) {
+    const arr = posAttr.array;
+    for (let i = 0; i < arr.length; i += 3) {
+      const x = arr[i];
+      const z = arr[i + 2];
+      const camberFactor = Math.sin(x * 0.05) * 0.055;
+      arr[i + 1] += z * camberFactor;
+    }
+    if (trackGeo.computeVertexNormals) trackGeo.computeVertexNormals();
+  }
+
   const trackMat = new Three.MeshStandardMaterial({
-    color: 0x11141a,
-    roughness: 0.82,
-    metalness: 0.15
+    color: 0x14171d,
+    roughness: 0.85,
+    metalness: 0.12
   });
   const trackMesh = new Three.Mesh(trackGeo, trackMat);
   trackMesh.position.set(0, -0.05, 0);
@@ -2377,14 +2402,14 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
   trackMesh.name = 'asphalt_track_ribbon';
   root.add(trackMesh);
 
-  // 2. APEX RUMBLE KERBS (Alternating Red and White Serrated Curb Blocks)
+  // 2. APEX RUMBLE KERBS (Alternating Red 0xef4444 and White 0xf8fafc Serrated Curb Blocks)
   const kerbGroup = new Three.Group();
   kerbGroup.name = 'apex_rumble_kerbs';
   const kerbW = 0.8;
   const kerbL = 2.4;
   const kerbH = 0.18;
-  const redMat = new Three.MeshStandardMaterial({ color: 0xef4444, roughness: 0.5, metalness: 0.1 });
-  const whiteMat = new Three.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5, metalness: 0.1 });
+  const redMat = new Three.MeshStandardMaterial({ color: 0xef4444, roughness: 0.52, metalness: 0.08 });
+  const whiteMat = new Three.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.48, metalness: 0.08 });
 
   for (let k = 0; k < 28; k++) {
     const isRed = k % 2 === 0;
@@ -2396,8 +2421,34 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
   }
   root.add(kerbGroup);
 
-  // 3. SAFETY ARMCO CRASH BARRIER
-  const barrierMat = new Three.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
+  // 3. DECELERATING TIRE BRAKING SKID MARKS
+  const skidGroup = new Three.Group();
+  skidGroup.name = 'tire_skid_marks';
+  const skidMat = new Three.MeshStandardMaterial({
+    color: 0x050507,
+    roughness: 0.98,
+    metalness: 0.02,
+    transparent: true,
+    opacity: 0.76,
+    depthWrite: false
+  });
+  const leftSkidGeo = new Three.PlaneGeometry(42, 0.55, 16, 1);
+  if (leftSkidGeo.rotateX) leftSkidGeo.rotateX(-Math.PI / 2);
+  const leftSkid = new Three.Mesh(leftSkidGeo, skidMat);
+  leftSkid.position.set(12, 0.01, 1.1);
+  leftSkid.name = 'left_tire_skid_mark';
+  skidGroup.add(leftSkid);
+
+  const rightSkidGeo = new Three.PlaneGeometry(42, 0.55, 16, 1);
+  if (rightSkidGeo.rotateX) rightSkidGeo.rotateX(-Math.PI / 2);
+  const rightSkid = new Three.Mesh(rightSkidGeo, skidMat);
+  rightSkid.position.set(12, 0.01, -1.1);
+  rightSkid.name = 'right_tire_skid_mark';
+  skidGroup.add(rightSkid);
+  root.add(skidGroup);
+
+  // 4. GALVANIZED STEEL ARMCO CRASH BARRIERS
+  const barrierMat = new Three.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.92, roughness: 0.22 });
   const barrierMesh = new Three.Mesh(new Three.BoxGeometry(160, 1.2, 0.3), barrierMat);
   barrierMesh.position.set(0, 0.6, 9.2);
   barrierMesh.castShadow = true;
@@ -2405,31 +2456,56 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
   barrierMesh.name = 'armco_crash_barrier';
   root.add(barrierMesh);
 
-  // 4. FORMULA 1 OPEN-WHEEL RACE CAR
+  // 5. MULTI-TIER GRANDSTAND BLOCKS
+  const grandstandGroup = new Three.Group();
+  grandstandGroup.name = 'trackside_grandstands';
+  const standMat = new Three.MeshStandardMaterial({ color: 0x334155, roughness: 0.7, metalness: 0.3 });
+  const seatMat = new Three.MeshStandardMaterial({ color: 0xef4444, roughness: 0.6, metalness: 0.2 });
+  const roofMat = new Three.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5, metalness: 0.4 });
+
+  const grandstandTiers = 8;
+  for (let t = 0; t < grandstandTiers; t++) {
+    const tierMesh = new Three.Mesh(
+      new Three.BoxGeometry(50, 0.8, 1.4),
+      t % 2 === 0 ? standMat : seatMat
+    );
+    tierMesh.position.set(0, (t + 1) * 0.8, -14 - t * 1.2);
+    tierMesh.castShadow = true;
+    tierMesh.receiveShadow = true;
+    grandstandGroup.add(tierMesh);
+  }
+  const canopyMesh = new Three.Mesh(new Three.BoxGeometry(54, 0.4, 16), roofMat);
+  canopyMesh.position.set(0, grandstandTiers * 0.8 + 3.2, -20);
+  canopyMesh.rotation.x = 0.08;
+  canopyMesh.castShadow = true;
+  grandstandGroup.add(canopyMesh);
+  root.add(grandstandGroup);
+
+  // 6. CHAMPIONSHIP OPEN-WHEEL FORMULA 1 RACE CAR
   const carGroup = new Three.Group();
   carGroup.name = 'f1_championship_car';
   carGroup.position.set(0, 0.45, 0);
 
-  // Monocoque Chassis
+  // Aerodynamic Carbon Monocoque Chassis
   const chassisMat = new Three.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.9, roughness: 0.15 });
   const chassis = new Three.Mesh(new Three.BoxGeometry(4.8, 0.65, 1.6), chassisMat);
   chassis.castShadow = true;
   carGroup.add(chassis);
 
-  // Front Wing
+  // Front Wing Multi-Flap
   const wingMat = new Three.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
   const frontWing = new Three.Mesh(new Three.BoxGeometry(0.8, 0.12, 2.2), wingMat);
   frontWing.position.set(2.4, -0.15, 0);
   frontWing.castShadow = true;
   carGroup.add(frontWing);
 
-  // Rear Wing
+  // Rear DRS Wing
   const rearWing = new Three.Mesh(new Three.BoxGeometry(0.7, 0.45, 1.8), wingMat);
   rearWing.position.set(-2.4, 0.65, 0);
   rearWing.castShadow = true;
   carGroup.add(rearWing);
 
-  // Halo Safety Structure
+  // Titanium Halo Cockpit Loop
   const haloMat = new Three.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.95, roughness: 0.1 });
   const TorusGeoClass = helpers.TorusGeometry || Three.TorusGeometry;
   const halo = new Three.Mesh(TorusGeoClass ? new TorusGeoClass(0.4, 0.06, 8, 16, Math.PI) : new Three.BoxGeometry(0.8, 0.1, 0.8), haloMat);
@@ -2437,8 +2513,17 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
   if (halo.rotation && halo.rotation.set) halo.rotation.set(Math.PI / 2, 0, 0);
   carGroup.add(halo);
 
-  // 4 Pirelli Wide Slick Tires
-  const tireMat = new Three.MeshStandardMaterial({ color: 0x18181b, roughness: 0.95, metalness: 0.05 });
+  // 4 Pirelli Wide Slick Tires & Glowing Brake Discs with Dynamic Emissive PBR
+  const tireMat = new Three.MeshStandardMaterial({ color: 0x18181b, roughness: 0.92, metalness: 0.05 });
+  const brakeMat = new Three.MeshStandardMaterial({
+    color: 0x111111,
+    emissive: 0xff3300,
+    emissiveIntensity: 1.8,
+    roughness: 0.4,
+    metalness: 0.8
+  });
+  brakeMat.name = 'f1_brake_disc_material';
+
   const wheelPositions = [
     [1.6, -0.15, 1.1],
     [1.6, -0.15, -1.1],
@@ -2446,21 +2531,29 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
     [-1.6, -0.15, -1.15]
   ];
   wheelPositions.forEach(wp => {
-    const tire = new Three.Mesh(new Three.CylinderGeometry(0.38, 0.38, 0.42, 16), tireMat);
+    const tire = new Three.Mesh(new Three.CylinderGeometry(0.38, 0.38, 0.42, 24), tireMat);
     if (tire.rotateX) tire.rotateX(Math.PI / 2);
     tire.position.set(wp[0], wp[1], wp[2]);
     tire.castShadow = true;
     carGroup.add(tire);
+
+    // Glowing brake disc rotor inside wheel rim
+    const brakeDisc = new Three.Mesh(new Three.CylinderGeometry(0.22, 0.22, 0.08, 16), brakeMat);
+    if (brakeDisc.rotateX) brakeDisc.rotateX(Math.PI / 2);
+    const zOffset = wp[2] > 0 ? -0.12 : 0.12;
+    brakeDisc.position.set(wp[0], wp[1], wp[2] + zOffset);
+    brakeDisc.name = 'f1_glowing_brake_disc';
+    carGroup.add(brakeDisc);
   });
 
-  // Flashing Rain Safety LED Light
+  // Rear Red Rain Safety Beacon Flashing at 4Hz
   const rainLight = new Three.PointLight(0xff0000, 3.5, 12);
   rainLight.position.set(-2.6, 0.2, 0);
   carGroup.add(rainLight);
 
   root.add(carGroup);
 
-  // 5. STADIUM NIGHT FLOODLIGHT MASTS
+  // 7. HIGH-MAST STADIUM FLOODLIGHTS CASTING CRISP SHADOWS
   const lightPosts = [-60, -20, 20, 60];
   lightPosts.forEach(lx => {
     const mastMesh = new Three.Mesh(new Three.CylinderGeometry(0.25, 0.35, 24, 8), barrierMat);
@@ -2469,16 +2562,33 @@ export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmO
     root.add(mastMesh);
 
     if (Three.SpotLight) {
-      const spot = new Three.SpotLight(0xffffff, 3.2, 70, Math.PI / 4, 0.35);
+      const spot = new Three.SpotLight(0xfff8ee, 3.8, 85, Math.PI / 4, 0.3);
       spot.position.set(lx, 23.5, 16);
       spot.target.position.set(lx, 0, 0);
+      spot.castShadow = true;
+      if (spot.shadow && spot.shadow.mapSize) {
+        spot.shadow.mapSize.width = 1024;
+        spot.shadow.mapSize.height = 1024;
+        spot.shadow.bias = -0.0005;
+      }
       root.add(spot);
       root.add(spot.target);
     }
   });
 
+  // F1 ANIMATOR LOOP: 4Hz Rain Safety Flash, Brake Emissive Pulse (0.2 - 3.5), Engine Vibrations
   const f1Animator = (time, delta) => {
-    rainLight.intensity = Math.sin(time * 16.0) > 0 ? 4.5 : 0.4;
+    // 4Hz safety beacon flashing (8 * PI * time)
+    const flashPhase = Math.sin(time * Math.PI * 8.0);
+    rainLight.intensity = flashPhase > 0 ? 4.5 : 0.1;
+
+    // Glowing brake disc emissive pulsing between 0.2 and 3.5 during braking decelerations
+    const brakePulse = 0.2 + (Math.sin(time * 3.5) * 0.5 + 0.5) * 3.3;
+    if (brakeMat.emissiveIntensity !== undefined) {
+      brakeMat.emissiveIntensity = brakePulse;
+    }
+
+    // Engine micro-vibrations
     carGroup.position.y = 0.45 + Math.sin(time * 30.0) * 0.003;
   };
 

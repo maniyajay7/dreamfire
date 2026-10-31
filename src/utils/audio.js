@@ -699,13 +699,168 @@ export class AmbientAudioEngine {
   }
 
   /**
+   * 8. High-Speed F1 Racing Circuit: V10 Engine Harmonics, Rev Curves & Tire Scrub
+   */
+  spawnF1RacingSoundscape(channelGain) {
+    const ctx = this.audioCtx;
+    const nodes = [];
+    const timers = [];
+    const now = ctx.currentTime;
+
+    // A. V10 Fundamental Firing Frequency (idle 375 Hz to redline 1540 Hz, sawtooth)
+    const oscV10 = ctx.createOscillator();
+    oscV10.type = 'sawtooth';
+    oscV10.frequency.setValueAtTime(375, now);
+
+    // B. 2nd Harmonic Exhaust Resonance (2x f0, sawtooth)
+    const oscExhaust = ctx.createOscillator();
+    oscExhaust.type = 'sawtooth';
+    oscExhaust.frequency.setValueAtTime(750, now);
+
+    // C. Crankshaft Subharmonic (f0 / 5, triangle)
+    const oscCrank = ctx.createOscillator();
+    oscCrank.type = 'triangle';
+    oscCrank.frequency.setValueAtTime(75, now);
+
+    // D. Resonant Lowpass Filter Swept by Rev Curve (Q = 4.5)
+    const engineFilter = ctx.createBiquadFilter();
+    engineFilter.type = 'lowpass';
+    engineFilter.frequency.setValueAtTime(1200, now);
+    engineFilter.Q.setValueAtTime(4.5, now);
+
+    // E. Manifold Distortion Waveshaper (512-point soft clipping curve)
+    let waveshaper = null;
+    if (typeof ctx.createWaveShaper === 'function') {
+      try {
+        waveshaper = ctx.createWaveShaper();
+        const curve = new Float32Array(512);
+        for (let i = 0; i < 512; ++i) {
+          const x = (i * 2) / 512 - 1;
+          curve[i] = ((Math.PI + 40) * x) / (Math.PI + 40 * Math.abs(x));
+        }
+        waveshaper.curve = curve;
+        waveshaper.oversample = '2x';
+      } catch {}
+    }
+
+    const engineGain = ctx.createGain();
+    engineGain.gain.setValueAtTime(0.12, now);
+
+    // Connect Engine Node Graph
+    oscV10.connect(engineFilter);
+    oscExhaust.connect(engineFilter);
+    oscCrank.connect(engineFilter);
+
+    if (waveshaper) {
+      engineFilter.connect(waveshaper);
+      waveshaper.connect(engineGain);
+      nodes.push(waveshaper);
+    } else {
+      engineFilter.connect(engineGain);
+    }
+    engineGain.connect(channelGain);
+
+    oscV10.start(now);
+    oscExhaust.start(now);
+    oscCrank.start(now);
+    nodes.push(oscV10, oscExhaust, oscCrank, engineFilter, engineGain);
+
+    // F. Procedural Rev-Curve Shifting Sequence Across 4 Gears with 40ms Ignition Cut Dips
+    const gearRatios = [
+      { startFreq: 375, endFreq: 1350, duration: 1.6 }, // 1st gear (idle 375 Hz)
+      { startFreq: 880, endFreq: 1420, duration: 1.9 }, // 2nd gear
+      { startFreq: 960, endFreq: 1520, duration: 2.4 }, // 3rd gear
+      { startFreq: 1050, endFreq: 1540, duration: 2.8 } // 4th gear (redline 1540 Hz)
+    ];
+
+    let nextShiftTime = now;
+    for (let cycle = 0; cycle < 12; cycle++) {
+      for (let g = 0; g < gearRatios.length; g++) {
+        const gear = gearRatios[g];
+        const startT = nextShiftTime;
+        const endT = startT + gear.duration;
+
+        try {
+          // Rev acceleration ramp
+          oscV10.frequency.setValueAtTime(gear.startFreq, startT);
+          oscV10.frequency.exponentialRampToValueAtTime(gear.endFreq, endT);
+
+          // 2nd harmonic exhaust resonance (2x f0)
+          oscExhaust.frequency.setValueAtTime(gear.startFreq * 2, startT);
+          oscExhaust.frequency.exponentialRampToValueAtTime(gear.endFreq * 2, endT);
+
+          // Crankshaft subharmonic (f0 / 5)
+          oscCrank.frequency.setValueAtTime(gear.startFreq / 5, startT);
+          oscCrank.frequency.exponentialRampToValueAtTime(gear.endFreq / 5, endT);
+
+          // Resonant lowpass filter swept by rev curve
+          engineFilter.frequency.setValueAtTime(gear.startFreq * 1.8, startT);
+          engineFilter.frequency.exponentialRampToValueAtTime(gear.endFreq * 2.5, endT);
+
+          // Shift cut (40ms ignition cut dip)
+          engineGain.gain.setValueAtTime(0.12, endT - 0.04);
+          engineGain.gain.linearRampToValueAtTime(0.015, endT);
+          engineGain.gain.linearRampToValueAtTime(0.12, endT + 0.06);
+        } catch {}
+
+        nextShiftTime = endT + 0.08;
+      }
+    }
+
+    // G. Trackside Pink Noise Tire Scrub with 950 Hz Bandpass Filter
+    const noiseBuf = this.createNoiseBuffer('pink');
+    if (noiseBuf) {
+      const tireNoise = ctx.createBufferSource();
+      tireNoise.buffer = noiseBuf;
+      tireNoise.loop = true;
+
+      const tireFilter = ctx.createBiquadFilter();
+      tireFilter.type = 'bandpass';
+      tireFilter.frequency.setValueAtTime(950, now);
+      tireFilter.Q.setValueAtTime(2.2, now);
+
+      const tireGain = ctx.createGain();
+      tireGain.gain.setValueAtTime(0.04, now);
+
+      tireNoise.connect(tireFilter);
+      tireFilter.connect(tireGain);
+      tireGain.connect(channelGain);
+
+      tireNoise.start(now);
+      nodes.push(tireNoise, tireFilter, tireGain);
+    }
+
+    return { nodes, timers };
+  }
+
+  spawnF1EngineSoundscape(channelGain) {
+    return this.spawnF1RacingSoundscape(channelGain);
+  }
+
+  /**
    * Spawns the appropriate soundscape generator for a given realm / category.
    */
   spawnCategorySoundscape(category, realmData, channelGain) {
     const cat = (category || (realmData && realmData.category) || '').toLowerCase();
     const id = ((realmData && realmData.id) || (typeof realmData === 'string' ? realmData : '')).toLowerCase();
+    const tags = (realmData && Array.isArray(realmData.tags)) ? realmData.tags.map(t => String(t).toLowerCase()) : [];
+    const title = ((realmData && realmData.title) || '').toLowerCase();
 
-    if (id.includes('waterfall') || id.includes('river') || cat.includes('nature') || cat.includes('retreat')) {
+    if (
+      id === 'monaco-midnight-grand-prix' ||
+      id === 'silverstone-night-gp' ||
+      id.includes('monaco') ||
+      id.includes('silverstone') ||
+      id.includes('f1') ||
+      tags.includes('f1') ||
+      tags.includes('racing') ||
+      tags.includes('grand prix') ||
+      title.includes('grand prix') ||
+      title.includes('racing') ||
+      (realmData && realmData.soundscape && realmData.soundscape.includes('V10'))
+    ) {
+      return this.spawnF1RacingSoundscape(channelGain);
+    } else if (id.includes('waterfall') || id.includes('river') || cat.includes('nature') || cat.includes('retreat')) {
       return this.spawnNatureSoundscape(channelGain);
     } else if (cat.includes('cyber') || cat.includes('sci-fi')) {
       return this.spawnCyberSoundscape(channelGain);

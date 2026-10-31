@@ -377,18 +377,87 @@ suite('Milestone M3: Flagship Showcase 3D Geometry & Crowd Simulation', 'Tier 2'
     assert.ok(realmObjects.includes(root), 'Circuit root must be registered in realmObjects');
     assert.ok(animators.includes(f1Animator), 'F1 rain LED animator must be registered');
 
+    // 1. Asphalt PBR track with camber banking
     const track = root.children.find((c) => c.name === 'asphalt_track_ribbon');
     assert.ok(track, 'Must contain asphalt track ribbon');
+    assert.strictEqual(track.material.color.getHex(), 0x14171d, 'Track asphalt color must be 0x14171d');
+    assert.strictEqual(track.material.roughness, 0.85, 'Track asphalt roughness must be 0.85');
+
+    // 2. Apex rumble kerbs
     const kerbs = root.children.find((c) => c.name === 'apex_rumble_kerbs');
     assert.ok(kerbs, 'Must contain apex rumble kerbs group');
     assert.strictEqual(kerbs.children.length, 28, 'Must contain exactly 28 rumble kerb blocks');
-    const car = root.children.find((c) => c.name === 'f1_championship_car');
-    assert.ok(car, 'Must contain F1 championship car');
+    assert.strictEqual(kerbs.children[0].material.color.getHex(), 0xef4444, 'Kerb block 0 must be red (0xef4444)');
+    assert.strictEqual(kerbs.children[1].material.color.getHex(), 0xf8fafc, 'Kerb block 1 must be white (0xf8fafc)');
+
+    // 3. Braking skid marks
+    const skidMarks = root.children.find((c) => c.name === 'braking_skid_marks');
+    assert.ok(skidMarks, 'Must contain decelerating braking skid marks');
+    assert.strictEqual(skidMarks.material.transparent, true, 'Skid marks must be transparent');
+    assert.strictEqual(skidMarks.material.opacity, 0.76, 'Skid marks opacity must be 0.76');
+    assert.strictEqual(skidMarks.material.depthWrite, false, 'Skid marks depthWrite must be false');
+
+    // 4. Galvanized steel Armco barrier
     const barrier = root.children.find((c) => c.name === 'armco_crash_barrier');
     assert.ok(barrier, 'Must contain Armco crash safety barrier');
+    assert.strictEqual(barrier.material.color.getHex(), 0x94a3b8, 'Armco barrier color must be 0x94a3b8');
+    assert.strictEqual(barrier.material.metalness, 0.92, 'Armco barrier metalness must be 0.92');
+    assert.strictEqual(barrier.material.roughness, 0.22, 'Armco barrier roughness must be 0.22');
 
-    // Step animator
+    // 5. Grandstand & stadium floodlights
+    const grandstands = root.children.find((c) => c.name === 'circuit_grandstands');
+    assert.ok(grandstands, 'Must contain multi-tier grandstands');
+    const floodlights = root.children.find((c) => c.name === 'stadium_floodlights');
+    assert.ok(floodlights, 'Must contain high-mast stadium floodlights');
+    const spotLights = floodlights.children.filter((c) => c instanceof THREE.SpotLight);
+    assert.ok(spotLights.length >= 2, 'Must contain SpotLights casting shadows');
+    assert.strictEqual(spotLights[0].castShadow, true, 'SpotLights must cast shadows');
+
+    // 6. Championship F1 open-wheel car
+    const car = root.children.find((c) => c.name === 'f1_championship_car');
+    assert.ok(car, 'Must contain F1 championship car');
+    const chassis = car.children.find((c) => c.name === 'carbon_chassis');
+    assert.ok(chassis, 'Must contain carbon chassis');
+    const halo = car.children.find((c) => c.name === 'titanium_halo_loop');
+    assert.ok(halo, 'Must contain titanium halo loop');
+    const rearBeacon = car.children.find((c) => c.name === 'rain_safety_beacon');
+    assert.ok(rearBeacon, 'Must contain rear rain safety beacon');
+
+    // Invariant: ZERO wireframe materials across all child meshes
+    root.traverse((child) => {
+      if (child.material) {
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach((m) => {
+          assert.strictEqual(m.wireframe, false, `Mesh ${child.name} must not be wireframe`);
+        });
+      }
+    });
+
+    // Test f1Animator: brake disc emissive pulse & 4Hz beacon flash
+    f1Animator(0.0, 0.016);
+    const brakeDiscFL = car.children.find((c) => c.name === 'brake_disc_fl');
+    assert.ok(brakeDiscFL, 'Must contain front left brake disc');
+    const initialEmissive = brakeDiscFL.material.emissiveIntensity;
+    assert.ok(initialEmissive >= 0.19 && initialEmissive <= 3.51, `Brake disc emissive within range: ${initialEmissive}`);
+
+    // Step animator by 0.125s (half of 4Hz cycle)
+    f1Animator(0.125, 0.016);
     assert.doesNotThrow(() => f1Animator(1.0, 0.016), 'F1 animator must step cleanly');
+  });
+
+  test('F12.2: attachFlagshipScene correctly routes F1 racing realms and tags', () => {
+    const scene = new THREE.Scene();
+    const realmObjects = [];
+    const animators = [];
+
+    const res1 = attachFlagshipScene(THREE, scene, { id: 'monaco-midnight-grand-prix', tags: ['f1', 'racing'] }, realmObjects, animators);
+    assert.ok(res1 && res1.type === 'f1_circuit', 'Must route Monaco Grand Prix to f1_circuit');
+
+    const res2 = attachFlagshipScene(THREE, scene, { id: 'silverstone-night-gp', tags: ['racing'] }, realmObjects, animators);
+    assert.ok(res2 && res2.type === 'f1_circuit', 'Must route Silverstone to f1_circuit');
+
+    const res3 = attachFlagshipScene(THREE, scene, { id: 'custom-track', tags: ['grand prix', 'f1'] }, realmObjects, animators);
+    assert.ok(res3 && res3.type === 'f1_circuit', 'Must route custom f1 tagged realm to f1_circuit');
   });
 
   test('F13.1: Amazon Primordial Rainforest creates river water plane, instanced canopy giants, palms, god-rays, and bio-spores', () => {

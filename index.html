@@ -203,6 +203,18 @@
         <!-- Quick Dream Preset Chips -->
         <div class="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-white/5">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Quick Wishes:</span>
+          <button onclick="setPromptPreset('f1')" class="px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-[11px] font-semibold hover:bg-red-500/20 transition cursor-pointer">
+            🏎️ Monaco F1 Grand Prix
+          </button>
+          <button onclick="setPromptPreset('blackhole')" class="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-[11px] font-semibold hover:bg-indigo-500/20 transition cursor-pointer">
+            🕳️ Schwarzschild Black Hole
+          </button>
+          <button onclick="setPromptPreset('rainforest')" class="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold hover:bg-emerald-500/20 transition cursor-pointer">
+            🌴 Amazon Rainforest
+          </button>
+          <button onclick="setPromptPreset('haunted')" class="px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[11px] font-semibold hover:bg-purple-500/20 transition cursor-pointer">
+            🏰 Haunted Victorian Manor
+          </button>
           <button onclick="setPromptPreset('ram')" class="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-semibold hover:bg-amber-500/20 transition cursor-pointer">
             Lord Ram Devotee Prayer
           </button>
@@ -1117,59 +1129,164 @@
       }
 
       /**
-       * 8. Formula 1 High-RPM V10 Racing Engine: 18,000 RPM Harmonics & Doppler Flybys
+       * 8. High-Speed F1 Racing Circuit: V10 Engine Harmonics, Rev Curves & Tire Scrub
        */
-      spawnF1EngineSoundscape(channelGain) {
+      spawnF1RacingSoundscape(channelGain) {
         const ctx = this.audioCtx;
         const nodes = [];
         const timers = [];
         const now = ctx.currentTime;
 
-        const v10Osc = ctx.createOscillator();
-        v10Osc.type = 'sawtooth';
-        v10Osc.frequency.setValueAtTime(320, now);
+        // A. V10 Fundamental Firing Frequency (idle 375 Hz to redline 1540 Hz, sawtooth)
+        const oscV10 = ctx.createOscillator();
+        oscV10.type = 'sawtooth';
+        oscV10.frequency.setValueAtTime(375, now);
 
-        const rumbleOsc = ctx.createOscillator();
-        rumbleOsc.type = 'triangle';
-        rumbleOsc.frequency.setValueAtTime(160, now);
+        // B. 2nd Harmonic Exhaust Resonance (2x f0, sawtooth)
+        const oscExhaust = ctx.createOscillator();
+        oscExhaust.type = 'sawtooth';
+        oscExhaust.frequency.setValueAtTime(750, now);
 
-        const exhaustFilter = ctx.createBiquadFilter();
-        exhaustFilter.type = 'bandpass';
-        exhaustFilter.frequency.setValueAtTime(850, now);
-        exhaustFilter.Q.setValueAtTime(4.5, now);
+        // C. Crankshaft Subharmonic (f0 / 5, triangle)
+        const oscCrank = ctx.createOscillator();
+        oscCrank.type = 'triangle';
+        oscCrank.frequency.setValueAtTime(75, now);
 
-        const engGain = ctx.createGain();
-        engGain.gain.setValueAtTime(0.28, now);
+        // D. Resonant Lowpass Filter Swept by Rev Curve (Q = 4.5)
+        const engineFilter = ctx.createBiquadFilter();
+        engineFilter.type = 'lowpass';
+        engineFilter.frequency.setValueAtTime(1200, now);
+        engineFilter.Q.setValueAtTime(4.5, now);
 
-        v10Osc.connect(exhaustFilter);
-        rumbleOsc.connect(exhaustFilter);
-        exhaustFilter.connect(engGain);
-        engGain.connect(channelGain);
+        // E. Manifold Distortion Waveshaper (512-point soft clipping curve)
+        let waveshaper = null;
+        if (typeof ctx.createWaveShaper === 'function') {
+          try {
+            waveshaper = ctx.createWaveShaper();
+            const curve = new Float32Array(512);
+            for (let i = 0; i < 512; ++i) {
+              const x = (i * 2) / 512 - 1;
+              curve[i] = ((Math.PI + 40) * x) / (Math.PI + 40 * Math.abs(x));
+            }
+            waveshaper.curve = curve;
+            waveshaper.oversample = '2x';
+          } catch {}
+        }
 
-        v10Osc.start(now);
-        rumbleOsc.start(now);
-        nodes.push(v10Osc, rumbleOsc, exhaustFilter, engGain);
+        const engineGain = ctx.createGain();
+        engineGain.gain.setValueAtTime(0.12, now);
 
-        let throttleIdx = 0;
-        const revTimer = setInterval(() => {
-          if (!this.audioCtx || this.audioCtx.state === 'closed') return;
-          const t = this.audioCtx.currentTime;
-          throttleIdx++;
-          const revFreq = 340 + (throttleIdx % 4) * 110 + Math.random() * 80;
-          v10Osc.frequency.setTargetAtTime(revFreq, t, 0.15);
-          exhaustFilter.frequency.setTargetAtTime(revFreq * 2.2, t, 0.15);
-        }, 1400);
-        timers.push(revTimer);
+        // Connect Engine Node Graph
+        oscV10.connect(engineFilter);
+        oscExhaust.connect(engineFilter);
+        oscCrank.connect(engineFilter);
+
+        if (waveshaper) {
+          engineFilter.connect(waveshaper);
+          waveshaper.connect(engineGain);
+          nodes.push(waveshaper);
+        } else {
+          engineFilter.connect(engineGain);
+        }
+        engineGain.connect(channelGain);
+
+        oscV10.start(now);
+        oscExhaust.start(now);
+        oscCrank.start(now);
+        nodes.push(oscV10, oscExhaust, oscCrank, engineFilter, engineGain);
+
+        // F. Procedural Rev-Curve Shifting Sequence Across 4 Gears with 40ms Ignition Cut Dips
+        const gearRatios = [
+          { startFreq: 375, endFreq: 1350, duration: 1.6 }, // 1st gear (idle 375 Hz)
+          { startFreq: 880, endFreq: 1420, duration: 1.9 }, // 2nd gear
+          { startFreq: 960, endFreq: 1520, duration: 2.4 }, // 3rd gear
+          { startFreq: 1050, endFreq: 1540, duration: 2.8 } // 4th gear (redline 1540 Hz)
+        ];
+
+        let nextShiftTime = now;
+        for (let cycle = 0; cycle < 12; cycle++) {
+          for (let g = 0; g < gearRatios.length; g++) {
+            const gear = gearRatios[g];
+            const startT = nextShiftTime;
+            const endT = startT + gear.duration;
+
+            try {
+              // Rev acceleration ramp
+              oscV10.frequency.setValueAtTime(gear.startFreq, startT);
+              oscV10.frequency.exponentialRampToValueAtTime(gear.endFreq, endT);
+
+              // 2nd harmonic exhaust resonance (2x f0)
+              oscExhaust.frequency.setValueAtTime(gear.startFreq * 2, startT);
+              oscExhaust.frequency.exponentialRampToValueAtTime(gear.endFreq * 2, endT);
+
+              // Crankshaft subharmonic (f0 / 5)
+              oscCrank.frequency.setValueAtTime(gear.startFreq / 5, startT);
+              oscCrank.frequency.exponentialRampToValueAtTime(gear.endFreq / 5, endT);
+
+              // Resonant lowpass filter swept by rev curve
+              engineFilter.frequency.setValueAtTime(gear.startFreq * 1.8, startT);
+              engineFilter.frequency.exponentialRampToValueAtTime(gear.endFreq * 2.5, endT);
+
+              // Shift cut (40ms ignition cut dip)
+              engineGain.gain.setValueAtTime(0.12, endT - 0.04);
+              engineGain.gain.linearRampToValueAtTime(0.015, endT);
+              engineGain.gain.linearRampToValueAtTime(0.12, endT + 0.06);
+            } catch {}
+
+            nextShiftTime = endT + 0.08;
+          }
+        }
+
+        // G. Trackside Pink Noise Tire Scrub with 950 Hz Bandpass Filter
+        const noiseBuf = this.createNoiseBuffer('pink');
+        if (noiseBuf) {
+          const tireNoise = ctx.createBufferSource();
+          tireNoise.buffer = noiseBuf;
+          tireNoise.loop = true;
+
+          const tireFilter = ctx.createBiquadFilter();
+          tireFilter.type = 'bandpass';
+          tireFilter.frequency.setValueAtTime(950, now);
+          tireFilter.Q.setValueAtTime(2.2, now);
+
+          const tireGain = ctx.createGain();
+          tireGain.gain.setValueAtTime(0.04, now);
+
+          tireNoise.connect(tireFilter);
+          tireFilter.connect(tireGain);
+          tireGain.connect(channelGain);
+
+          tireNoise.start(now);
+          nodes.push(tireNoise, tireFilter, tireGain);
+        }
 
         return { nodes, timers };
+      }
+
+      spawnF1EngineSoundscape(channelGain) {
+        return this.spawnF1RacingSoundscape(channelGain);
       }
 
       spawnCategorySoundscape(category, realmData, channelGain) {
         const cat = (category || (realmData && realmData.category) || '').toLowerCase();
         const id = ((realmData && realmData.id) || (typeof realmData === 'string' ? realmData : '')).toLowerCase();
+        const tags = (realmData && Array.isArray(realmData.tags)) ? realmData.tags.map(t => String(t).toLowerCase()) : [];
+        const title = ((realmData && realmData.title) || '').toLowerCase();
 
-        if (id.includes('monaco') || id.includes('f1') || id.includes('racing') || (realmData && realmData.soundscape && realmData.soundscape.includes('V10'))) {
-          return this.spawnF1EngineSoundscape(channelGain);
+        if (
+          id === 'monaco-midnight-grand-prix' ||
+          id === 'silverstone-night-gp' ||
+          id.includes('monaco') ||
+          id.includes('silverstone') ||
+          id.includes('f1') ||
+          tags.includes('f1') ||
+          tags.includes('racing') ||
+          tags.includes('grand prix') ||
+          title.includes('grand prix') ||
+          title.includes('racing') ||
+          (realmData && realmData.soundscape && realmData.soundscape.includes('V10'))
+        ) {
+          return this.spawnF1RacingSoundscape(channelGain);
         } else if (id.includes('waterfall') || id.includes('river') || cat.includes('nature') || cat.includes('retreat')) {
           return this.spawnNatureSoundscape(channelGain);
         } else if (cat.includes('cyber') || cat.includes('sci-fi')) {
@@ -3156,6 +3273,8 @@
 
         if (zenithCapMesh) {
           zenithCapMesh.material.color = fallbackColor;
+          zenithCapMesh.material.transparent = true;
+          zenithCapMesh.material.opacity = 0.0;
           zenithCapMesh.material.needsUpdate = true;
         }
         if (nadirCapMesh) {
@@ -3170,14 +3289,19 @@
 
         const applyTexture = (texture) => {
           if (skydomeMesh && currentRealm === realmData.id) {
-            skydomeMesh.material.map = null;
-            skydomeMesh.material.color = fallbackColor;
+            skydomeMesh.material.map = texture;
+            skydomeMesh.material.color.setHex(0xffffff);
             skydomeMesh.material.needsUpdate = true;
           }
           if (panoramicCylinderMesh && currentRealm === realmData.id) {
             panoramicCylinderMesh.material.map = texture;
             panoramicCylinderMesh.material.color.setHex(0xffffff);
             panoramicCylinderMesh.material.needsUpdate = true;
+          }
+          if (zenithCapMesh && currentRealm === realmData.id) {
+            zenithCapMesh.material.transparent = true;
+            zenithCapMesh.material.opacity = 0.0;
+            zenithCapMesh.material.needsUpdate = true;
           }
         };
 
@@ -5208,6 +5332,771 @@
       };
     }
 
+    function getThreeHelpers(T) {
+      return {
+        TorusGeometry: (T && T.TorusGeometry) || THREE.TorusGeometry,
+        RingGeometry: (T && T.RingGeometry) || THREE.RingGeometry,
+        DodecahedronGeometry: (T && T.DodecahedronGeometry) || THREE.DodecahedronGeometry,
+        InstancedMesh: (T && T.InstancedMesh) || THREE.InstancedMesh
+      };
+    }
+
+    function buildSchwarzschildBlackHoleScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+      const Three = ThreeInstance || THREE;
+      const helpers = getThreeHelpers(Three);
+      const root = new Three.Group();
+      root.name = 'flagship_black_hole_gargantua_scene';
+
+      const rs = 18;
+      const pos = [0, 8, -75];
+      root.position.set(pos[0], pos[1], pos[2]);
+
+      // 1. EVENT HORIZON
+      const horizonGeo = new Three.SphereGeometry(rs, 64, 48);
+      const horizonMat = new Three.MeshBasicMaterial({ color: 0x000000, depthWrite: true });
+      const horizonMesh = new Three.Mesh(horizonGeo, horizonMat);
+      horizonMesh.name = 'event_horizon_shadow';
+      root.add(horizonMesh);
+
+      // 2. PHOTON SPHERE GLOW
+      const photonRadius = rs * 1.5;
+      const photonGeo = new Three.SphereGeometry(photonRadius, 48, 36);
+      const photonMat = new Three.MeshBasicMaterial({
+        color: 0xbae6fd,
+        transparent: true,
+        opacity: 0.18,
+        blending: Three.AdditiveBlending,
+        side: Three.BackSide,
+        depthWrite: false
+      });
+      const photonMesh = new Three.Mesh(photonGeo, photonMat);
+      photonMesh.name = 'photon_sphere_glow';
+      root.add(photonMesh);
+
+      // 3. ACCRETION DISK
+      const diskInner = rs * 1.55;
+      const diskOuter = rs * 4.6;
+      const RingGeoClass = helpers.RingGeometry || Three.RingGeometry;
+      const diskGeo = new RingGeoClass(diskInner, diskOuter, 128, 16);
+      const diskMat = new Three.MeshBasicMaterial({
+        color: 0xf59e0b,
+        side: Three.DoubleSide,
+        transparent: true,
+        opacity: 0.94,
+        blending: Three.AdditiveBlending,
+        depthWrite: false
+      });
+      const mainDisk = new Three.Mesh(diskGeo, diskMat);
+      mainDisk.rotation.x = Math.PI * 0.44;
+      mainDisk.name = 'primary_accretion_disk';
+      root.add(mainDisk);
+
+      // 4. GRAVITATIONAL LENSING HALO ARCS
+      const lensUpperGeo = new RingGeoClass(diskInner * 0.95, diskOuter * 0.70, 96, 8, Math.PI * 0.05, Math.PI * 0.90);
+      const lensMat = new Three.MeshBasicMaterial({
+        color: 0x67e8f9,
+        side: Three.DoubleSide,
+        transparent: true,
+        opacity: 0.78,
+        blending: Three.AdditiveBlending,
+        depthWrite: false
+      });
+      const lensUpperMesh = new Three.Mesh(lensUpperGeo, lensMat);
+      lensUpperMesh.rotation.x = -Math.PI * 0.16;
+      lensUpperMesh.position.y = rs * 0.35;
+      lensUpperMesh.name = 'lensing_upper_arc';
+      root.add(lensUpperMesh);
+
+      const lensLowerGeo = new RingGeoClass(diskInner * 0.95, diskOuter * 0.70, 96, 8, Math.PI * 1.05, Math.PI * 0.90);
+      const lensLowerMesh = new Three.Mesh(lensLowerGeo, lensMat);
+      lensLowerMesh.rotation.x = Math.PI * 0.16;
+      lensLowerMesh.position.y = -rs * 0.35;
+      lensLowerMesh.name = 'lensing_lower_arc';
+      root.add(lensLowerMesh);
+
+      // 5. RELATIVISTIC INFLOW PARTICLES
+      const partCount = 5000;
+      const pPositions = new Float32Array(partCount * 3);
+      const pColors = new Float32Array(partCount * 3);
+      const pDistances = new Float32Array(partCount);
+      const pAngles = new Float32Array(partCount);
+      const pSpeeds = new Float32Array(partCount);
+
+      for (let i = 0; i < partCount; i++) {
+        const dist = diskInner + Math.random() * (diskOuter - diskInner);
+        const angle = Math.random() * Math.PI * 2;
+        pDistances[i] = dist;
+        pAngles[i] = angle;
+        pSpeeds[i] = 1.8 / Math.sqrt(dist / rs);
+
+        pPositions[i * 3] = Math.cos(angle) * dist;
+        pPositions[i * 3 + 1] = (Math.random() - 0.5) * 1.2 * (dist / diskOuter);
+        pPositions[i * 3 + 2] = Math.sin(angle) * dist;
+
+        const isApproaching = Math.sin(angle) > 0;
+        if (isApproaching) {
+          pColors[i * 3] = 0.5 + Math.random() * 0.5;
+          pColors[i * 3 + 1] = 0.85 + Math.random() * 0.15;
+          pColors[i * 3 + 2] = 1.0;
+        } else {
+          pColors[i * 3] = 1.0;
+          pColors[i * 3 + 1] = 0.35 + Math.random() * 0.35;
+          pColors[i * 3 + 2] = 0.1;
+        }
+      }
+
+      const partGeo = new Three.BufferGeometry();
+      partGeo.setAttribute('position', new Three.BufferAttribute(pPositions, 3));
+      partGeo.setAttribute('color', new Three.BufferAttribute(pColors, 3));
+
+      const partMat = new Three.PointsMaterial({
+        size: 1.8,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.85,
+        blending: Three.AdditiveBlending,
+        depthWrite: false
+      });
+      const plasmaParticles = new Three.Points(partGeo, partMat);
+      plasmaParticles.rotation.x = Math.PI * 0.44;
+      plasmaParticles.name = 'accretion_stream_particles';
+      root.add(plasmaParticles);
+
+      const bhAnimator = (time, delta) => {
+        mainDisk.rotation.z += delta * 0.4;
+        lensUpperMesh.rotation.z -= delta * 0.3;
+        lensLowerMesh.rotation.z -= delta * 0.3;
+
+        const posAttr = partGeo.attributes.position;
+        const posArr = posAttr.array;
+        for (let i = 0; i < partCount; i++) {
+          pAngles[i] += delta * pSpeeds[i];
+          pDistances[i] -= delta * 0.65;
+          if (pDistances[i] < diskInner) pDistances[i] = diskOuter;
+          const dist = pDistances[i];
+          const ang = pAngles[i];
+          posArr[i * 3] = Math.cos(ang) * dist;
+          posArr[i * 3 + 2] = Math.sin(ang) * dist;
+        }
+        posAttr.needsUpdate = true;
+      };
+
+      if (animators) animators.push(bhAnimator);
+      if (scene) scene.add(root);
+      if (realmObjects) realmObjects.push(root);
+
+      return { root, bhAnimator };
+    }
+
+    function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+      const Three = ThreeInstance || THREE;
+      const helpers = getThreeHelpers(Three);
+      const root = new Three.Group();
+      root.name = 'flagship_f1_monaco_circuit_scene';
+
+      // 1. HIGH-FIDELITY ASPHALT PBR TRACK RIBBON WITH CAMBER BANKING
+      const trackGeo = new Three.PlaneGeometry(160, 16, 64, 8);
+      if (trackGeo.rotateX) trackGeo.rotateX(-Math.PI / 2);
+
+      const posAttr = trackGeo.attributes && trackGeo.attributes.position;
+      if (posAttr && posAttr.array) {
+        const arr = posAttr.array;
+        for (let i = 0; i < arr.length; i += 3) {
+          const x = arr[i];
+          const z = arr[i + 2];
+          const camberFactor = Math.sin(x * 0.05) * 0.055;
+          arr[i + 1] += z * camberFactor;
+        }
+        if (trackGeo.computeVertexNormals) trackGeo.computeVertexNormals();
+      }
+
+      const trackMat = new Three.MeshStandardMaterial({
+        color: 0x14171d,
+        roughness: 0.85,
+        metalness: 0.12
+      });
+      const trackMesh = new Three.Mesh(trackGeo, trackMat);
+      trackMesh.position.set(0, -0.05, 0);
+      trackMesh.receiveShadow = true;
+      trackMesh.name = 'asphalt_track_ribbon';
+      root.add(trackMesh);
+
+      // 2. APEX RUMBLE KERBS (Alternating Red 0xef4444 and White 0xf8fafc Serrated Curb Blocks)
+      const kerbGroup = new Three.Group();
+      kerbGroup.name = 'apex_rumble_kerbs';
+      const kerbW = 0.8;
+      const kerbL = 2.4;
+      const kerbH = 0.18;
+      const redMat = new Three.MeshStandardMaterial({ color: 0xef4444, roughness: 0.52, metalness: 0.08 });
+      const whiteMat = new Three.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.48, metalness: 0.08 });
+
+      for (let k = 0; k < 28; k++) {
+        const isRed = k % 2 === 0;
+        const kerbMesh = new Three.Mesh(new Three.BoxGeometry(kerbL, kerbH, kerbW), isRed ? redMat : whiteMat);
+        kerbMesh.position.set((k - 14) * 2.5, kerbH / 2, 7.6);
+        kerbMesh.receiveShadow = true;
+        kerbMesh.castShadow = true;
+        kerbGroup.add(kerbMesh);
+      }
+      root.add(kerbGroup);
+
+      // 3. DECELERATING TIRE BRAKING SKID MARKS
+      const skidGroup = new Three.Group();
+      skidGroup.name = 'tire_skid_marks';
+      const skidMat = new Three.MeshStandardMaterial({
+        color: 0x050507,
+        roughness: 0.98,
+        metalness: 0.02,
+        transparent: true,
+        opacity: 0.76,
+        depthWrite: false
+      });
+      const leftSkidGeo = new Three.PlaneGeometry(42, 0.55, 16, 1);
+      if (leftSkidGeo.rotateX) leftSkidGeo.rotateX(-Math.PI / 2);
+      const leftSkid = new Three.Mesh(leftSkidGeo, skidMat);
+      leftSkid.position.set(12, 0.01, 1.1);
+      leftSkid.name = 'left_tire_skid_mark';
+      skidGroup.add(leftSkid);
+
+      const rightSkidGeo = new Three.PlaneGeometry(42, 0.55, 16, 1);
+      if (rightSkidGeo.rotateX) rightSkidGeo.rotateX(-Math.PI / 2);
+      const rightSkid = new Three.Mesh(rightSkidGeo, skidMat);
+      rightSkid.position.set(12, 0.01, -1.1);
+      rightSkid.name = 'right_tire_skid_mark';
+      skidGroup.add(rightSkid);
+      root.add(skidGroup);
+
+      // 4. GALVANIZED STEEL ARMCO CRASH BARRIERS
+      const barrierMat = new Three.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.92, roughness: 0.22 });
+      const barrierMesh = new Three.Mesh(new Three.BoxGeometry(160, 1.2, 0.3), barrierMat);
+      barrierMesh.position.set(0, 0.6, 9.2);
+      barrierMesh.castShadow = true;
+      barrierMesh.receiveShadow = true;
+      barrierMesh.name = 'armco_crash_barrier';
+      root.add(barrierMesh);
+
+      // 5. MULTI-TIER GRANDSTAND BLOCKS
+      const grandstandGroup = new Three.Group();
+      grandstandGroup.name = 'trackside_grandstands';
+      const standMat = new Three.MeshStandardMaterial({ color: 0x334155, roughness: 0.7, metalness: 0.3 });
+      const seatMat = new Three.MeshStandardMaterial({ color: 0xef4444, roughness: 0.6, metalness: 0.2 });
+      const roofMat = new Three.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5, metalness: 0.4 });
+
+      const grandstandTiers = 8;
+      for (let t = 0; t < grandstandTiers; t++) {
+        const tierMesh = new Three.Mesh(
+          new Three.BoxGeometry(50, 0.8, 1.4),
+          t % 2 === 0 ? standMat : seatMat
+        );
+        tierMesh.position.set(0, (t + 1) * 0.8, -14 - t * 1.2);
+        tierMesh.castShadow = true;
+        tierMesh.receiveShadow = true;
+        grandstandGroup.add(tierMesh);
+      }
+      const canopyMesh = new Three.Mesh(new Three.BoxGeometry(54, 0.4, 16), roofMat);
+      canopyMesh.position.set(0, grandstandTiers * 0.8 + 3.2, -20);
+      canopyMesh.rotation.x = 0.08;
+      canopyMesh.castShadow = true;
+      grandstandGroup.add(canopyMesh);
+      root.add(grandstandGroup);
+
+      // 6. CHAMPIONSHIP OPEN-WHEEL FORMULA 1 RACE CAR
+      const carGroup = new Three.Group();
+      carGroup.name = 'f1_championship_car';
+      carGroup.position.set(0, 0.45, 0);
+
+      const chassisMat = new Three.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.9, roughness: 0.15 });
+      const chassis = new Three.Mesh(new Three.BoxGeometry(4.8, 0.65, 1.6), chassisMat);
+      chassis.castShadow = true;
+      carGroup.add(chassis);
+
+      const wingMat = new Three.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
+      const frontWing = new Three.Mesh(new Three.BoxGeometry(0.8, 0.12, 2.2), wingMat);
+      frontWing.position.set(2.4, -0.15, 0);
+      frontWing.castShadow = true;
+      carGroup.add(frontWing);
+
+      const rearWing = new Three.Mesh(new Three.BoxGeometry(0.7, 0.45, 1.8), wingMat);
+      rearWing.position.set(-2.4, 0.65, 0);
+      rearWing.castShadow = true;
+      carGroup.add(rearWing);
+
+      const haloMat = new Three.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.95, roughness: 0.1 });
+      const TorusGeoClass = helpers.TorusGeometry || Three.TorusGeometry;
+      const halo = new Three.Mesh(TorusGeoClass ? new TorusGeoClass(0.4, 0.06, 8, 16, Math.PI) : new Three.BoxGeometry(0.8, 0.1, 0.8), haloMat);
+      halo.position.set(0.2, 0.55, 0);
+      if (halo.rotation && halo.rotation.set) halo.rotation.set(Math.PI / 2, 0, 0);
+      carGroup.add(halo);
+
+      const tireMat = new Three.MeshStandardMaterial({ color: 0x18181b, roughness: 0.92, metalness: 0.05 });
+      const brakeMat = new Three.MeshStandardMaterial({
+        color: 0x111111,
+        emissive: 0xff3300,
+        emissiveIntensity: 1.8,
+        roughness: 0.4,
+        metalness: 0.8
+      });
+      brakeMat.name = 'f1_brake_disc_material';
+
+      const wheelPositions = [
+        [1.6, -0.15, 1.1],
+        [1.6, -0.15, -1.1],
+        [-1.6, -0.15, 1.15],
+        [-1.6, -0.15, -1.15]
+      ];
+      wheelPositions.forEach(wp => {
+        const tire = new Three.Mesh(new Three.CylinderGeometry(0.38, 0.38, 0.42, 24), tireMat);
+        if (tire.rotateX) tire.rotateX(Math.PI / 2);
+        tire.position.set(wp[0], wp[1], wp[2]);
+        tire.castShadow = true;
+        carGroup.add(tire);
+
+        const brakeDisc = new Three.Mesh(new Three.CylinderGeometry(0.22, 0.22, 0.08, 16), brakeMat);
+        if (brakeDisc.rotateX) brakeDisc.rotateX(Math.PI / 2);
+        const zOffset = wp[2] > 0 ? -0.12 : 0.12;
+        brakeDisc.position.set(wp[0], wp[1], wp[2] + zOffset);
+        brakeDisc.name = 'f1_glowing_brake_disc';
+        carGroup.add(brakeDisc);
+      });
+
+      const rainLight = new Three.PointLight(0xff0000, 3.5, 12);
+      rainLight.position.set(-2.6, 0.2, 0);
+      carGroup.add(rainLight);
+
+      root.add(carGroup);
+
+      const lightPosts = [-60, -20, 20, 60];
+      lightPosts.forEach(lx => {
+        const mastMesh = new Three.Mesh(new Three.CylinderGeometry(0.25, 0.35, 24, 8), barrierMat);
+        mastMesh.position.set(lx, 12, 16);
+        mastMesh.castShadow = true;
+        root.add(mastMesh);
+
+        if (Three.SpotLight) {
+          const spot = new Three.SpotLight(0xfff8ee, 3.8, 85, Math.PI / 4, 0.3);
+          spot.position.set(lx, 23.5, 16);
+          spot.target.position.set(lx, 0, 0);
+          spot.castShadow = true;
+          if (spot.shadow && spot.shadow.mapSize) {
+            spot.shadow.mapSize.width = 1024;
+            spot.shadow.mapSize.height = 1024;
+            spot.shadow.bias = -0.0005;
+          }
+          root.add(spot);
+          root.add(spot.target);
+        }
+      });
+
+      const f1Animator = (time, delta) => {
+        const flashPhase = Math.sin(time * Math.PI * 8.0);
+        rainLight.intensity = flashPhase > 0 ? 4.5 : 0.1;
+
+        const brakePulse = 0.2 + (Math.sin(time * 3.5) * 0.5 + 0.5) * 3.3;
+        if (brakeMat.emissiveIntensity !== undefined) {
+          brakeMat.emissiveIntensity = brakePulse;
+        }
+
+        carGroup.position.y = 0.45 + Math.sin(time * 30.0) * 0.003;
+      };
+
+      if (animators) animators.push(f1Animator);
+      if (scene) scene.add(root);
+      if (realmObjects) realmObjects.push(root);
+
+      return { root, f1Animator };
+    }
+
+    function buildPrimordialRainforestScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+      const Three = ThreeInstance || THREE;
+      const helpers = getThreeHelpers(Three);
+      const root = new Three.Group();
+      root.name = 'flagship_amazon_rainforest_scene';
+
+      // 1. AMAZON MEANDERING RIVER SURFACE
+      const riverGeo = new Three.PlaneGeometry(280, 56, 48, 16);
+      if (riverGeo.rotateX) riverGeo.rotateX(-Math.PI / 2);
+      const riverMat = new Three.MeshStandardMaterial({
+        color: 0x064e3b,
+        roughness: 0.12,
+        metalness: 0.88,
+        transparent: true,
+        opacity: 0.92
+      });
+      const riverMesh = new Three.Mesh(riverGeo, riverMat);
+      riverMesh.position.set(0, -0.4, 0);
+      riverMesh.receiveShadow = true;
+      riverMesh.name = 'amazon_river_water_plane';
+      root.add(riverMesh);
+
+      // 2. EMERGENT CANOPY KAPOK & BRAZIL NUT GIANTS (InstancedMesh)
+      const treeCount = 120;
+      const trunkGeo = new Three.CylinderGeometry(1.2, 2.6, 28, 10);
+      const trunkMat = new Three.MeshStandardMaterial({ color: 0x3d2817, roughness: 0.92, metalness: 0.05 });
+      const InstMeshClass = helpers.InstancedMesh || Three.InstancedMesh;
+      const trunkInstMesh = new InstMeshClass(trunkGeo, trunkMat, treeCount);
+      trunkInstMesh.name = 'emergent_tree_trunks_instanced';
+      trunkInstMesh.castShadow = true;
+      trunkInstMesh.receiveShadow = true;
+
+      const DodecGeoClass = helpers.DodecahedronGeometry || Three.DodecahedronGeometry;
+      const canopyGeo = DodecGeoClass ? new DodecGeoClass(10, 1) : new Three.SphereGeometry(10, 12, 8);
+      const canopyMat = new Three.MeshStandardMaterial({ color: 0x166534, roughness: 0.82, metalness: 0.1 });
+      const canopyInstMesh = new InstMeshClass(canopyGeo, canopyMat, treeCount);
+      canopyInstMesh.name = 'emergent_tree_canopies_instanced';
+      canopyInstMesh.castShadow = true;
+
+      const dummy = new Three.Object3D();
+      const ColorClass = Three.Color || class { constructor(c) { this.val = c; } };
+      const canopyColors = [
+        new ColorClass(0x14532d),
+        new ColorClass(0x166534),
+        new ColorClass(0x15803d),
+        new ColorClass(0x1e3a24)
+      ];
+
+      for (let i = 0; i < treeCount; i++) {
+        const isNorth = i % 2 === 0;
+        const x = ((i / treeCount) - 0.5) * 260 + (Math.sin(i * 7.1) * 8);
+        const z = isNorth ? -(34 + Math.abs(Math.sin(i * 3.3)) * 48) : (34 + Math.abs(Math.sin(i * 3.3)) * 48);
+        const scale = 0.75 + Math.abs(Math.cos(i * 2.1)) * 0.5;
+
+        dummy.position.set(x, 14 * scale - 0.5, z);
+        dummy.scale.set(scale, scale, scale);
+        if (dummy.rotation && dummy.rotation.set) {
+          dummy.rotation.set((Math.sin(i * 1.5) - 0.5) * 0.05, Math.random() * Math.PI, (Math.cos(i * 1.5) - 0.5) * 0.05);
+        } else if (dummy.rotation) {
+          dummy.rotation.x = (Math.sin(i * 1.5) - 0.5) * 0.05;
+          dummy.rotation.y = Math.random() * Math.PI;
+          dummy.rotation.z = (Math.cos(i * 1.5) - 0.5) * 0.05;
+        }
+        dummy.updateMatrix();
+        trunkInstMesh.setMatrixAt(i, dummy.matrix);
+
+        dummy.position.set(x, 26 * scale - 0.5, z);
+        dummy.scale.set(scale * 1.4, scale * 0.8, scale * 1.4);
+        if (dummy.rotation && dummy.rotation.set) {
+          dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
+        } else if (dummy.rotation) {
+          dummy.rotation.x = 0;
+          dummy.rotation.y = Math.random() * Math.PI * 2;
+          dummy.rotation.z = 0;
+        }
+        dummy.updateMatrix();
+        canopyInstMesh.setMatrixAt(i, dummy.matrix);
+        if (canopyInstMesh.setColorAt) {
+          canopyInstMesh.setColorAt(i, canopyColors[i % canopyColors.length]);
+        }
+      }
+      if (trunkInstMesh.instanceMatrix) trunkInstMesh.instanceMatrix.needsUpdate = true;
+      if (canopyInstMesh.instanceMatrix) canopyInstMesh.instanceMatrix.needsUpdate = true;
+      if (canopyInstMesh.instanceColor) canopyInstMesh.instanceColor.needsUpdate = true;
+      root.add(trunkInstMesh);
+      root.add(canopyInstMesh);
+
+      // 3. UNDERSTORY TROPICAL PALMS (InstancedMesh)
+      const palmCount = 180;
+      const PalmGeoClass = Three.ConeGeometry || Three.CylinderGeometry;
+      const palmGeo = new PalmGeoClass(3.5, 5, 8);
+      const palmMat = new Three.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.75, metalness: 0.05 });
+      const palmInstMesh = new InstMeshClass(palmGeo, palmMat, palmCount);
+      palmInstMesh.name = 'understory_palms_instanced';
+
+      for (let p = 0; p < palmCount; p++) {
+        const isNorth = p % 2 === 0;
+        const x = ((p / palmCount) - 0.5) * 250 + (Math.sin(p * 5.2) * 6);
+        const z = isNorth ? -(29 + Math.abs(Math.sin(p * 2.7)) * 12) : (29 + Math.abs(Math.sin(p * 2.7)) * 12);
+        const scale = 0.6 + Math.abs(Math.sin(p * 4.1)) * 0.6;
+        dummy.position.set(x, 2.5 * scale - 0.5, z);
+        dummy.scale.set(scale, scale, scale);
+        if (dummy.rotation && dummy.rotation.set) {
+          dummy.rotation.set((Math.sin(p) - 0.5) * 0.2, Math.random() * Math.PI * 2, (Math.cos(p) - 0.5) * 0.2);
+        } else if (dummy.rotation) {
+          dummy.rotation.x = (Math.sin(p) - 0.5) * 0.2;
+          dummy.rotation.y = Math.random() * Math.PI * 2;
+          dummy.rotation.z = (Math.cos(p) - 0.5) * 0.2;
+        }
+        dummy.updateMatrix();
+        palmInstMesh.setMatrixAt(p, dummy.matrix);
+      }
+      if (palmInstMesh.instanceMatrix) palmInstMesh.instanceMatrix.needsUpdate = true;
+      root.add(palmInstMesh);
+
+      // 4. VOLUMETRIC GOLDEN GOD-RAYS
+      const godRayGroup = new Three.Group();
+      godRayGroup.name = 'rainforest_god_rays';
+      const rayMat = new Three.MeshBasicMaterial({
+        color: 0xfef08a,
+        transparent: true,
+        opacity: 0.09,
+        blending: Three.AdditiveBlending,
+        side: Three.DoubleSide,
+        depthWrite: false
+      });
+
+      const rayPositions = [-80, -45, -15, 20, 55, 90];
+      rayPositions.forEach((rx, idx) => {
+        const rGeo = new Three.CylinderGeometry(2.0, 7.5, 65, 16, 1, true);
+        const rMesh = new Three.Mesh(rGeo, rayMat);
+        rMesh.position.set(rx, 22, (idx % 2 === 0 ? -12 : 12));
+        rMesh.rotation.z = Math.PI * 0.12;
+        rMesh.rotation.x = (idx % 2 === 0 ? 1 : -1) * 0.08;
+        godRayGroup.add(rMesh);
+      });
+      root.add(godRayGroup);
+
+      // 5. TROPICAL FIREFLIES & BIO-SPORES
+      const fireflyCount = 450;
+      const fPositions = new Float32Array(fireflyCount * 3);
+      const fColors = new Float32Array(fireflyCount * 3);
+      const fPhases = new Float32Array(fireflyCount);
+
+      for (let f = 0; f < fireflyCount; f++) {
+        fPositions[f * 3] = (Math.random() - 0.5) * 240;
+        fPositions[f * 3 + 1] = 0.5 + Math.random() * 8.5;
+        fPositions[f * 3 + 2] = (Math.random() - 0.5) * 60;
+
+        fColors[f * 3] = 0.7 + Math.random() * 0.3;
+        fColors[f * 3 + 1] = 0.9 + Math.random() * 0.1;
+        fColors[f * 3 + 2] = 0.2;
+        fPhases[f] = Math.random() * Math.PI * 2;
+      }
+
+      const fireflyGeo = new Three.BufferGeometry();
+      fireflyGeo.setAttribute('position', new Three.BufferAttribute(fPositions, 3));
+      fireflyGeo.setAttribute('color', new Three.BufferAttribute(fColors, 3));
+
+      const fireflyMat = new Three.PointsMaterial({
+        size: 2.2,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.85,
+        blending: Three.AdditiveBlending,
+        depthWrite: false
+      });
+      const fireflyPoints = new Three.Points(fireflyGeo, fireflyMat);
+      fireflyPoints.name = 'tropical_fireflies_swarm';
+      root.add(fireflyPoints);
+
+      // 6. RIVERBANK MOSSY GRANITE BOULDERS
+      const boulderMat = new Three.MeshStandardMaterial({ color: 0x475569, roughness: 0.9, metalness: 0.1 });
+      const boulderGroup = new Three.Group();
+      boulderGroup.name = 'riverbank_granite_boulders';
+      for (let b = 0; b < 24; b++) {
+        const bGeo = DodecGeoClass ? new DodecGeoClass(1.8 + (b % 3) * 0.8, 1) : new Three.BoxGeometry(3, 2.5, 3);
+        const bMesh = new Three.Mesh(bGeo, boulderMat);
+        const bSide = b % 2 === 0 ? -27 : 27;
+        bMesh.position.set((b - 12) * 11 + Math.sin(b * 3.7) * 4, 0.4, bSide + Math.cos(b * 2.3) * 3);
+        if (bMesh.rotation && bMesh.rotation.set) {
+          bMesh.rotation.set(Math.random(), Math.random(), Math.random());
+        } else if (bMesh.rotation) {
+          bMesh.rotation.x = Math.random();
+          bMesh.rotation.y = Math.random();
+          bMesh.rotation.z = Math.random();
+        }
+        bMesh.receiveShadow = true;
+        boulderGroup.add(bMesh);
+      }
+      root.add(boulderGroup);
+
+      const rfAnimator = (time, delta) => {
+        const rayBreath = Math.sin(time * 0.85) * 0.04 + 0.10;
+        rayMat.opacity = rayBreath;
+
+        const posAttr = fireflyGeo.attributes.position;
+        const posArr = posAttr.array;
+        for (let f = 0; f < fireflyCount; f++) {
+          const ph = fPhases[f];
+          posArr[f * 3] += Math.sin(time * 0.7 + ph) * 0.04;
+          posArr[f * 3 + 1] += Math.cos(time * 1.1 + ph) * 0.02;
+          posArr[f * 3 + 2] += Math.sin(time * 0.9 + ph * 1.5) * 0.03;
+
+          if (posArr[f * 3 + 1] < 0.2) posArr[f * 3 + 1] = 0.4;
+          if (posArr[f * 3 + 1] > 10.0) posArr[f * 3 + 1] = 9.0;
+        }
+        posAttr.needsUpdate = true;
+      };
+
+      if (animators) animators.push(rfAnimator);
+      if (scene) scene.add(root);
+      if (realmObjects) realmObjects.push(root);
+
+      return { root, rfAnimator };
+    }
+
+    function buildHauntedManorScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+      const Three = ThreeInstance || THREE;
+      const helpers = getThreeHelpers(Three);
+      const root = new Three.Group();
+      root.name = 'flagship_haunted_manor_scene';
+
+      // 1. WEATHERED OAK FLOORBOARDS
+      const floorGeo = new Three.PlaneGeometry(64, 80, 32, 40);
+      if (floorGeo.rotateX) floorGeo.rotateX(-Math.PI / 2);
+      const floorMat = new Three.MeshStandardMaterial({
+        color: 0x1c1917,
+        roughness: 0.88,
+        metalness: 0.08
+      });
+      const floorMesh = new Three.Mesh(floorGeo, floorMat);
+      floorMesh.position.set(0, -0.05, 0);
+      floorMesh.receiveShadow = true;
+      floorMesh.name = 'manor_decaying_oak_floor';
+      root.add(floorMesh);
+
+      // 2. GOTHIC MASONRY WALLS & POINTED ARCHWAYS
+      const wallMat = new Three.MeshStandardMaterial({ color: 0x27272a, roughness: 0.95, metalness: 0.05 });
+      const rearWall = new Three.Mesh(new Three.BoxGeometry(64, 24, 1.5), wallMat);
+      rearWall.position.set(0, 12, -40);
+      rearWall.receiveShadow = true;
+      rearWall.castShadow = true;
+      rearWall.name = 'gothic_rear_masonry_wall';
+      root.add(rearWall);
+
+      const leftWall = new Three.Mesh(new Three.BoxGeometry(1.5, 24, 80), wallMat);
+      leftWall.position.set(-32, 12, 0);
+      leftWall.receiveShadow = true;
+      leftWall.name = 'gothic_left_masonry_wall';
+      root.add(leftWall);
+
+      const rightWall = new Three.Mesh(new Three.BoxGeometry(1.5, 24, 80), wallMat);
+      rightWall.position.set(32, 12, 0);
+      rightWall.receiveShadow = true;
+      rightWall.name = 'gothic_right_masonry_wall';
+      root.add(rightWall);
+
+      // 3. GRAND SWEEPING DUAL STAIRCASE & MEZZANINE
+      const stairGroup = new Three.Group();
+      stairGroup.name = 'grand_sweeping_staircase';
+      const stairMat = new Three.MeshStandardMaterial({ color: 0x292524, roughness: 0.78, metalness: 0.15 });
+
+      for (let s = 0; s < 18; s++) {
+        const stepMesh = new Three.Mesh(new Three.BoxGeometry(22 - s * 0.4, 0.45, 1.4), stairMat);
+        stepMesh.position.set(0, s * 0.45 + 0.22, -22 - s * 0.9);
+        stepMesh.receiveShadow = true;
+        stepMesh.castShadow = true;
+        stairGroup.add(stepMesh);
+      }
+
+      const landingMesh = new Three.Mesh(new Three.BoxGeometry(40, 0.8, 8), stairMat);
+      landingMesh.position.set(0, 8.2, -38);
+      landingMesh.receiveShadow = true;
+      stairGroup.add(landingMesh);
+      root.add(stairGroup);
+
+      // 4. LOW-ALTITUDE ROLLING GROUND FOG BLANKET
+      const fogGeo = new Three.PlaneGeometry(62, 78, 16, 16);
+      if (fogGeo.rotateX) fogGeo.rotateX(-Math.PI / 2);
+      const fogMat = new Three.MeshBasicMaterial({
+        color: 0x64748b,
+        transparent: true,
+        opacity: 0.24,
+        blending: Three.AdditiveBlending,
+        side: Three.DoubleSide,
+        depthWrite: false
+      });
+      const fogMesh = new Three.Mesh(fogGeo, fogMat);
+      fogMesh.position.set(0, 0.35, 0);
+      fogMesh.name = 'manor_rolling_ground_fog';
+      root.add(fogMesh);
+
+      // 5. SPECTRAL DUST MOTES
+      const spectralCount = 350;
+      const sPositions = new Float32Array(spectralCount * 3);
+      const sPhases = new Float32Array(spectralCount);
+
+      for (let sp = 0; sp < spectralCount; sp++) {
+        sPositions[sp * 3] = (Math.random() - 0.5) * 58;
+        sPositions[sp * 3 + 1] = 0.2 + Math.random() * 12;
+        sPositions[sp * 3 + 2] = (Math.random() - 0.5) * 72;
+        sPhases[sp] = Math.random() * Math.PI * 2;
+      }
+
+      const spectralGeo = new Three.BufferGeometry();
+      spectralGeo.setAttribute('position', new Three.BufferAttribute(sPositions, 3));
+      const spectralMat = new Three.PointsMaterial({
+        size: 2.0,
+        color: 0x94a3b8,
+        transparent: true,
+        opacity: 0.55,
+        blending: Three.AdditiveBlending,
+        depthWrite: false
+      });
+      const spectralPoints = new Three.Points(spectralGeo, spectralMat);
+      spectralPoints.name = 'spectral_dust_motes';
+      root.add(spectralPoints);
+
+      // 6. DYNAMIC PLAYER FLASHLIGHT SPOTLIGHT
+      const SpotlightClass = Three.SpotLight || class {
+        constructor(c, i, d, a, p, decay) {
+          this.color = c;
+          this.intensity = i;
+          this.distance = d;
+          this.angle = a;
+          this.penumbra = p;
+          this.decay = decay;
+          this.position = { x: 0, y: 0, z: 0, set(x, y, z) { this.x = x; this.y = y; this.z = z; } };
+          this.target = { position: { x: 0, y: 0, z: 0, set(x, y, z) { this.x = x; this.y = y; this.z = z; } } };
+        }
+      };
+      const flashlight = new SpotlightClass(0xfef08a, 4.2, 75, Math.PI / 6, 0.38, 1.2);
+      flashlight.position.set(0, 3.5, 25);
+      flashlight.target.position.set(0, 3.0, -15);
+      flashlight.castShadow = true;
+      flashlight.name = 'manor_player_flashlight';
+      root.add(flashlight);
+      root.add(flashlight.target);
+
+      // 7. WROUGHT-IRON CHANDELIER WITH FLICKERING CANDLES
+      const chandelierGroup = new Three.Group();
+      chandelierGroup.name = 'wrought_iron_chandelier';
+      chandelierGroup.position.set(0, 15, -10);
+
+      const ironMat = new Three.MeshStandardMaterial({ color: 0x18181b, metalness: 0.9, roughness: 0.3 });
+      const TorusGeoClass = helpers.TorusGeometry || Three.TorusGeometry;
+      const ringMesh = new Three.Mesh(TorusGeoClass ? new TorusGeoClass(4.5, 0.15, 8, 24) : new Three.BoxGeometry(9, 0.3, 9), ironMat);
+      if (ringMesh.rotation && ringMesh.rotation.set) {
+        ringMesh.rotation.set(Math.PI / 2, 0, 0);
+      } else if (ringMesh.rotation) {
+        ringMesh.rotation.x = Math.PI / 2;
+      }
+      chandelierGroup.add(ringMesh);
+
+      const candleLights = [];
+      for (let c = 0; c < 6; c++) {
+        const ang = (c / 6) * Math.PI * 2;
+        const cl = new Three.PointLight(0xf59e0b, 1.4, 18);
+        cl.position.set(Math.cos(ang) * 4.5, 0.5, Math.sin(ang) * 4.5);
+        chandelierGroup.add(cl);
+        candleLights.push(cl);
+      }
+      root.add(chandelierGroup);
+
+      const manorAnimator = (time, delta) => {
+        candleLights.forEach((cl, idx) => {
+          cl.intensity = 1.2 + Math.sin(time * 16.0 + idx * 2.1) * 0.35 + Math.cos(time * 23.0 + idx) * 0.15;
+        });
+
+        fogMesh.position.y = 0.35 + Math.sin(time * 0.5) * 0.08;
+        fogMat.opacity = 0.22 + Math.sin(time * 0.7) * 0.04;
+
+        const posAttr = spectralGeo.attributes.position;
+        const posArr = posAttr.array;
+        for (let sp = 0; sp < spectralCount; sp++) {
+          const ph = sPhases[sp];
+          posArr[sp * 3] += Math.sin(time * 0.4 + ph) * 0.02;
+          posArr[sp * 3 + 1] += Math.cos(time * 0.6 + ph) * 0.015;
+          posArr[sp * 3 + 2] += Math.sin(time * 0.5 + ph * 1.3) * 0.02;
+        }
+        posAttr.needsUpdate = true;
+      };
+
+      if (animators) animators.push(manorAnimator);
+      if (scene) scene.add(root);
+      if (realmObjects) realmObjects.push(root);
+
+      return { root, manorAnimator };
+    }
+
     function attachFlagshipScene(ThreeInstance, scene, realmData, realmObjects = [], animators = []) {
       if (!realmData) return null;
       const T = ThreeInstance || THREE;
@@ -5216,11 +6105,13 @@
       const tags = Array.isArray(realmData.tags) ? realmData.tags : [];
       const preset = (realmData.environment && typeof realmData.environment.terrainPreset === 'string') ? realmData.environment.terrainPreset : '';
 
+      // Feature F8 & F9: Ayodhya Ram Mandir & Devotee Crowd Simulation
       if (id === 'ayodhya-ram-mandir' || id.includes('ayodhya') || id.includes('ram-mandir') || title.includes('Ram Mandir') || tags.includes('ram mandir')) {
         const mandir = buildAyodhyaRamMandirScene(T, scene, realmData, realmObjects, animators);
         return { type: 'ayodhya', mandir };
       }
 
+      // Feature F10: Flagship Waterfall Sanctuary
       if (
         id === 'jays-enchanted-waterfall-retreat' ||
         (id.includes('waterfall') && !id.includes('iguazu') && !id.includes('victoria') && !id.includes('skogafoss')) ||
@@ -5229,6 +6120,52 @@
       ) {
         const sanctuary = buildWaterfallSanctuaryScene(T, scene, realmData, realmObjects, animators);
         return { type: 'waterfall_sanctuary', sanctuary };
+      }
+
+      // Feature F11: Schwarzschild Black Hole & Accretion Disk
+      if (id === 'gargantua-black-hole-accretion' || (tags.includes('black hole') && !id.includes('orion'))) {
+        const blackHole = buildSchwarzschildBlackHoleScene(T, scene, realmData, realmObjects, animators);
+        return { type: 'black_hole', blackHole };
+      }
+
+      // Feature F12: Monaco Midnight Formula 1 Grand Prix Circuit
+      if (
+        id === 'monaco-midnight-grand-prix' ||
+        id === 'silverstone-night-gp' ||
+        id.includes('monaco') ||
+        id.includes('silverstone') ||
+        id.includes('f1') ||
+        tags.includes('f1') ||
+        tags.includes('racing') ||
+        tags.includes('grand prix') ||
+        title.toLowerCase().includes('grand prix') ||
+        title.toLowerCase().includes('racing')
+      ) {
+        const circuit = buildF1CircuitScene(T, scene, realmData, realmObjects, animators);
+        return { type: 'f1_circuit', circuit };
+      }
+
+      // Feature F13: Amazon Primordial Rainforest Canopy & River
+      if (
+        id === 'amazon-canopy-riverboat' ||
+        id === 'amazon-primordial-canopy' ||
+        (tags.includes('rainforest') && tags.includes('amazon')) ||
+        (tags.includes('jungle') && id.includes('canopy'))
+      ) {
+        const rainforest = buildPrimordialRainforestScene(T, scene, realmData, realmObjects, animators);
+        return { type: 'rainforest', rainforest };
+      }
+
+      // Feature F14: Haunted Victorian Manor & Gothic Shadow Realm
+      if (
+        id === 'blackwood-haunted-victorian-manor' ||
+        tags.includes('haunted') ||
+        tags.includes('horror') ||
+        tags.includes('gothic') ||
+        (tags.includes('manor') && !id.includes('temple'))
+      ) {
+        const hauntedManor = buildHauntedManorScene(T, scene, realmData, realmObjects, animators);
+        return { type: 'haunted_manor', hauntedManor };
       }
 
       return null;
@@ -5251,6 +6188,10 @@
         buildDevoteeCrowdSimulation,
         buildAyodhyaRamMandirScene,
         buildWaterfallSanctuaryScene,
+        buildSchwarzschildBlackHoleScene,
+        buildF1CircuitScene,
+        buildPrimordialRainforestScene,
+        buildHauntedManorScene,
         attachFlagshipScene,
         buildFlagshipScene
       };
@@ -5258,6 +6199,10 @@
       window.buildAyodhyaRamMandirScene = buildAyodhyaRamMandirScene;
       window.createDevoteeCrowdSimulation = createDevoteeCrowdSimulation;
       window.buildWaterfallSanctuaryScene = buildWaterfallSanctuaryScene;
+      window.buildSchwarzschildBlackHoleScene = buildSchwarzschildBlackHoleScene;
+      window.buildF1CircuitScene = buildF1CircuitScene;
+      window.buildPrimordialRainforestScene = buildPrimordialRainforestScene;
+      window.buildHauntedManorScene = buildHauntedManorScene;
     }
 
     function onDocumentPointerDown(event) {
@@ -6390,7 +7335,11 @@
 
     function setPromptPreset(type) {
       const input = document.getElementById('search-input');
-      if (type === 'ram') input.value = 'many people are there and all people pray to lord ram';
+      if (type === 'f1') input.value = 'monaco f1 midnight grand prix circuit with screaming v10 engines';
+      else if (type === 'blackhole') input.value = 'schwarzschild black hole with relativistic doppler accretion disk';
+      else if (type === 'rainforest') input.value = 'amazon primordial rainforest canopy with instanced giant kapok trees and river';
+      else if (type === 'haunted') input.value = 'blackwood haunted victorian manor with rolling ground fog and flickering candles';
+      else if (type === 'ram') input.value = 'many people are there and all people pray to lord ram';
       else if (type === 'waterfall') input.value = 'go to netural place where waterfall, nice grace and i have one shinkeble transperant bed and than i slip at near river side';
       else if (type === 'golden') input.value = 'sacred golden temple reflecting in holy sarovar at midnight';
       else if (type === 'orion') input.value = 'deep space nebula clouds, ringed planets, and interstellar starlight';
