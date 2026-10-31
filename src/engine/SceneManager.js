@@ -502,9 +502,9 @@ export class SceneManager {
       if (panoGeo.scale) panoGeo.scale(-1, 1, 1);
       const panoMat = new this.T.MeshBasicMaterial({
         side: this.T.BackSide,
-        transparent: true,
-        opacity: 0.98,
-        depthWrite: false
+        transparent: false,
+        opacity: 1.0,
+        depthWrite: true
       });
       this.panoramicCylinderMesh = new this.T.Mesh(panoGeo, panoMat);
       this.panoramicCylinderMesh.name = 'PanoramicBackdropCylinder';
@@ -512,30 +512,30 @@ export class SceneManager {
       this.panoramicCylinderMesh.renderOrder = -950;
       this.scene.add(this.panoramicCylinderMesh);
 
-      // Zenith Top Cap (Smooth sky dome disc covering upper pole)
-      const zenithGeo = new this.T.CircleGeometry(160, 64);
+      // Zenith Top Cap (Smooth sky dome disc covering upper pole without gaps)
+      const zenithGeo = new this.T.CircleGeometry(285, 64);
       if (zenithGeo.rotateX) zenithGeo.rotateX(Math.PI / 2);
       const zenithMat = new this.T.MeshBasicMaterial({
         color: 0x050a16,
         side: this.T.DoubleSide,
-        depthWrite: false
+        depthWrite: true
       });
       this.zenithCapMesh = new this.T.Mesh(zenithGeo, zenithMat);
-      this.zenithCapMesh.position.set(0, 124, 0);
+      this.zenithCapMesh.position.set(0, 125, 0);
       this.zenithCapMesh.name = 'ZenithCap';
       this.zenithCapMesh.renderOrder = -900;
       this.scene.add(this.zenithCapMesh);
 
-      // Nadir Bottom Cap (Smooth nadir disc covering lower pole)
-      const nadirGeo = new this.T.CircleGeometry(160, 64);
+      // Nadir Bottom Cap (Smooth nadir disc covering lower pole without gaps)
+      const nadirGeo = new this.T.CircleGeometry(285, 64);
       if (nadirGeo.rotateX) nadirGeo.rotateX(-Math.PI / 2);
       const nadirMat = new this.T.MeshBasicMaterial({
         color: 0x050a16,
         side: this.T.DoubleSide,
-        depthWrite: false
+        depthWrite: true
       });
       this.nadirCapMesh = new this.T.Mesh(nadirGeo, nadirMat);
-      this.nadirCapMesh.position.set(0, -94, 0);
+      this.nadirCapMesh.position.set(0, -95, 0);
       this.nadirCapMesh.name = 'NadirCap';
       this.nadirCapMesh.renderOrder = -900;
       this.scene.add(this.nadirCapMesh);
@@ -569,8 +569,8 @@ export class SceneManager {
 
     const applyTexture = (texture) => {
       if (this.skydomeMesh) {
-        this.skydomeMesh.material.map = texture;
-        this.skydomeMesh.material.color.setHex(0xffffff);
+        this.skydomeMesh.material.map = null;
+        this.skydomeMesh.material.color = fallbackColor;
         this.skydomeMesh.material.needsUpdate = true;
       }
       if (this.panoramicCylinderMesh) {

@@ -1598,9 +1598,9 @@
         if (panoGeo.scale) panoGeo.scale(-1, 1, 1);
         const panoMat = new THREE.MeshBasicMaterial({
           side: THREE.BackSide,
-          transparent: true,
-          opacity: 0.98,
-          depthWrite: false
+          transparent: false,
+          opacity: 1.0,
+          depthWrite: true
         });
         panoramicCylinderMesh = new THREE.Mesh(panoGeo, panoMat);
         panoramicCylinderMesh.name = 'PanoramicBackdropCylinder';
@@ -1608,30 +1608,30 @@
         panoramicCylinderMesh.renderOrder = -950;
         scene.add(panoramicCylinderMesh);
 
-        // Zenith Top Cap (Smooth sky dome disc covering upper pole)
-        const zenithGeo = new THREE.CircleGeometry(160, 64);
+        // Zenith Top Cap (Smooth sky dome disc covering upper pole without gaps)
+        const zenithGeo = new THREE.CircleGeometry(285, 64);
         if (zenithGeo.rotateX) zenithGeo.rotateX(Math.PI / 2);
         const zenithMat = new THREE.MeshBasicMaterial({
           color: 0x050a16,
           side: THREE.DoubleSide,
-          depthWrite: false
+          depthWrite: true
         });
         zenithCapMesh = new THREE.Mesh(zenithGeo, zenithMat);
-        zenithCapMesh.position.set(0, 124, 0);
+        zenithCapMesh.position.set(0, 125, 0);
         zenithCapMesh.name = 'ZenithCap';
         zenithCapMesh.renderOrder = -900;
         scene.add(zenithCapMesh);
 
-        // Nadir Bottom Cap (Smooth nadir disc covering lower pole)
-        const nadirGeo = new THREE.CircleGeometry(160, 64);
+        // Nadir Bottom Cap (Smooth nadir disc covering lower pole without gaps)
+        const nadirGeo = new THREE.CircleGeometry(285, 64);
         if (nadirGeo.rotateX) nadirGeo.rotateX(-Math.PI / 2);
         const nadirMat = new THREE.MeshBasicMaterial({
           color: 0x050a16,
           side: THREE.DoubleSide,
-          depthWrite: false
+          depthWrite: true
         });
         nadirCapMesh = new THREE.Mesh(nadirGeo, nadirMat);
-        nadirCapMesh.position.set(0, -94, 0);
+        nadirCapMesh.position.set(0, -95, 0);
         nadirCapMesh.name = 'NadirCap';
         nadirCapMesh.renderOrder = -900;
         scene.add(nadirCapMesh);
@@ -1843,12 +1843,46 @@
         gridMesh.position.y = -0.92;
         group.add(gridMesh);
 
+        function createCyberFacadeTexture(T) {
+          if (typeof document === 'undefined') return null;
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return null;
+            ctx.fillStyle = '#050811';
+            ctx.fillRect(0, 0, 128, 256);
+            for (let r = 0; r < 24; r++) {
+              for (let c = 0; c < 8; c++) {
+                if (Math.sin(r * 11.3 + c * 7.7) > -0.25) {
+                  const tint = Math.sin(r * 2.9 + c * 4.3);
+                  if (tint > 0.3) ctx.fillStyle = '#38bdf8';
+                  else if (tint > -0.3) ctx.fillStyle = '#fde68a';
+                  else ctx.fillStyle = '#f43f5e';
+                  ctx.fillRect(c * 15 + 4, r * 10 + 3, 10, 6);
+                }
+              }
+            }
+            const tex = new T.CanvasTexture(canvas);
+            tex.wrapS = T.RepeatWrapping;
+            tex.wrapT = T.RepeatWrapping;
+            tex.repeat.set(1, 4);
+            return tex;
+          } catch {
+            return null;
+          }
+        }
+
+        const facadeTex = createCyberFacadeTexture(THREE);
         // 18 Realistic Cyber Skyscraper Architectural Spires
         const spireMat = new THREE.MeshStandardMaterial({
           color: 0x090e1a,
+          map: facadeTex,
           emissive: 0x001525,
-          roughness: 0.18,
-          metalness: 0.88
+          emissiveMap: facadeTex,
+          roughness: 0.22,
+          metalness: 0.82
         });
 
         for (let s = 0; s < 18; s++) {
@@ -2145,8 +2179,8 @@
 
         const applyTexture = (texture) => {
           if (skydomeMesh && currentRealm === realmData.id) {
-            skydomeMesh.material.map = texture;
-            skydomeMesh.material.color.setHex(0xffffff);
+            skydomeMesh.material.map = null;
+            skydomeMesh.material.color = fallbackColor;
             skydomeMesh.material.needsUpdate = true;
           }
           if (panoramicCylinderMesh && currentRealm === realmData.id) {
