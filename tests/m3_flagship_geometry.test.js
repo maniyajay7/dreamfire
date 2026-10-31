@@ -27,6 +27,8 @@ import {
   createDevoteeCrowdSimulation,
   buildAyodhyaRamMandirScene,
   buildWaterfallSanctuaryScene,
+  buildSchwarzschildBlackHoleScene,
+  buildF1CircuitScene,
   attachFlagshipScene
 } from '../src/engine/FlagshipScenes.js';
 
@@ -331,6 +333,60 @@ suite('Milestone M3: Flagship Showcase 3D Geometry & Crowd Simulation', 'Tier 2'
       assert.strictEqual(scene.children.length, 0, `Scene must remain empty for secular/dry realm '${realm.id}'`);
       assert.strictEqual(realmObjects.length, 0, `realmObjects must remain empty for secular/dry realm '${realm.id}'`);
     });
+  });
+
+  test('F11.1: Schwarzschild Black Hole creates shadow horizon, photon sphere glow, Doppler accretion disk, and lensing arcs', () => {
+    const scene = new THREE.Scene();
+    const realmObjects = [];
+    const animators = [];
+    const realmData = { id: 'gargantua-black-hole-accretion', tags: ['black hole', 'singularity'] };
+
+    const { root, bhAnimator } = buildSchwarzschildBlackHoleScene(THREE, scene, realmData, realmObjects, animators);
+    assert.ok(root instanceof THREE.Group, 'Black hole root must be a THREE.Group');
+    assert.strictEqual(root.name, 'flagship_black_hole_gargantua_scene');
+    assert.ok(scene.children.includes(root), 'Black hole root must be added to scene');
+    assert.ok(realmObjects.includes(root), 'Black hole root must be registered in realmObjects');
+    assert.ok(animators.includes(bhAnimator), 'Accretion disk rotation animator must be registered');
+
+    // Check key astrophysical geometries
+    const horizon = root.children.find((c) => c.name === 'event_horizon_shadow');
+    assert.ok(horizon, 'Must contain event horizon shadow mesh');
+    const photonSphere = root.children.find((c) => c.name === 'photon_sphere_glow');
+    assert.ok(photonSphere, 'Must contain photon sphere glow mesh');
+    const disk = root.children.find((c) => c.name === 'primary_accretion_disk');
+    assert.ok(disk, 'Must contain relativistic primary accretion disk');
+    const upperLens = root.children.find((c) => c.name === 'lensing_upper_arc');
+    assert.ok(upperLens, 'Must contain gravitational lensing upper arc');
+
+    // Step animator
+    assert.doesNotThrow(() => bhAnimator(1.0, 0.016), 'Accretion disk animator must step cleanly');
+  });
+
+  test('F12.1: Monaco Midnight F1 Circuit creates asphalt track ribbon, rumble kerbs, Armco barriers, and F1 championship car', () => {
+    const scene = new THREE.Scene();
+    const realmObjects = [];
+    const animators = [];
+    const realmData = { id: 'monaco-midnight-grand-prix', tags: ['f1', 'grand prix', 'racing'] };
+
+    const { root, f1Animator } = buildF1CircuitScene(THREE, scene, realmData, realmObjects, animators);
+    assert.ok(root instanceof THREE.Group, 'F1 Circuit root must be a THREE.Group');
+    assert.strictEqual(root.name, 'flagship_f1_monaco_circuit_scene');
+    assert.ok(scene.children.includes(root), 'Circuit root must be added to scene');
+    assert.ok(realmObjects.includes(root), 'Circuit root must be registered in realmObjects');
+    assert.ok(animators.includes(f1Animator), 'F1 rain LED animator must be registered');
+
+    const track = root.children.find((c) => c.name === 'asphalt_track_ribbon');
+    assert.ok(track, 'Must contain asphalt track ribbon');
+    const kerbs = root.children.find((c) => c.name === 'apex_rumble_kerbs');
+    assert.ok(kerbs, 'Must contain apex rumble kerbs group');
+    assert.strictEqual(kerbs.children.length, 28, 'Must contain exactly 28 rumble kerb blocks');
+    const car = root.children.find((c) => c.name === 'f1_championship_car');
+    assert.ok(car, 'Must contain F1 championship car');
+    const barrier = root.children.find((c) => c.name === 'armco_crash_barrier');
+    assert.ok(barrier, 'Must contain Armco crash safety barrier');
+
+    // Step animator
+    assert.doesNotThrow(() => f1Animator(1.0, 0.016), 'F1 animator must step cleanly');
   });
 
   test('System.3: Memory Management: clearRealm cleanly disposes child geometries and materials', () => {

@@ -2171,8 +2171,299 @@ export function attachFlagshipScene(ThreeInstance, scene, realmData, realmObject
     return { type: 'waterfall_sanctuary', sanctuary };
   }
 
+  // Feature F11: Schwarzschild Black Hole & Accretion Disk
+  if (id === 'gargantua-black-hole-accretion' || (tags.includes('black hole') && !id.includes('orion'))) {
+    const blackHole = buildSchwarzschildBlackHoleScene(T, scene, realmData, realmObjects, animators);
+    return { type: 'black_hole', blackHole };
+  }
+
+  // Feature F12: Monaco Midnight Formula 1 Grand Prix Circuit
+  if (id === 'monaco-midnight-grand-prix' || tags.includes('f1') || tags.includes('grand prix')) {
+    const circuit = buildF1CircuitScene(T, scene, realmData, realmObjects, animators);
+    return { type: 'f1_circuit', circuit };
+  }
+
   // Defensive Invariant: Giza, Kedarnath, Orion, Neo Tokyo spawn ZERO flagship geometry
   return null;
+}
+
+export function buildSchwarzschildBlackHoleScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+  const Three = ThreeInstance || THREE_GLOBAL;
+  const helpers = getThreeHelpers(Three);
+  const root = new Three.Group();
+  root.name = 'flagship_black_hole_gargantua_scene';
+
+  const rs = 18;
+  const pos = [0, 8, -75];
+  root.position.set(pos[0], pos[1], pos[2]);
+
+  // 1. EVENT HORIZON
+  const horizonGeo = new Three.SphereGeometry(rs, 64, 48);
+  const horizonMat = new Three.MeshBasicMaterial({ color: 0x000000, depthWrite: true });
+  const horizonMesh = new Three.Mesh(horizonGeo, horizonMat);
+  horizonMesh.name = 'event_horizon_shadow';
+  root.add(horizonMesh);
+
+  // 2. PHOTON SPHERE GLOW
+  const photonRadius = rs * 1.5;
+  const photonGeo = new Three.SphereGeometry(photonRadius, 48, 36);
+  const photonMat = new Three.MeshBasicMaterial({
+    color: 0xbae6fd,
+    transparent: true,
+    opacity: 0.18,
+    blending: Three.AdditiveBlending,
+    side: Three.BackSide,
+    depthWrite: false
+  });
+  const photonMesh = new Three.Mesh(photonGeo, photonMat);
+  photonMesh.name = 'photon_sphere_glow';
+  root.add(photonMesh);
+
+  // 3. ACCRETION DISK
+  const diskInner = rs * 1.55;
+  const diskOuter = rs * 4.6;
+  const RingGeoClass = helpers.RingGeometry || Three.RingGeometry;
+  const diskGeo = new RingGeoClass(diskInner, diskOuter, 128, 16);
+  const diskMat = new Three.MeshBasicMaterial({
+    color: 0xf59e0b,
+    side: Three.DoubleSide,
+    transparent: true,
+    opacity: 0.94,
+    blending: Three.AdditiveBlending,
+    depthWrite: false
+  });
+  const mainDisk = new Three.Mesh(diskGeo, diskMat);
+  mainDisk.rotation.x = Math.PI * 0.44;
+  mainDisk.name = 'primary_accretion_disk';
+  root.add(mainDisk);
+
+  // 4. GRAVITATIONAL LENSING HALO ARCS
+  const lensUpperGeo = new RingGeoClass(diskInner * 0.95, diskOuter * 0.70, 96, 8, Math.PI * 0.05, Math.PI * 0.90);
+  const lensMat = new Three.MeshBasicMaterial({
+    color: 0x67e8f9,
+    side: Three.DoubleSide,
+    transparent: true,
+    opacity: 0.78,
+    blending: Three.AdditiveBlending,
+    depthWrite: false
+  });
+  const lensUpperMesh = new Three.Mesh(lensUpperGeo, lensMat);
+  lensUpperMesh.rotation.x = -Math.PI * 0.16;
+  lensUpperMesh.position.y = rs * 0.35;
+  lensUpperMesh.name = 'lensing_upper_arc';
+  root.add(lensUpperMesh);
+
+  const lensLowerGeo = new RingGeoClass(diskInner * 0.95, diskOuter * 0.70, 96, 8, Math.PI * 1.05, Math.PI * 0.90);
+  const lensLowerMesh = new Three.Mesh(lensLowerGeo, lensMat);
+  lensLowerMesh.rotation.x = Math.PI * 0.16;
+  lensLowerMesh.position.y = -rs * 0.35;
+  lensLowerMesh.name = 'lensing_lower_arc';
+  root.add(lensLowerMesh);
+
+  // 5. RELATIVISTIC INFLOW PARTICLES
+  const partCount = 5000;
+  const pPositions = new Float32Array(partCount * 3);
+  const pColors = new Float32Array(partCount * 3);
+  const pDistances = new Float32Array(partCount);
+  const pAngles = new Float32Array(partCount);
+  const pSpeeds = new Float32Array(partCount);
+
+  for (let i = 0; i < partCount; i++) {
+    const dist = diskInner + Math.random() * (diskOuter - diskInner);
+    const angle = Math.random() * Math.PI * 2;
+    pDistances[i] = dist;
+    pAngles[i] = angle;
+    pSpeeds[i] = 1.8 / Math.sqrt(dist / rs);
+
+    pPositions[i * 3] = Math.cos(angle) * dist;
+    pPositions[i * 3 + 1] = (Math.random() - 0.5) * 1.2 * (dist / diskOuter);
+    pPositions[i * 3 + 2] = Math.sin(angle) * dist;
+
+    const isApproaching = Math.sin(angle) > 0;
+    if (isApproaching) {
+      pColors[i * 3] = 0.5 + Math.random() * 0.5;
+      pColors[i * 3 + 1] = 0.85 + Math.random() * 0.15;
+      pColors[i * 3 + 2] = 1.0;
+    } else {
+      pColors[i * 3] = 1.0;
+      pColors[i * 3 + 1] = 0.35 + Math.random() * 0.35;
+      pColors[i * 3 + 2] = 0.1;
+    }
+  }
+
+  const partGeo = new Three.BufferGeometry();
+  partGeo.setAttribute('position', new Three.BufferAttribute(pPositions, 3));
+  partGeo.setAttribute('color', new Three.BufferAttribute(pColors, 3));
+
+  const partMat = new Three.PointsMaterial({
+    size: 1.8,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: Three.AdditiveBlending,
+    depthWrite: false
+  });
+  const plasmaParticles = new Three.Points(partGeo, partMat);
+  plasmaParticles.rotation.x = Math.PI * 0.44;
+  plasmaParticles.name = 'accretion_stream_particles';
+  root.add(plasmaParticles);
+
+  const bhAnimator = (time, delta) => {
+    mainDisk.rotation.z += delta * 0.4;
+    lensUpperMesh.rotation.z -= delta * 0.3;
+    lensLowerMesh.rotation.z -= delta * 0.3;
+
+    const posAttr = partGeo.attributes.position;
+    const posArr = posAttr.array;
+    for (let i = 0; i < partCount; i++) {
+      pAngles[i] += delta * pSpeeds[i];
+      pDistances[i] -= delta * 0.65;
+      if (pDistances[i] < diskInner) pDistances[i] = diskOuter;
+      const dist = pDistances[i];
+      const ang = pAngles[i];
+      posArr[i * 3] = Math.cos(ang) * dist;
+      posArr[i * 3 + 2] = Math.sin(ang) * dist;
+    }
+    posAttr.needsUpdate = true;
+  };
+
+  animators.push(bhAnimator);
+  scene.add(root);
+  realmObjects.push(root);
+
+  return { root, bhAnimator };
+}
+
+export function buildF1CircuitScene(ThreeInstance, scene, realmData = {}, realmObjects = [], animators = []) {
+  const Three = ThreeInstance || THREE_GLOBAL;
+  const helpers = getThreeHelpers(Three);
+  const root = new Three.Group();
+  root.name = 'flagship_f1_monaco_circuit_scene';
+
+  // 1. ASPHALT TRACK RIBBON (160m length, curved chicane)
+  const trackGeo = new Three.PlaneGeometry(160, 16, 64, 8);
+  if (trackGeo.rotateX) trackGeo.rotateX(-Math.PI / 2);
+  const trackMat = new Three.MeshStandardMaterial({
+    color: 0x11141a,
+    roughness: 0.82,
+    metalness: 0.15
+  });
+  const trackMesh = new Three.Mesh(trackGeo, trackMat);
+  trackMesh.position.set(0, -0.05, 0);
+  trackMesh.receiveShadow = true;
+  trackMesh.name = 'asphalt_track_ribbon';
+  root.add(trackMesh);
+
+  // 2. APEX RUMBLE KERBS (Alternating Red and White Serrated Curb Blocks)
+  const kerbGroup = new Three.Group();
+  kerbGroup.name = 'apex_rumble_kerbs';
+  const kerbW = 0.8;
+  const kerbL = 2.4;
+  const kerbH = 0.18;
+  const redMat = new Three.MeshStandardMaterial({ color: 0xef4444, roughness: 0.5, metalness: 0.1 });
+  const whiteMat = new Three.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5, metalness: 0.1 });
+
+  for (let k = 0; k < 28; k++) {
+    const isRed = k % 2 === 0;
+    const kerbMesh = new Three.Mesh(new Three.BoxGeometry(kerbL, kerbH, kerbW), isRed ? redMat : whiteMat);
+    kerbMesh.position.set((k - 14) * 2.5, kerbH / 2, 7.6);
+    kerbMesh.receiveShadow = true;
+    kerbMesh.castShadow = true;
+    kerbGroup.add(kerbMesh);
+  }
+  root.add(kerbGroup);
+
+  // 3. SAFETY ARMCO CRASH BARRIER
+  const barrierMat = new Three.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
+  const barrierMesh = new Three.Mesh(new Three.BoxGeometry(160, 1.2, 0.3), barrierMat);
+  barrierMesh.position.set(0, 0.6, 9.2);
+  barrierMesh.castShadow = true;
+  barrierMesh.receiveShadow = true;
+  barrierMesh.name = 'armco_crash_barrier';
+  root.add(barrierMesh);
+
+  // 4. FORMULA 1 OPEN-WHEEL RACE CAR
+  const carGroup = new Three.Group();
+  carGroup.name = 'f1_championship_car';
+  carGroup.position.set(0, 0.45, 0);
+
+  // Monocoque Chassis
+  const chassisMat = new Three.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.9, roughness: 0.15 });
+  const chassis = new Three.Mesh(new Three.BoxGeometry(4.8, 0.65, 1.6), chassisMat);
+  chassis.castShadow = true;
+  carGroup.add(chassis);
+
+  // Front Wing
+  const wingMat = new Three.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
+  const frontWing = new Three.Mesh(new Three.BoxGeometry(0.8, 0.12, 2.2), wingMat);
+  frontWing.position.set(2.4, -0.15, 0);
+  frontWing.castShadow = true;
+  carGroup.add(frontWing);
+
+  // Rear Wing
+  const rearWing = new Three.Mesh(new Three.BoxGeometry(0.7, 0.45, 1.8), wingMat);
+  rearWing.position.set(-2.4, 0.65, 0);
+  rearWing.castShadow = true;
+  carGroup.add(rearWing);
+
+  // Halo Safety Structure
+  const haloMat = new Three.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.95, roughness: 0.1 });
+  const TorusGeoClass = helpers.TorusGeometry || Three.TorusGeometry;
+  const halo = new Three.Mesh(TorusGeoClass ? new TorusGeoClass(0.4, 0.06, 8, 16, Math.PI) : new Three.BoxGeometry(0.8, 0.1, 0.8), haloMat);
+  halo.position.set(0.2, 0.55, 0);
+  if (halo.rotation && halo.rotation.set) halo.rotation.set(Math.PI / 2, 0, 0);
+  carGroup.add(halo);
+
+  // 4 Pirelli Wide Slick Tires
+  const tireMat = new Three.MeshStandardMaterial({ color: 0x18181b, roughness: 0.95, metalness: 0.05 });
+  const wheelPositions = [
+    [1.6, -0.15, 1.1],
+    [1.6, -0.15, -1.1],
+    [-1.6, -0.15, 1.15],
+    [-1.6, -0.15, -1.15]
+  ];
+  wheelPositions.forEach(wp => {
+    const tire = new Three.Mesh(new Three.CylinderGeometry(0.38, 0.38, 0.42, 16), tireMat);
+    if (tire.rotateX) tire.rotateX(Math.PI / 2);
+    tire.position.set(wp[0], wp[1], wp[2]);
+    tire.castShadow = true;
+    carGroup.add(tire);
+  });
+
+  // Flashing Rain Safety LED Light
+  const rainLight = new Three.PointLight(0xff0000, 3.5, 12);
+  rainLight.position.set(-2.6, 0.2, 0);
+  carGroup.add(rainLight);
+
+  root.add(carGroup);
+
+  // 5. STADIUM NIGHT FLOODLIGHT MASTS
+  const lightPosts = [-60, -20, 20, 60];
+  lightPosts.forEach(lx => {
+    const mastMesh = new Three.Mesh(new Three.CylinderGeometry(0.25, 0.35, 24, 8), barrierMat);
+    mastMesh.position.set(lx, 12, 16);
+    mastMesh.castShadow = true;
+    root.add(mastMesh);
+
+    if (Three.SpotLight) {
+      const spot = new Three.SpotLight(0xffffff, 3.2, 70, Math.PI / 4, 0.35);
+      spot.position.set(lx, 23.5, 16);
+      spot.target.position.set(lx, 0, 0);
+      root.add(spot);
+      root.add(spot.target);
+    }
+  });
+
+  const f1Animator = (time, delta) => {
+    rainLight.intensity = Math.sin(time * 16.0) > 0 ? 4.5 : 0.4;
+    carGroup.position.y = 0.45 + Math.sin(time * 30.0) * 0.003;
+  };
+
+  animators.push(f1Animator);
+  scene.add(root);
+  realmObjects.push(root);
+
+  return { root, f1Animator };
 }
 
 export const buildFlagshipScene = attachFlagshipScene;

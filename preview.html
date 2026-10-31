@@ -1091,11 +1091,61 @@
         return { nodes, timers };
       }
 
+      /**
+       * 8. Formula 1 High-RPM V10 Racing Engine: 18,000 RPM Harmonics & Doppler Flybys
+       */
+      spawnF1EngineSoundscape(channelGain) {
+        const ctx = this.audioCtx;
+        const nodes = [];
+        const timers = [];
+        const now = ctx.currentTime;
+
+        const v10Osc = ctx.createOscillator();
+        v10Osc.type = 'sawtooth';
+        v10Osc.frequency.setValueAtTime(320, now);
+
+        const rumbleOsc = ctx.createOscillator();
+        rumbleOsc.type = 'triangle';
+        rumbleOsc.frequency.setValueAtTime(160, now);
+
+        const exhaustFilter = ctx.createBiquadFilter();
+        exhaustFilter.type = 'bandpass';
+        exhaustFilter.frequency.setValueAtTime(850, now);
+        exhaustFilter.Q.setValueAtTime(4.5, now);
+
+        const engGain = ctx.createGain();
+        engGain.gain.setValueAtTime(0.28, now);
+
+        v10Osc.connect(exhaustFilter);
+        rumbleOsc.connect(exhaustFilter);
+        exhaustFilter.connect(engGain);
+        engGain.connect(channelGain);
+
+        v10Osc.start(now);
+        rumbleOsc.start(now);
+        nodes.push(v10Osc, rumbleOsc, exhaustFilter, engGain);
+
+        let throttleIdx = 0;
+        const revTimer = setInterval(() => {
+          if (!this.audioCtx || this.audioCtx.state === 'closed') return;
+          const t = this.audioCtx.currentTime;
+          throttleIdx++;
+          const revFreq = 340 + (throttleIdx % 4) * 110 + Math.random() * 80;
+          v10Osc.frequency.setTargetAtTime(revFreq, t, 0.15);
+          exhaustFilter.frequency.setTargetAtTime(revFreq * 2.2, t, 0.15);
+        }, 1400);
+        timers.push(revTimer);
+
+        return { nodes, timers };
+      }
+
       spawnCategorySoundscape(category, realmData, channelGain) {
         const cat = (category || (realmData && realmData.category) || '').toLowerCase();
         const id = ((realmData && realmData.id) || (typeof realmData === 'string' ? realmData : '')).toLowerCase();
 
-        if (id.includes('waterfall') || id.includes('river') || cat.includes('nature') || cat.includes('retreat')) {
+        if (id.includes('monaco') || id.includes('f1') || id.includes('racing') || (realmData && realmData.soundscape && realmData.soundscape.includes('V10'))) {
+          return this.spawnF1EngineSoundscape(channelGain);
+        } else if (id.includes('waterfall') || id.includes('river') || cat.includes('nature') || cat.includes('retreat')) {
           return this.spawnNatureSoundscape(channelGain);
         } else if (cat.includes('cyber') || cat.includes('sci-fi')) {
           return this.spawnCyberSoundscape(channelGain);
@@ -1898,6 +1948,126 @@
       return { root, bhAnimator };
     }
 
+    // --- FORMULA 1 MONACO MIDNIGHT GRAND PRIX CIRCUIT ENGINE ---
+    function createF1RacingCircuit(T, options = {}) {
+      const root = new T.Group();
+      root.name = 'flagship_f1_monaco_circuit';
+
+      // 1. Asphalt Track Ribbon (160m curved chicane)
+      const trackGeo = new T.PlaneGeometry(160, 16, 64, 8);
+      if (trackGeo.rotateX) trackGeo.rotateX(-Math.PI / 2);
+      const trackMat = new T.MeshStandardMaterial({
+        color: 0x11141a,
+        roughness: 0.82,
+        metalness: 0.15
+      });
+      const trackMesh = new T.Mesh(trackGeo, trackMat);
+      trackMesh.position.set(0, -0.05, 0);
+      trackMesh.receiveShadow = true;
+      trackMesh.name = 'asphalt_track_ribbon';
+      root.add(trackMesh);
+
+      // 2. Apex Rumble Kerbs (Alternating Red and White Serrated Curb Blocks)
+      const kerbGroup = new T.Group();
+      kerbGroup.name = 'apex_rumble_kerbs';
+      const kerbW = 0.8;
+      const kerbL = 2.4;
+      const kerbH = 0.18;
+      const redMat = new T.MeshStandardMaterial({ color: 0xef4444, roughness: 0.5, metalness: 0.1 });
+      const whiteMat = new T.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5, metalness: 0.1 });
+
+      for (let k = 0; k < 28; k++) {
+        const isRed = k % 2 === 0;
+        const kerbMesh = new T.Mesh(new T.BoxGeometry(kerbL, kerbH, kerbW), isRed ? redMat : whiteMat);
+        kerbMesh.position.set((k - 14) * 2.5, kerbH / 2, 7.6);
+        kerbMesh.receiveShadow = true;
+        kerbMesh.castShadow = true;
+        kerbGroup.add(kerbMesh);
+      }
+      root.add(kerbGroup);
+
+      // 3. Safety Armco Crash Barrier
+      const barrierMat = new T.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
+      const barrierMesh = new T.Mesh(new T.BoxGeometry(160, 1.2, 0.3), barrierMat);
+      barrierMesh.position.set(0, 0.6, 9.2);
+      barrierMesh.castShadow = true;
+      barrierMesh.receiveShadow = true;
+      barrierMesh.name = 'armco_crash_barrier';
+      root.add(barrierMesh);
+
+      // 4. Formula 1 Open-Wheel Championship Car
+      const carGroup = new T.Group();
+      carGroup.name = 'f1_championship_car';
+      carGroup.position.set(0, 0.45, 0);
+
+      const chassisMat = new T.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.9, roughness: 0.15 });
+      const chassis = new T.Mesh(new T.BoxGeometry(4.8, 0.65, 1.6), chassisMat);
+      chassis.castShadow = true;
+      carGroup.add(chassis);
+
+      const wingMat = new T.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
+      const frontWing = new T.Mesh(new T.BoxGeometry(0.8, 0.12, 2.2), wingMat);
+      frontWing.position.set(2.4, -0.15, 0);
+      frontWing.castShadow = true;
+      carGroup.add(frontWing);
+
+      const rearWing = new T.Mesh(new T.BoxGeometry(0.7, 0.45, 1.8), wingMat);
+      rearWing.position.set(-2.4, 0.65, 0);
+      rearWing.castShadow = true;
+      carGroup.add(rearWing);
+
+      const haloMat = new T.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.95, roughness: 0.1 });
+      const halo = new T.Mesh(T.TorusGeometry ? new T.TorusGeometry(0.4, 0.06, 8, 16, Math.PI) : new T.BoxGeometry(0.8, 0.1, 0.8), haloMat);
+      halo.position.set(0.2, 0.55, 0);
+      if (halo.rotation && halo.rotation.set) halo.rotation.set(Math.PI / 2, 0, 0);
+      carGroup.add(halo);
+
+      const tireMat = new T.MeshStandardMaterial({ color: 0x18181b, roughness: 0.95, metalness: 0.05 });
+      const wheelPositions = [
+        [1.6, -0.15, 1.1],
+        [1.6, -0.15, -1.1],
+        [-1.6, -0.15, 1.15],
+        [-1.6, -0.15, -1.15]
+      ];
+      wheelPositions.forEach(wp => {
+        const tire = new T.Mesh(new T.CylinderGeometry(0.38, 0.38, 0.42, 16), tireMat);
+        if (tire.rotateX) tire.rotateX(Math.PI / 2);
+        tire.position.set(wp[0], wp[1], wp[2]);
+        tire.castShadow = true;
+        carGroup.add(tire);
+      });
+
+      const rainLight = new T.PointLight(0xff0000, 3.5, 12);
+      rainLight.position.set(-2.6, 0.2, 0);
+      carGroup.add(rainLight);
+
+      root.add(carGroup);
+
+      // 5. Stadium Night Floodlight Masts
+      const lightPosts = [-60, -20, 20, 60];
+      lightPosts.forEach(lx => {
+        const mastMesh = new T.Mesh(new T.CylinderGeometry(0.25, 0.35, 24, 8), barrierMat);
+        mastMesh.position.set(lx, 12, 16);
+        mastMesh.castShadow = true;
+        root.add(mastMesh);
+
+        if (T.SpotLight) {
+          const spot = new T.SpotLight(0xffffff, 3.2, 70, Math.PI / 4, 0.35);
+          spot.position.set(lx, 23.5, 16);
+          spot.target.position.set(lx, 0, 0);
+          root.add(spot);
+          root.add(spot.target);
+        }
+      });
+
+      const f1Animator = (time, delta) => {
+        rainLight.intensity = Math.sin(time * 16.0) > 0 ? 4.5 : 0.4;
+        carGroup.position.y = 0.45 + Math.sin(time * 30.0) * 0.003;
+      };
+
+      return { root, f1Animator };
+    }
+
     // --- PROCEDURAL 3D TERRAIN BIOMES ENGINE (Features F4 & F6) ---
     function createProceduralTerrain(realmData) {
       const env = (realmData && realmData.environment) || {};
@@ -2010,8 +2180,22 @@
         return group;
       }
 
-      // 2. CYBERPUNK: Reflective Wet Asphalt Base Plane + Realistic Skyscraper Facades (Zero Raw Wireframes)
+      // 2. CYBERPUNK & RACING: Reflective Wet Asphalt Base Plane + Skyscraper Facades or F1 Grand Prix Circuit
       if (biome === 'cyber') {
+        const isF1Circuit = Boolean(
+          realmData && (
+            realmData.id === 'monaco-midnight-grand-prix' ||
+            (realmData.tags && (realmData.tags.includes('f1') || realmData.tags.includes('grand prix') || realmData.tags.includes('race') || realmData.tags.includes('racing'))) ||
+            (realmData.title && (realmData.title.toLowerCase().includes('grand prix') || realmData.title.toLowerCase().includes('racing') || realmData.title.toLowerCase().includes('monaco')))
+          )
+        );
+
+        if (isF1Circuit) {
+          const { root: f1Group, f1Animator } = createF1RacingCircuit(THREE, { position: [0, 0, 0] });
+          group.add(f1Group);
+          if (f1Animator) animators.push(f1Animator);
+          return group;
+        }
         const baseGeo = new THREE.PlaneGeometry(260, 260, 32, 32);
         baseGeo.rotateX(-Math.PI / 2);
         const baseMat = new THREE.MeshStandardMaterial({
